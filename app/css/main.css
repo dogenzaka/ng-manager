@@ -1,0 +1,124 @@
+body {
+  background: #fffdff;
+}
+.menu-icon {
+  background-color: transparent;
+  border: none;
+}
+.global-progress {
+  position: absolute;
+}
+.global-progress .container {
+  top: 0px;
+}
+.selection-list material-item-content .controls {
+  padding-right: 10px;
+}
+.selection-list material-item-content material-icon {
+  width: 24px;
+  height: 24px;
+}
+.selection-list material-item-content:hover {
+  background: #eee;
+  cursor: pointer;
+}
+.selection-list-header {
+  padding: 0.4em 10px;
+}
+.selection-list-header material-button {
+  padding: 0.4em 1em;
+  margin: 0.4em;
+}
+
+.menu-item {
+  background-color: #fff;
+  border-width: 0;
+  cursor: pointer;
+  display: block;
+  color: #333;
+  font-size: inherit;
+  line-height: 40px;
+  max-height: 40px;
+  margin: 0;
+  outline: none;
+  padding: 0px 28px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
+  z-index: 1;
+  -webkit-transition: 0.2s linear;
+  -webkit-transition-property: max-height, background-color;
+  -moz-transition: 0.2s linear;
+  -moz-transition-property: max-height, background-color;
+  transition: 0.2s linear;
+  transition-property: max-height, background-color;
+}
+.menu-item.ng-hide {
+  max-height: 0;
+}
+.menu-item:hover,
+.menu-item:focus {
+  color: #999;
+}
+.menu-item.menu-sub-item.active {
+  background-color: #eee;
+  font-weight: bold;
+  color: #4285f4;
+}
+.menu-item.menu-title {
+  color: #888;
+  font-size: 16px;
+  padding-left: 16px;
+  text-align: left;
+  text-transform: uppercase;
+}
+.menu-item.menu-title.active {
+  font-weight: bold;
+}
+.menu-item.menu-title:hover,
+.menu-item.menu-title:focus {
+  color: #aaa;
+}
+
+.schema-form {
+  padding: 0 1em 1em 1em;
+  width: 40em;
+}
+.schema-form legend {
+  font-size: 120%;
+}
+.schema-form .material-input-focused input {
+  border-color: #ee008b;
+  color: #2f2f2f;
+}
+.schema-form .material-input-focused label {
+  color: #ee008b;
+}
+.schema-form schema-input {
+  display: block;
+}
+.schema-form schema-input .short input {
+  width: 10em;
+}
+.schema-form schema-input .long input {
+  width: 30em;
+}
+.schema-form schema-input .xlong input {
+  width: 40em;
+}
+.schema-form span.error {
+  color: #900;
+  font-size: 75%;
+  display: block;
+  position: absolute;
+  padding: 0 0 0.4em 0;
+}
+.schema-form-controls material-button {
+  padding: 0.4em 0.6em;
+  margin-right: 0.4em;
+}
+
+.error-toast {
+  background-color: #900;
+}

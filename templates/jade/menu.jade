@@ -1,0 +1,11 @@
+material-content(ng-if='config' flex='')
+  div
+    button.menu-item.menu-title
+      span(translate='Entities')
+    buton.menu-item.menu-sub-item(ng-repeat='entity in config.entities' ng-click='moveTo("entity/"+entity.id)')
+      span(ng-bind='entity.id|translate')
+  div
+    button.menu-item.menu-title
+      span(translate='Settings')
+    button.menu-item.menu-sub-item(ng-click='moveTo("endpoints")')
+      span(translate='Endpoints')

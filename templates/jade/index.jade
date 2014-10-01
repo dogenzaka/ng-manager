@@ -1,0 +1,27 @@
+doctype html
+html(ng-app='ngManager')
+  head
+    title NG-Manager
+    link(rel='stylesheet' type='text/css' href='./css/components.css')
+    link(rel='stylesheet' type='text/css' href='./css/main.css')
+    meta(name='viewport' content='initial-scale=1,maximum-scale=1')
+  body(layout='horizontal' ng-controller='IndexCtrl')
+    material-sidenav.material-sidenav-left.material-whiteframe-z2(layout='vertical' component-id='left')
+      material-toolbar.material-theme-light
+        h1.material-toolbar-tools
+          a(href='#/' ng-bind='site.title')
+      include ./menu.jade
+    div(layout='vertical' layout-fill='' tabindex='1' role='main')
+      material-toolbar.material-theme-dark
+        div.material-toolbar-tools.content-header
+          button.menu-icon(hide-md='' ng-click='toggleMenu()' aria-label='Toggle Menu')
+            material-icon(icon='/img/icons/ic_menu_24px.svg')
+          h3(ng-if='head.title' ng-bind='head.title.section|translate')
+          span.menu-separate-icon(layout='vertical' layout-align='center center' ng-show='head.title.page')
+            material-icon(icon='/img/icons/ic_chevron_right_w_24px.svg')
+          h3(ng-if='head.title.page' ng-bind='head.title.page|translate')
+      material-linear-progress.global-progress(ng-if='progress' mode='{{progress.mode}}' value='{{progress.value}}')
+      div(ng-view='')
+
+    script(type='text/javascript' src='./js/components.js')
+    script(type='text/javascript' src='./js/main.js')
