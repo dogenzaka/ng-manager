@@ -11,24 +11,25 @@ angular
     return url + '/' + path;
   };
 
-  var get = function(path, query, callback) {
+  var get = function(path, query) {
 
-    if (typeof query === 'function') {
-      callback = query;
-      query = {};
-    }
+    var deferred = $q.defer();
 
-    $http
-    .get(getUrl(path))
-    .success(function(data) {
-      callback(null, data);
+    $http({
+      url: getUrl(path),
+      method: 'GET',
+      params: query
     })
-    .error(function(data, status) {
+    .then(function(data) {
+      deferred.resolve(data.data);
+    }, function(data, status) {
       var msg = (data && data.message) || 'Server error';
       var err = new Error(msg);
       err.status = status;
-      callback(err);
+      deferred.reject(err);
     });
+
+    return deferred.promise;
 
   };
 
@@ -40,20 +41,12 @@ angular
       deferred.resolve(config);
     } else {
       console.info('Getting config');
-
-      $http
-      .get(getUrl('/config'))
-      .success(function(data) {
-        deferred.resolve(data);
-      })
-      .error(function(data, status) {
-        var msg = (data && data.message) || 'Server error';
-        var err = new Error(msg);
-        err.status = status;
-        deferred.reject(err);
-      });
+      get('/config')
+      .then(
+        deferred.resolve.bind(deferred),
+        deferred.reject.bind(deferred)
+      );
     }
-
     return deferred.promise;
   };
 
@@ -63,8 +56,10 @@ angular
       var deferred = $q.defer();
       console.log('apiService.setup');
       config = null;
-      getConfig().then(function(data) {
+      getConfig()
+      .then(function(data) {
         config = data;
+        console.info('Got config', config);
         $rootScope.$emit('config', config);
         deferred.resolve(config);
       }, function(err) {

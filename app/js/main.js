@@ -47,7 +47,7 @@ angular
     $apiService
     .setup()
     .then(function() {
-      location.hash = 'top';
+      //location.hash = 'top';
     }, function(err) {
       $errorService.showError(err);
     });
@@ -69,24 +69,25 @@ angular
     return url + '/' + path;
   };
 
-  var get = function(path, query, callback) {
+  var get = function(path, query) {
 
-    if (typeof query === 'function') {
-      callback = query;
-      query = {};
-    }
+    var deferred = $q.defer();
 
-    $http
-    .get(getUrl(path))
-    .success(function(data) {
-      callback(null, data);
+    $http({
+      url: getUrl(path),
+      method: 'GET',
+      params: query
     })
-    .error(function(data, status) {
+    .then(function(data) {
+      deferred.resolve(data.data);
+    }, function(data, status) {
       var msg = (data && data.message) || 'Server error';
       var err = new Error(msg);
       err.status = status;
-      callback(err);
+      deferred.reject(err);
     });
+
+    return deferred.promise;
 
   };
 
@@ -98,20 +99,12 @@ angular
       deferred.resolve(config);
     } else {
       console.info('Getting config');
-
-      $http
-      .get(getUrl('/config'))
-      .success(function(data) {
-        deferred.resolve(data);
-      })
-      .error(function(data, status) {
-        var msg = (data && data.message) || 'Server error';
-        var err = new Error(msg);
-        err.status = status;
-        deferred.reject(err);
-      });
+      get('/config')
+      .then(
+        deferred.resolve.bind(deferred),
+        deferred.reject.bind(deferred)
+      );
     }
-
     return deferred.promise;
   };
 
@@ -121,8 +114,10 @@ angular
       var deferred = $q.defer();
       console.log('apiService.setup');
       config = null;
-      getConfig().then(function(data) {
+      getConfig()
+      .then(function(data) {
         config = data;
+        console.info('Got config', config);
         $rootScope.$emit('config', config);
         deferred.resolve(config);
       }, function(err) {
@@ -315,6 +310,7 @@ angular
       page: type
     });
 
+
 }])
 ;
 
@@ -344,7 +340,7 @@ angular
 
 angular
 .module('ngManager')
-.factory('$errorService', ["$materialToast", function($materialToast) {
+.factory('$errorService', ["$mdToast", function($mdToast) {
 
   return {
 
@@ -361,11 +357,11 @@ angular
         msg = 'Unknown Error';
       }
 
-      $materialToast.show({
+      $mdToast.show({
         controller: ['$scope', function($scope) {
           $scope.message = msg;
           $scope.closeToast = function() {
-            $materialToast.hide();
+            $mdToast.hide();
           };
         }],
         templateUrl: '/toasts/error.html',
@@ -469,11 +465,11 @@ angular
 
 angular
 .module('ngManager')
-.controller('IndexCtrl', ["$scope", "$rootScope", "$materialSidenav", "$timeout", "$interval", "$translate", "$translateLoader", function($scope, $rootScope, $materialSidenav, $timeout, $interval, $translate, $translateLoader) {
+.controller('IndexCtrl', ["$scope", "$rootScope", "$mdSidenav", "$timeout", "$interval", "$translate", "$translateLoader", function($scope, $rootScope, $mdSidenav, $timeout, $interval, $translate, $translateLoader) {
 
   $scope.toggleMenu = function() {
     $timeout(function() {
-      $materialSidenav('left').toggle();
+      $mdSidenav('left').toggle();
     });
   };
 
@@ -483,7 +479,7 @@ angular
 
   $scope.moveTo = function(path) {
     location.hash = path;
-    $materialSidenav('left').toggle();
+    $mdSidenav('left').toggle();
   };
 
   $rootScope.$on('content.title', function(evt, title) {
@@ -526,7 +522,7 @@ angular
 
 angular
 .module('ngManager')
-.factory('$schemaForm', ["$materialDialog", "$schemaNormalizer", "$schemaValidator", "$q", function($materialDialog, $schemaNormalizer, $schemaValidator, $q) {
+.factory('$schemaForm', ["$mdDialog", "$schemaNormalizer", "$schemaValidator", "$q", function($mdDialog, $schemaNormalizer, $schemaValidator, $q) {
 
   return {
     showDialog: function(options) {
@@ -535,14 +531,13 @@ angular
 
       var schema = options.schema;
       var event = options.event;
-      var deferred = $q.defer();
       var submit = options.submit;
 
       // normalize schea
       schema = $schemaNormalizer(schema);
 
-      $materialDialog.show({
-        template: '<material-dialog><schema-form /></material-dialog>',
+      $mdDialog.show({
+        template: '<md-dialog><schema-form /></md-dialog>',
         targetEvent: event,
         controller: ['$scope', function($scope) {
           $scope.schema = schema;
@@ -551,6 +546,7 @@ angular
           $scope.errors = {};
           $scope.validate = function(path) {
             var errors = $schemaValidator.validate($scope.entity, $scope.schema, path);
+            console.log(errors, $scope.entity, $scope.schema)
             if (errors) {
               errors.forEach(function(err) {
                 $scope.errors[err.path] = err.message;
@@ -571,13 +567,13 @@ angular
               return;
             }
             submit.then(function() {
-              $materialDialog.hide();
+              $mdDialog.hide();
             }, function(err) {
               console.error(err);
             });
           };
           $scope.cancel = function() {
-            $materialDialog.hide();
+            $mdDialog.hide();
           };
         }]
       });
@@ -599,17 +595,19 @@ angular
 
   var linker = function(scope, element) {
 
-    var template = '<label for="sf{{spec.path}}" ng-bind="spec.key|translate"></label>' +
-      '<material-input id="sf{{spec.path}}" type="text" ng-model="entity[key]" ng-change="validate(spec.path)"></material-input>' +
+    var spec = scope.spec || {};
+    var path = spec.path;
+
+    var template = '<label for="sf-'+path+'" ng-bind="spec.key|translate"></label>' +
+      '<md-input id="sf-'+path+'" type="text" ng-model="entity[spec.path]" ng-change="validate(spec.path)"></md-input>' +
       '<span class="error" ng-bind="errors[spec.path]" />'
     ;
     template =
-      '<material-input-group>'+template+'</material-input-group>'
+      '<md-input-group>'+template+'</md-input-group>'
     ;
 
     var content = $compile(angular.element(template))(scope);
     
-    var spec = scope.spec || {};
     if (spec.style) {
       content.addClass(spec.style);
     }
@@ -636,11 +634,12 @@ angular
       schema = { type: schema };
     }
 
-    if (!path) {
-      path = '';
+    if (path) {
+      schema.path = path + '.' + key;
+    } else {
+      schema.path = key;
     }
 
-    schema.path = path + '/' + key;
     schema.key = key;
 
     if (schema.type === 'object') {
@@ -811,11 +810,16 @@ angular
         return null;
       } else {
         _.each(result.errors, function(err) {
-          var keyPath = '';
-          if (err.params.key) {
-            keyPath = '/' + err.params.key;
+          var keyPath = '/';
+          if (err.dataPath) {
+            keyPath = err.dataPath;
           }
-          err.path = err.dataPath + keyPath;
+          if (err.params.key) {
+            keyPath = err.dataPath + '/' + err.params.key;
+          }
+          keyPath = keyPath.split('/');
+          keyPath.shift();
+          err.path = keyPath.join('.');
         });
         if (path) {
           for (var i = 0; i < result.errors.length; i++) {

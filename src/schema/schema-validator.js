@@ -154,11 +154,16 @@ angular
         return null;
       } else {
         _.each(result.errors, function(err) {
-          var keyPath = '';
-          if (err.params.key) {
-            keyPath = '/' + err.params.key;
+          var keyPath = '/';
+          if (err.dataPath) {
+            keyPath = err.dataPath;
           }
-          err.path = err.dataPath + keyPath;
+          if (err.params.key) {
+            keyPath = err.dataPath + '/' + err.params.key;
+          }
+          keyPath = keyPath.split('/');
+          keyPath.shift();
+          err.path = keyPath.join('.');
         });
         if (path) {
           for (var i = 0; i < result.errors.length; i++) {

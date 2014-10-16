@@ -1,11 +1,11 @@
 
 angular
 .module('ngManager')
-.controller('IndexCtrl', function($scope, $rootScope, $materialSidenav, $timeout, $interval, $translate, $translateLoader) {
+.controller('IndexCtrl', function($scope, $rootScope, $mdSidenav, $timeout, $interval, $translate, $translateLoader) {
 
   $scope.toggleMenu = function() {
     $timeout(function() {
-      $materialSidenav('left').toggle();
+      $mdSidenav('left').toggle();
     });
   };
 
@@ -15,7 +15,7 @@ angular
 
   $scope.moveTo = function(path) {
     location.hash = path;
-    $materialSidenav('left').toggle();
+    $mdSidenav('left').toggle();
   };
 
   $rootScope.$on('content.title', function(evt, title) {

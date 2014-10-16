@@ -1,6 +1,6 @@
 angular
 .module('ngManager')
-.factory('$schemaForm', function($materialDialog, $schemaNormalizer, $schemaValidator, $q) {
+.factory('$schemaForm', function($mdDialog, $schemaNormalizer, $schemaValidator, $q) {
 
   return {
     showDialog: function(options) {
@@ -9,14 +9,13 @@ angular
 
       var schema = options.schema;
       var event = options.event;
-      var deferred = $q.defer();
       var submit = options.submit;
 
       // normalize schea
       schema = $schemaNormalizer(schema);
 
-      $materialDialog.show({
-        template: '<material-dialog><schema-form /></material-dialog>',
+      $mdDialog.show({
+        template: '<md-dialog><schema-form /></md-dialog>',
         targetEvent: event,
         controller: ['$scope', function($scope) {
           $scope.schema = schema;
@@ -25,6 +24,7 @@ angular
           $scope.errors = {};
           $scope.validate = function(path) {
             var errors = $schemaValidator.validate($scope.entity, $scope.schema, path);
+            console.log(errors, $scope.entity, $scope.schema)
             if (errors) {
               errors.forEach(function(err) {
                 $scope.errors[err.path] = err.message;
@@ -45,13 +45,13 @@ angular
               return;
             }
             submit.then(function() {
-              $materialDialog.hide();
+              $mdDialog.hide();
             }, function(err) {
               console.error(err);
             });
           };
           $scope.cancel = function() {
-            $materialDialog.hide();
+            $mdDialog.hide();
           };
         }]
       });
@@ -73,17 +73,19 @@ angular
 
   var linker = function(scope, element) {
 
-    var template = '<label for="sf{{spec.path}}" ng-bind="spec.key|translate"></label>' +
-      '<material-input id="sf{{spec.path}}" type="text" ng-model="entity[key]" ng-change="validate(spec.path)"></material-input>' +
+    var spec = scope.spec || {};
+    var path = spec.path;
+
+    var template = '<label for="sf-'+path+'" ng-bind="spec.key|translate"></label>' +
+      '<md-input id="sf-'+path+'" type="text" ng-model="entity[spec.path]" ng-change="validate(spec.path)"></md-input>' +
       '<span class="error" ng-bind="errors[spec.path]" />'
     ;
     template =
-      '<material-input-group>'+template+'</material-input-group>'
+      '<md-input-group>'+template+'</md-input-group>'
     ;
 
     var content = $compile(angular.element(template))(scope);
     
-    var spec = scope.spec || {};
     if (spec.style) {
       content.addClass(spec.style);
     }

@@ -11,21 +11,21 @@ body {
 .global-progress .container {
   top: 0px;
 }
-.selection-list material-item-content .controls {
+.selection-list md-item-content .controls {
   padding-right: 10px;
 }
-.selection-list material-item-content material-icon {
+.selection-list md-item-content md-icon {
   width: 24px;
   height: 24px;
 }
-.selection-list material-item-content:hover {
+.selection-list md-item-content:hover {
   background: #eee;
   cursor: pointer;
 }
 .selection-list-header {
   padding: 0.4em 10px;
 }
-.selection-list-header material-button {
+.selection-list-header md-button {
   padding: 0.4em 1em;
   margin: 0.4em;
 }
@@ -88,11 +88,11 @@ body {
 .schema-form legend {
   font-size: 120%;
 }
-.schema-form .material-input-focused input {
+.schema-form .md-input-focused input {
   border-color: #ee008b;
   color: #2f2f2f;
 }
-.schema-form .material-input-focused label {
+.schema-form .md-input-focused label {
   color: #ee008b;
 }
 .schema-form schema-input {
@@ -114,7 +114,7 @@ body {
   position: absolute;
   padding: 0 0 0.4em 0;
 }
-.schema-form-controls material-button {
+.schema-form-controls md-button {
   padding: 0.4em 0.6em;
   margin-right: 0.4em;
 }

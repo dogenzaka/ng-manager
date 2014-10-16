@@ -8,11 +8,12 @@ angular
       schema = { type: schema };
     }
 
-    if (!path) {
-      path = '';
+    if (path) {
+      schema.path = path + '.' + key;
+    } else {
+      schema.path = key;
     }
 
-    schema.path = path + '/' + key;
     schema.key = key;
 
     if (schema.type === 'object') {

@@ -47,7 +47,7 @@ angular
     $apiService
     .setup()
     .then(function() {
-      location.hash = 'top';
+      //location.hash = 'top';
     }, function(err) {
       $errorService.showError(err);
     });

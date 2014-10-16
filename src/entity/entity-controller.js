@@ -17,6 +17,7 @@ angular
       page: type
     });
 
+
 })
 ;
 

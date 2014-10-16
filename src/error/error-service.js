@@ -1,6 +1,6 @@
 angular
 .module('ngManager')
-.factory('$errorService', function($materialToast) {
+.factory('$errorService', function($mdToast) {
 
   return {
 
@@ -17,11 +17,11 @@ angular
         msg = 'Unknown Error';
       }
 
-      $materialToast.show({
+      $mdToast.show({
         controller: ['$scope', function($scope) {
           $scope.message = msg;
           $scope.closeToast = function() {
-            $materialToast.hide();
+            $mdToast.hide();
           };
         }],
         templateUrl: '/toasts/error.html',

@@ -1,14 +1,14 @@
-material-toolbar
-  .material-toolbar-tools
+md-toolbar
+  .md-toolbar-tools
     h2(ng-bind='title|translate')
 
-material-content
+md-content
   form.schema-form(ng-submit='submit()')
     schema-input(ng-repeat='(key,spec) in schema.properties')
 
-material-toolbar
-  .material-toolbar-tools.schema-form-controls(layout='horizontal' layout-align='center')
+md-toolbar
+  .md-toolbar-tools.schema-form-controls(layout='horizontal' layout-align='center')
     section
-      material-button.material-button-raised.material-button-colored(ng-bind='"Submit"|translate' ng-click='submit()')
-      material-button.material-button-raised(ng-bind='"Cancel"|translate' ng-click='cancel()')
+      md-button.md-button-raised.md-button-colored(ng-bind='"Submit"|translate' ng-click='submit()')
+      md-button.md-button-raised(ng-bind='"Cancel"|translate' ng-click='cancel()')
 

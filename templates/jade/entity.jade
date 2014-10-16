@@ -1,17 +1,17 @@
-material-content.entities_list
+md-content.entities_list
 
   section.selection-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
-    material-button.material-button-raised(translate='Add' ng-click='showForm($event)')
+    md-button.md-button-raised(translate='Add' ng-click='showForm($event)')
 
-  material-content
-    material-list.selection-list
-      material-item(ng-repeat='entity in entities' ng-click='select($index)')
-        material-item-content
-          .material-tile-content(ng-href='test' ink-ripple='')
+  md-content
+    md-list.selection-list
+      md-item(ng-repeat='entity in entities' ng-click='select($index)')
+        md-item-content
+          .md-tile-content(ng-href='test' ink-ripple='')
             ENTITY
-          .material-tile-right.controls
-            material-button(ng-click='remove($index)')
-              material-icon(icon='/img/icons/ic_delete_24px.svg')
-              material-tooltip(ng-bind='"Remove"|translate')
-        material-divider(ng-if='!$last')
+          .md-tile-right.controls
+            md-button(ng-click='remove($index)')
+              md-icon(icon='/img/icons/ic_delete_24px.svg')
+              md-tooltip(ng-bind='"Remove"|translate')
+        md-divider(ng-if='!$last')
 
