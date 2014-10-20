@@ -20,8 +20,12 @@ html(ng-app='ngManager')
           span.menu-separate-icon(layout='vertical' layout-align='center center' ng-if='head.title.page')
             md-icon(icon='/img/icons/ic_chevron_right_w_24px.svg')
           h3(ng-if='head.title.page' ng-bind='head.title.page|translate')
-      md-progress-linear.global-progress(ng-if='progress' mode='{{progress.mode}}' value='{{progress.value}}')
+      .global-progress.reveal(ng-if='progress')
+        md-progress-linear(mode='{{progress.mode}}' value='{{progress.value}}')
       div(ng-view='')
+    //md-sidenav.md-sidenav-right.md-whiteframe-z2(layout='vertical' component-id='right')
 
     script(type='text/javascript' src='./js/components.js')
     script(type='text/javascript' src='./js/main.js')
+    script(type='text/javascript' src='./js/templates.js')
+

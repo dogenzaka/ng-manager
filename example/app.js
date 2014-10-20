@@ -2,6 +2,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var data = require('./data');
 
 app.get('/config', function(req, res) {
 
@@ -12,44 +13,41 @@ app.get('/config', function(req, res) {
     },
 
     entities: [{
-      id: 'track',
+      id: 'user',
       schema: {
         type: 'object',
         properties: {
-          track_id: 'string'
+          user_id: 'string',
+          first_name: 'string',
+          last_name: 'string',
+          email: 'string',
+          phone: 'string'
         },
-        required: ['track_id']
+        required: ['user_id','first_name','last_name']
       },
       features: {
-        search: true
-      }
-    }, {
-      id: 'artist',
-      schema: {
-        type: 'object',
-        properties: {
-          artist_id: 'string'
-        },
-        required: ['artist_id']
-      },
-      features: {
-        search: true
+        list: {
+          fields: ['user_id','first_name','last_name','email','phone']
+        }
       }
     }],
 
     i18n: {
       en: {
-        artist: 'Artist',
-        artist_id: 'Artist ID',
-        track: 'Track',
-        track_id: 'Track ID'
+        user: 'User',
+        user_id: 'User ID',
+        first_name: 'First Name',
+        last_name: 'Last Name',
+        email: 'E-Mail',
+        phone: 'Phone'
       },
       ja: {
-        // Words
-        artist: 'アーティスト',
-        artist_id: 'アーティストID',
-        track: 'トラック',
-        track_id: 'トラックID'
+        user: 'ユーザー',
+        user_id: 'ユーザーID',
+        first_name: '名',
+        last_name: '姓',
+        email: 'メールアドレス',
+        phone: '電話番号'
       }
     }
 
@@ -60,6 +58,7 @@ app.get('/config', function(req, res) {
 app.get('/entity/:type', function(req, res) {
   var type = req.param('type');
   res.json({
+    list: data[type].slice(0, 20)
   });
 });
 

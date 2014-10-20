@@ -8,6 +8,7 @@ angular
     // Words
     Add: '追加',
     Cancel: 'キャンセル',
+    Close: '閉じる',
     Create: '作成',
     Endpoints: 'エンドポイント',
     Entities: 'データ',
@@ -20,10 +21,12 @@ angular
     Submit: '送信',
     Top: 'トップ',
     // Labels
-    name: 'Name',
+    name: '名前',
     url: 'URL',
     // Sentences
-    'Add the endpoint': 'エンドポイント追加'
+    'Add the endpoint': 'エンドポイント追加',
+
+    'Entity configuration not found for {{kind}}': '{{kind}}のデータ設定が見つかりません'
   });
 
 })

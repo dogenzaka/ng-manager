@@ -16,15 +16,15 @@ angular
   $routeProvider
   .when('/endpoints', {
     controller: 'EndpointCtrl',
-    templateUrl: 'endpoints.html'
+    templateUrl: 'endpoint.html'
   })
   .when('/top', {
     controller: 'TopCtrl',
     templateUrl: 'top.html'
   })
-  .when('/entity/:type', {
+  .when('/entity/:kind', {
     controller: 'EntityCtrl',
-    templateUrl: 'entity.html'
+    templateUrl: 'entity/index.html'
   })
   /*
   .otherwise({
@@ -34,7 +34,7 @@ angular
   ;
 
 })
-.run(function($endpointService, $apiService, $errorService) {
+.run(function($endpointService, $apiService, $errorService, $location) {
 
   console.info('Started running ng-manager');
 
@@ -42,7 +42,7 @@ angular
   var ep = $endpointService.getSelected();
   if (!ep) {
     // Select endpoints
-    location.hash = '/endpoints';
+    $location.url('/endpoints');
   } else {
     $apiService
     .setup()

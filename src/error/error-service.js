@@ -7,9 +7,9 @@ angular
     showError: function(err) {
 
       var msg = '';
-      if (typeof msg === 'string') {
+      if (typeof err === 'string') {
         msg = err;
-      } else if (msg.message) {
+      } else if (err.message) {
         msg = err.message;
       } else if (err) {
         msg = err.toString();
@@ -20,6 +20,7 @@ angular
       $mdToast.show({
         controller: ['$scope', function($scope) {
           $scope.message = msg;
+          $scope.params = err.params || {};
           $scope.closeToast = function() {
             $mdToast.hide();
           };

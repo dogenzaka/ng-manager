@@ -1,0 +1,18 @@
+md-content.entity-list
+
+  section.entity-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
+    md-button.md-button-raised(translate='Add' ng-click='showForm($event)')
+
+  entity-table
+
+  md-list.entity-list-content
+    md-item(ng-repeat='entity in entities' ng-click='select($index)')
+      md-item-content
+        .md-tile-content(ng-href='test' ink-ripple='')
+          .div ENTITY
+        .md-tile-right.controls
+          md-button(ng-click='remove($index)')
+            md-icon(icon='/img/icons/ic_delete_24px.svg')
+            md-tooltip(ng-bind='"Remove"|translate')
+      md-divider(ng-if='!$last')
+

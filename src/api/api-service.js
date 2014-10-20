@@ -13,23 +13,19 @@ angular
 
   var get = function(path, query) {
 
-    var deferred = $q.defer();
-
-    $http({
+    return $http({
       url: getUrl(path),
       method: 'GET',
       params: query
     })
     .then(function(data) {
-      deferred.resolve(data.data);
+      return data.data;
     }, function(data, status) {
       var msg = (data && data.message) || 'Server error';
       var err = new Error(msg);
       err.status = status;
-      deferred.reject(err);
+      return err;
     });
-
-    return deferred.promise;
 
   };
 
@@ -53,25 +49,26 @@ angular
   return {
 
     setup: function() {
-      var deferred = $q.defer();
       console.log('apiService.setup');
       config = null;
-      getConfig()
-      .then(function(data) {
+      return getConfig().then(function(data) {
         config = data;
-        console.info('Got config', config);
         $rootScope.$emit('config', config);
-        deferred.resolve(config);
+        return config;
       }, function(err) {
-        deferred.reject(err);
+        return err;
       });
-      return deferred.promise;
-    }
+    },
+
+    config: function() {
+      return config;
+    },
+
+    get: get
 
   };
-
 })
-.factory('progressHttpInterceptor', function($rootScope,$q) {
+.factory('progressHttpInterceptor', function($rootScope, $q) {
   var stack = 0;
   var inc = function() {
     if (stack++ === 0) {
@@ -104,7 +101,7 @@ angular
     }
   };
 })
-.config(function($httpProvider) {
+.config(function ($httpProvider) {
   $httpProvider.interceptors.push('progressHttpInterceptor');
 })
 ;

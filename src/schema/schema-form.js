@@ -10,6 +10,7 @@ angular
       var schema = options.schema;
       var event = options.event;
       var submit = options.submit;
+      var deferred = $q.defer();
 
       // normalize schea
       schema = $schemaNormalizer(schema);
@@ -24,7 +25,6 @@ angular
           $scope.errors = {};
           $scope.validate = function(path) {
             var errors = $schemaValidator.validate($scope.entity, $scope.schema, path);
-            console.log(errors, $scope.entity, $scope.schema)
             if (errors) {
               errors.forEach(function(err) {
                 $scope.errors[err.path] = err.message;
@@ -46,15 +46,19 @@ angular
             }
             submit.then(function() {
               $mdDialog.hide();
+              deferred.resolve($scope.entity);
             }, function(err) {
               console.error(err);
             });
           };
           $scope.cancel = function() {
             $mdDialog.hide();
+            deferred.reject();
           };
         }]
       });
+
+      return deferred;
     }
   };
 

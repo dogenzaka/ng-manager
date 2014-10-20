@@ -1,57 +1,71 @@
 
 angular
 .module('ngManager')
-.controller('IndexCtrl', function($scope, $rootScope, $mdSidenav, $timeout, $interval, $translate, $translateLoader) {
+.controller('IndexCtrl', function(
+  $scope,
+  $rootScope,
+  $mdSidenav,
+  $timeout,
+  $interval,
+  $location,
+  $window,
+  $translate,
+  $translateLoader) {
 
-  $scope.toggleMenu = function() {
-    $timeout(function() {
+    $scope.toggleMenu = function() {
+      $timeout(function() {
+        $mdSidenav('left').toggle();
+      });
+    };
+
+    $scope.site = { title: 'NG-Manager' };
+
+    $scope.head = {};
+
+    $scope.moveTo = function(path) {
+      $location.url(path);
       $mdSidenav('left').toggle();
+    };
+
+    $rootScope.$on('content.title', function(evt, title) {
+      $scope.head.title = title;
     });
-  };
 
-  $scope.site = { title: 'NG-Manager' };
+    $rootScope.$on('progress.start', function() {
+      $scope.progress = { mode: 'indeterminate', value: 0 };
+    });
 
-  $scope.head = {};
-
-  $scope.moveTo = function(path) {
-    location.hash = path;
-    $mdSidenav('left').toggle();
-  };
-
-  $rootScope.$on('content.title', function(evt, title) {
-    $scope.head.title = title;
-  });
-
-  $rootScope.$on('progress.start', function() {
-    $scope.progress = { mode: 'indeterminate', value: 0 };
-  });
-
-  $rootScope.$on('progress.end', function() {
-    var progress = $scope.progress;
-    if (progress.mode === 'indeterminate') {
-      progress.mode = 'determinate';
-      progress.value = 0;
-    }
-    var p = $interval(function() {
-      progress.value += 20;
-      if (progress.value >= 100) {
-        $interval.cancel(p);
-        $timeout(function() {
-          delete $scope.progress;
-        }, 200);
+    $rootScope.$on('progress.end', function() {
+      var progress = $scope.progress;
+      if (progress.mode === 'indeterminate') {
+        progress.mode = 'determinate';
+        progress.value = 0;
       }
-    }, 50);
-  });
+      var p = $interval(function() {
+        progress.value += 20;
+        if (progress.value >= 100) {
+          $interval.cancel(p);
+          $timeout(function() {
+            delete $scope.progress;
+          }, 400);
+        }
+      }, 50);
+    });
 
-  $rootScope.$on('config', function(evt, config) {
-    console.info('Loaded configuration', config);
-    $scope.config = config;
-    $scope.site = config.site;
+    $scope.openRight = true;
 
-    if (config.i18n) {
-      $translateLoader.addTables(config.i18n);
-      $translate.refresh();
-    }
-  });
+    $rootScope.$on('config', function(evt, config) {
+      console.info('Loaded configuration', config);
+      $scope.config = config;
+      $scope.site = config.site;
 
+      if (config.i18n) {
+        $translateLoader.addTables(config.i18n);
+        $translate.refresh();
+      }
+    });
+
+    $window.addEventListener('resize', function(evt) {
+      $rootScope.$broadcast('window.resize');
+    });
 });

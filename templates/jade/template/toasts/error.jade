@@ -1,5 +1,5 @@
 head
 md-toast.error-toast
-  span(flex='' ng-bind='message|translate')
+  span.message(flex='' ng-bind='message|translate:params')
   md-button(ng-click='closeToast()')
     span(translate='Close')

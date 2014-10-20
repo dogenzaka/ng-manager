@@ -1,6 +1,6 @@
 angular
 .module('ngManager')
-.controller('TopCtrl', function($rootScope, $scope, $apiService) {
+.controller('TopCtrl', function($rootScope) {
 
   $rootScope.$emit('content.title', {
     section: 'Top'

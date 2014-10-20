@@ -1,0 +1,12 @@
+#entity-table-head
+  table.head
+    thead
+      tr
+        th(ng-repeat='field in fields' ng-style='field.style')
+          span(ng-bind='field.id|translate')
+#entity-table-body
+  table.body
+    tbody
+      tr(ng-repeat='row in rows')
+        td(ng-repeat='field in fields')
+          span(ng-bind='row[field.id]')

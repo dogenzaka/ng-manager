@@ -2,10 +2,12 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var annotate = require('gulp-ng-annotate');
+var templateCache = require('gulp-angular-templatecache');
 var jade = require('gulp-jade');
 var stylus = require('gulp-stylus');
 var cssmin = require('gulp-cssmin');
 var sourcemaps = require('gulp-sourcemaps');
+var plumber = require('gulp-plumber');
 
 // Concatnate 3rd party modules with duo
 gulp.task('components', function() {
@@ -25,7 +27,7 @@ gulp.task('components', function() {
   ])
   .pipe(sourcemaps.init())
   .pipe(concat('components.js'))
-  //.pipe(uglify())
+  .pipe(uglify())
   .pipe(sourcemaps.write('maps/'))
   .pipe(gulp.dest('app/js/'))
   ;
@@ -43,19 +45,35 @@ gulp.task('components', function() {
 });
 
 // Convert jade adn stylus files
-gulp.task('templates', function() {
+gulp.task('stylus', function() {
 
   gulp
   .src('./templates/stylus/**/*.styl')
+  .pipe(plumber())
   .pipe(stylus())
   .pipe(concat('main.css'))
-  .pipe(gulp.dest('./app/css'))
+  .pipe(gulp.dest('app/css'))
+  ;
+
+});
+
+gulp.task('jade', function() {
+
+  gulp
+  .src('./templates/jade/index.jade')
+  .pipe(plumber())
+  .pipe(jade())
+  .pipe(gulp.dest('app/'))
   ;
 
   gulp
-  .src('./templates/jade/**/*.jade')
+  .src('./templates/jade/template/**/*.jade')
+  .pipe(plumber())
   .pipe(jade())
-  .pipe(gulp.dest('./app'))
+  .pipe(templateCache({
+    module: 'ngManager'
+  }))
+  .pipe(gulp.dest('app/js/'))
   ;
 
 });
@@ -68,10 +86,11 @@ gulp.task('scripts', function() {
     './src/main.js',
     './src/**/*.js'
   ])
+  .pipe(plumber())
   .pipe(sourcemaps.init())
   .pipe(concat('main.js'))
   .pipe(annotate())
-  //.pipe(uglify())
+  .pipe(uglify())
   .pipe(sourcemaps.write('maps/'))
   .pipe(gulp.dest('app/js/'))
   ;
@@ -79,9 +98,10 @@ gulp.task('scripts', function() {
 });
 
 // Launch the server
-gulp.task('server', ['components','templates','scripts'], function() {
+gulp.task('server', ['components','stylus','jade','scripts'], function() {
 
-  gulp.watch('templates/**/*', ['templates']);
+  gulp.watch('templates/stylus/**/*', ['stylus']);
+  gulp.watch('templates/jade/**/*', ['jade']);
   gulp.watch('components.*', ['components']);
   gulp.watch('src/**/*', ['scripts']);
   require('./example/app.js').listen(4000, function() {
