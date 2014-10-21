@@ -48,6 +48,10 @@
 .entity-list table thead th {
   border-bottom-width: 1px;
 }
+.entity-list table th,
+.entity-list table td {
+  padding: 8px 4px 10px 8px;
+}
 .entity-list table th {
   text-align: left;
 }
@@ -55,6 +59,29 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  cursor: pointer;
+  border-top: none;
+}
+.entity-list table td input {
+  width: 100%;
+  line-height: inherit;
+  padding: 0;
+  border: none;
+}
+.entity-list table tbody tr:hover {
+  background-color: #eef;
+}
+.entity-list table th.actions,
+.entity-list table td.actions {
+  width: 60px;
+  padding: 6px 5px 0 5px;
+}
+.entity-list table td.actions:hover {
+  background-color: transparent;
+}
+.entity-list table td.actions img:hover {
+  background: #fff;
+  border-radius: 3px;
 }
 .entity-list #entity-table-body {
   overflow-y: auto;

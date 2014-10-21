@@ -4,9 +4,9 @@
       tr
         th(ng-repeat='field in fields' ng-style='field.style')
           span(ng-bind='field.id|translate')
+        th.actions
 #entity-table-body
   table.body
     tbody
-      tr(ng-repeat='row in rows')
-        td(ng-repeat='field in fields')
-          span(ng-bind='row[field.id]')
+      tr(ng-repeat='row in rows' fields='fields' row='row' schema='schema' entity-row='')
+

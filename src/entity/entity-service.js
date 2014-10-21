@@ -1,6 +1,6 @@
 angular
 .module('ngManager')
-.service('$entityService', function($q, $apiService) {
+.service('$entityService', function($q, $apiService, $schemaForm) {
 
   var getEntityConfig = function(kind) {
     return _.find($apiService.config().entities, function(entity) {
@@ -15,15 +15,10 @@ angular
 
     var fields = (features.list && features.list.fields) || _.keys(data.schema.properties);
 
-    var pwidth = Math.floor(100 / fields.length);
-
     return _.map(fields, function(field) {
       if (typeof field === 'string') {
         field = { id: field };
       }
-      field.style = {
-        width: (field.width || pwidth) + '%'
-      };
       return field;
     });
 
@@ -71,6 +66,11 @@ angular
     showForm: function(opts) {
 
       var deferred = $q.defer();
+
+      $schemaForm.showSide({
+        schema: opts.schema,
+        entity: opts.entity
+      });
 
       return deferred.promise;
 

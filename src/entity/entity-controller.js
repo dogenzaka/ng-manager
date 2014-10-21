@@ -24,7 +24,18 @@ angular
       }).then(function(data) {
 
         $scope.fields = data.fields;
-        $scope.rows = data.list;
+        $scope.rows = _.map(data.list, function(data) {
+          return {
+            data: data
+          };
+        });
+        $scope.edit = function(row, id) {
+          console.log("CLICK EDIT", row, id);
+          row.editing = id;
+        };
+        $scope.blur = function(row) {
+          delete row.editing;
+        };
 
         // update size after applying list
         setTimeout(resize, 0);

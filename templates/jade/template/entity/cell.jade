@@ -1,0 +1,4 @@
+td(ng-style='field.style' ng-click='edit()')
+  span(ng-bind='row.data[field.id]' ng-if='!editing')
+  input(type='text' ng-model='row.data[field.id]' ng-if='editing' ng-blur='blur()')
+

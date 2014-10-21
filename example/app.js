@@ -27,7 +27,14 @@ app.get('/config', function(req, res) {
       },
       features: {
         list: {
-          fields: ['user_id','first_name','last_name','email','phone']
+          fields: [
+            { id: 'user_id', style: { width: '120px' }},
+            'first_name',
+            'last_name',
+            'email',
+            'phone'
+          ],
+          keys: ['user_id']
         }
       }
     }],

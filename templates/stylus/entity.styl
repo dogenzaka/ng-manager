@@ -15,6 +15,9 @@
       th
         border-bottom-width 1px
 
+    th, td
+      padding 8px 4px 10px 8px
+
     th
       text-align left
 
@@ -22,6 +25,30 @@
       text-overflow ellipsis
       white-space nowrap
       overflow hidden
+      cursor pointer
+      border-top none
+
+      input
+        width 100%
+        line-height inherit
+        padding 0
+        border none
+
+    tbody
+      tr:hover
+        background-color #eef
+
+    th.actions, td.actions
+      width 60px
+      padding 6px 5px 0 5px
+
+    td.actions:hover
+      background-color transparent
+
+    td.actions
+      img:hover
+        background #fff
+        border-radius 3px
 
   #entity-table-body
     overflow-y auto
