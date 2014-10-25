@@ -14,13 +14,14 @@ app.get('/config', function(req, res) {
 
     entities: [{
       id: 'user',
+      keys: ['user_id'],
       schema: {
         type: 'object',
         properties: {
           user_id: 'string',
           first_name: 'string',
           last_name: 'string',
-          email: 'string',
+          email: { type: 'string', style: 'long' },
           phone: 'string'
         },
         required: ['user_id','first_name','last_name']
@@ -63,17 +64,26 @@ app.get('/config', function(req, res) {
 });
 
 app.get('/entity/:type', function(req, res) {
+
   var type = req.param('type');
+  var limit = req.param('limit') || 20;
+  var offset = req.param('offset') || 0;
+  // var query = req.param('query');
+
   res.json({
-    list: data[type].slice(0, 20)
+    list: data[type].slice(offset, limit)
   });
 });
 
 app.get('/entity/:type/:id', function(req, res) {
   var type = req.param('type');
   var id = req.param('id');
-  res.json({
-  });
+  var map = data[type];
+  if (map && map[id]) {
+    res.json(map[id]);
+  } else {
+    res.status(404).end();
+  }
 });
 
 app.put('/entity/:type/:id', function(req, res) {

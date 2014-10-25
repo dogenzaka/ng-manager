@@ -18,21 +18,40 @@ angular
       page: kind
     });
 
+    $scope.kind = kind;
+
     $scope.list = function() {
       $entityService.list({
         kind: kind
       }).then(function(data) {
 
+        // Get entity schema
+        var entityConfig = $entityService.getConfig(kind);
+        var schema = entityConfig.schema;
+        var keys = entityConfig.keys || entityConfig.key;
+        if (!keys) {
+          keys = _.keys(schema.properties).shift();
+        }
+        if (typeof keys === 'string') {
+          keys = [keys];
+        }
+
         $scope.fields = data.fields;
+        $scope.keys = keys;
+
         $scope.rows = _.map(data.list, function(data) {
+
+          var key = _.values(_.pick(data, keys)).join('/');
           return {
+            key: key,
             data: data
           };
         });
+
         $scope.edit = function(row, id) {
-          console.log("CLICK EDIT", row, id);
           row.editing = id;
         };
+
         $scope.blur = function(row) {
           delete row.editing;
         };

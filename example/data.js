@@ -15,7 +15,7 @@ var user = function(i) {
     user_id: 'user_' + i,
     first_name: faker.name.firstName(),
     last_name: faker.name.lastName(),
-    email: faker.internet.email() + faker.internet.email(),
+    email: faker.internet.email(),
     phone: faker.phone.phoneNumber()
   };
 };

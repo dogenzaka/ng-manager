@@ -1,7 +1,11 @@
 angular
 .module('ngManager')
-.factory('$schemaForm', function($mdDialog, $sideContent, $schemaNormalizer, $schemaValidator, $q) {
-
+.factory('$schemaForm', function(
+  $mdDialog,
+  $sideContent,
+  $schemaNormalizer,
+  $schemaValidator,
+  $q) {
 
   var validator = function(scope) {
     return function(path) {
@@ -61,6 +65,7 @@ angular
         targetEvent: event,
         controller: ['$scope', function($scope) {
           $scope.schema = schema;
+          $scope.keys = Object.keys(schema);
           $scope.entity = {};
           $scope.title = options.title || '';
           $scope.errors = {};
@@ -78,10 +83,12 @@ angular
       var schema = opts.schema;
       var entity = opts.entity || {};
       var deferred = $q.defer();
-      console.log("WHOOOSAAAA");
+
+      // normalize schea
+      schema = $schemaNormalizer(schema);
 
       $sideContent.show({
-        template: '<md-dialog><schema-form /></md-dialog>',
+        template: '<md-content><schema-form /></md-content>',
         targetEvent: event,
         controller: ['$scope', function($scope) {
           $scope.schema = schema;
@@ -109,15 +116,15 @@ angular
   };
 
 })
-.directive('schemaInput', function($compile) {
+.directive('schemaItem', function($compile) {
 
   var linker = function(scope, element) {
 
-    var spec = scope.spec || {};
-    var path = spec.path;
+    var schema = scope.schema;
+    var path = schema.path;
 
-    var template = '<label for="sf-'+path+'" ng-bind="spec.key|translate"></label>' +
-      '<md-input id="sf-'+path+'" type="text" ng-model="entity[spec.path]" ng-change="validate(spec.path)"></md-input>' +
+    var template = '<label for="sf-'+path+'" ng-bind="schema.key|translate"></label>' +
+      '<md-input id="sf-'+path+'" type="text" ng-model="entity[schema.path]" ng-change="validate(schema.path)"></md-input>' +
       '<span class="error" ng-bind="errors[spec.path]" />'
     ;
     template =
@@ -126,14 +133,18 @@ angular
 
     var content = $compile(angular.element(template))(scope);
     
-    if (spec.style) {
-      content.addClass(spec.style);
+    if (schema.style) {
+      content.addClass(schema.style);
     }
 
     element.append(content);
   };
 
   return {
+    scope: {
+      schema: '=',
+      entity: '='
+    },
     restrict: 'AE',
     replace: true,
     link: linker

@@ -2,9 +2,9 @@ md-toolbar
   .md-toolbar-tools
     h2(ng-bind='title|translate')
 
-md-content
+md-content(ng-style='contentStyle')
   form.schema-form(ng-submit='submit()')
-    schema-input(ng-repeat='(key,spec) in schema.properties')
+    schema-item(ng-repeat='key in schema.keyOrder' schema='schema.properties[key]' entity='entity')
 
 md-toolbar
   .md-toolbar-tools.schema-form-controls(layout='horizontal' layout-align='center')

@@ -25,7 +25,7 @@ angular
             $mdToast.hide();
           };
         }],
-        templateUrl: '/toasts/error.html',
+        templateUrl: 'toasts/error.html',
         duration: 6000,
         position: 'top right'
       });

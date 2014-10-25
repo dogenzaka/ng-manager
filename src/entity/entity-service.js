@@ -26,6 +26,8 @@ angular
 
   return {
 
+    getConfig: getEntityConfig,
+
     list: function(opts) {
 
       opts = opts || {};
@@ -63,12 +65,50 @@ angular
 
     },
 
-    showForm: function(opts) {
+    get: function(opts) {
 
       var deferred = $q.defer();
 
+      opts = opts || {};
+
+      var kind = opts.kind || '';
+      if (kind === '') {
+        deferred.reject(new Error('kind is empty'));
+        return deferred.promise;
+      }
+
+      var key = opts.key;
+      if (key === undefined) {
+        deferred.reject(new Error('key is null'));
+        return deferred.promise;
+      }
+
+      $apiService
+      .get('/entity/'+kind)
+      .then(function(data) {
+        var config = getEntityConfig(kind);
+        if (config === undefined) {
+          deferred.reject({
+            message: 'Entity configuration not found for {{kind}}',
+            params: { kind: kind }
+          });
+        } else {
+          deferred.resolve(data);
+        }
+      }, function(err) {
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+    },
+
+    showForm: function(opts) {
+
+      var deferred = $q.defer();
+      var spec = getEntityConfig(opts.kind);
+
       $schemaForm.showSide({
-        schema: opts.schema,
+        schema: spec.schema,
         entity: opts.entity
       });
 

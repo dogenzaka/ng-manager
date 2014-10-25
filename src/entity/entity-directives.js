@@ -3,40 +3,53 @@ angular
 .directive('entityTable', function() {
 
   return {
-
     restrict: 'AE',
-    link: function(scope, element) {
+    link: function() {
     },
     templateUrl: 'entity/table.html'
   };
 
 })
-.directive('entityRow', function($entityService) {
+.directive('entityRow', function($entityService, $errorService) {
 
   return {
 
     restrict: 'AE',
     scope: {
+      key: '=',
       row: '=',
       fields: '=',
-      schema: '='
+      kind: '='
     },
     replace: true,
     link: function(scope) {
 
+      var kind = scope.kind;
+      var key = scope.key;
+
       scope.edit = function() {
 
-        console.log("EDITING ROW", scope.row);
-        $entityService.showForm({
-          entity: scope.row.data,
-          schema: scope.schema
+        $entityService
+        .get({ kind: kind, key: key })
+        .then(function(data) {
+          $entityService.showForm({
+            kind: kind,
+            entity: data
+          });
+        }, function(err) {
+          $errorService.showError(err);
         });
 
       };
 
       scope.remove = function() {
 
-        console.log("REMOVING ROW", scope.row);
+        $entityService
+        .remove({ kind: kind, key: key })
+        .then(function(data) {
+        }, function(err) {
+          $errorService.showError(err);
+        });
 
       };
 
@@ -52,17 +65,17 @@ angular
 
     restrict: 'AE',
     scope: {
-      id: '@',
+      key: '=',
       field: '=',
       row: '=',
-      schema: '='
+      kind: '='
     },
     replace: true,
     link: function(scope, element) {
 
       var row = scope.row;
       var field = scope.field;
-      var schema = scope.schema;
+      var key = scope.key;
       
       scope.edit = function() {
         scope.editing = true;

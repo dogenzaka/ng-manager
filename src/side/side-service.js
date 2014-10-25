@@ -1,32 +1,59 @@
 angular
 .module('ngManager')
-.service('$sideContent', function($rootElement, $$interimElement, $animate) {
+.service('$sideContent', function($rootElement, $$interimElement, $animate, $timeout, $window) {
+
+  var $sideService;
 
   var onShow = function(scope, element, options) {
 
     // Always wrapping jqlite like mdDialog
     options.parent = angular.element(options.parent);
 
-    console.log("ONSHOW");
     var backdrop = angular.element('<md-backdrop class="opaque ng-enter">');
-    $animate.enter(backdrop, options.parent, null);
     options.backdrop = backdrop;
+
+    options.onClickOutside = function(e) {
+      if (e.target === backdrop[0]) {
+        $timeout($sideService.cancel);
+      }
+    };
+
+    options.onKeyupRoot = function(e) {
+      if (e.keyCode === 27) {
+        $timeout($sideService.cancel);
+      }
+    };
+
+    var resize = function() {
+      var height = $window.innerHeight;
+      element.css('height', height + 'px');
+    };
+    resize();
+
+    $rootElement.bind('click', options.onClickOutside);
+    $rootElement.bind('keyup', options.onKeyupRoot);
+
+    scope.$on('window.resize', resize);
+
+    $animate.enter(element, options.parent).then(function() {
+      $animate.enter(backdrop, options.parent, null);
+    });
   };
 
   var onRemove = function(scope, element, options) {
-    console.log("ONREMOVE");
     if (options.backdrop) {
       $animate.leave(options.backdrop);
     }
+    $animate.leave(element);
     if (options.escapeToClose) {
-      $rootElement.off('keyup', options.rootElementKeyupCallback);
+      $rootElement.off('keyup', options.onKeyupRoot);
     }
     if (options.clickOutsideToClose) {
-      element.off('click', options.dialogClickOutsideCallback);
+      $rootElement.off('click', options.onClickOutside);
     }
   };
 
-  var $sideService = $$interimElement({
+  $sideService = $$interimElement({
 
     hasBackdrop: true,
     isolateScope: true,
@@ -36,8 +63,9 @@ angular
     escapeToClose: true,
     targetEvent: null,
     transformTemplate: function(template) {
-      return '<md-sidenav class="md-sidenav-right md-white-frame-z2" layout="vertical" component="right">' + template + '</div>';
+      return '<div class="side-content md-whiteframe-z2" layout="vertical" component="right">' + template + '</div>';
     }
+
   });
 
   return $sideService;
