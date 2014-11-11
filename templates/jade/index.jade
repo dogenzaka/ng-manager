@@ -6,13 +6,13 @@ html(ng-app='ngManager')
     link(rel='stylesheet' type='text/css' href='./css/main.css')
     meta(name='viewport' content='initial-scale=1,maximum-scale=1')
   body(layout='horizontal' ng-controller='IndexCtrl')
-    md-sidenav.md-sidenav-left.md-whiteframe-z2(layout='vertical' component-id='left')
-      md-toolbar.md-theme-light
+    md-sidenav.md-sidenav-left.md-whiteframe-z2(layout='vertical' component-id='left' is-locked-open='$media("md")')
+      md-toolbar(md-theme='blue')
         h1.md-toolbar-tools
           a(href='#/' ng-bind='site.title')
       include ./menu.jade
     div(layout='vertical' layout-fill='' tabindex='1' role='main')
-      md-toolbar.md-theme-dark
+      md-toolbar(md-theme='blue')
         div.md-toolbar-tools.content-header
           button.menu-icon(hide-md='' ng-click='toggleMenu()' aria-label='Toggle Menu')
             md-icon(icon='/img/icons/ic_menu_24px.svg')

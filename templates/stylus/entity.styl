@@ -1,22 +1,31 @@
 .entity-list
 
   .entity-list-header
-    padding 0.4em 10px
+
+    md-toolbar
+      padding 0.2em 10px
 
     md-button
       padding 0.4em 1em
       margin 0.4em
+      font-size 0.8em
 
   table
     table-layout fixed
     margin-bottom 0
+    width 100%
+    border-spacing 0
 
     thead
       th
-        border-bottom-width 1px
+        border-bottom 2px solid #eee
 
-    th, td
+    th
+      padding 6px 8px
+
+    td
       padding 8px 4px 10px 8px
+      font-size 0.9em
 
     th
       text-align left
@@ -26,13 +35,13 @@
       white-space nowrap
       overflow hidden
       cursor pointer
-      border-top none
 
       input
         width 100%
         line-height inherit
         padding 0
         border none
+        background transparent
 
     tbody
       tr:hover

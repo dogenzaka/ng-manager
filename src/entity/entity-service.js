@@ -42,7 +42,7 @@ angular
       }
 
       $apiService
-      .get('/entity/'+kind)
+      .get('/entity/'+kind, { limit: 30 })
       .then(function(data) {
 
         var config = getEntityConfig(kind);

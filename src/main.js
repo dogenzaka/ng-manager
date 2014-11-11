@@ -6,8 +6,7 @@ angular
   'ngAnimate',
   'ngAria',
   'ngMaterial',
-  'pascalprecht.translate',
-  'angular-loading-bar'
+  'pascalprecht.translate'
 ])
 .config(function($routeProvider) {
 

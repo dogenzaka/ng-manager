@@ -4,7 +4,17 @@ angular
 
   return {
     restrict: 'AE',
-    link: function() {
+    link: function(scope, element) {
+
+      var body = element.children().eq(1);
+
+      body.on('scroll', function(e) {
+
+        var target = e.target;
+        var pos = target.scrollTop;
+
+      });
+
     },
     templateUrl: 'entity/table.html'
   };

@@ -26,17 +26,21 @@ angular
     };
   };
 
-  var submitter = function(scope, interim, deferred) {
+  var submitter = function(scope, interim, submit, deferred) {
     return function() {
       scope.validate();
       if (scope.hasError) {
         return;
       }
-      scope.submit.then(function() {
+      if (!submit) {
+        interim.hide();
+        deferred.reject();
+      }
+      submit(scope).then(function() {
         interim.hide();
         deferred.resolve(scope.entity);
       }, function(err) {
-        console.error(err);
+        deferred.reject(err);
       });
     };
   };
@@ -49,14 +53,15 @@ angular
   };
 
   return {
-    showDialog: function(options) {
+    showDialog: function(opts) {
 
-      options = options || {};
+      opts = opts || {};
 
-      var schema = options.schema;
-      var event = options.event;
+      var schema = opts.schema;
+      var entity = opts.entity || {};
+      var event = opts.event;
       var deferred = $q.defer();
-
+      var submit = opts.submit;
       // normalize schea
       schema = $schemaNormalizer(schema);
 
@@ -65,12 +70,11 @@ angular
         targetEvent: event,
         controller: ['$scope', function($scope) {
           $scope.schema = schema;
-          $scope.keys = Object.keys(schema);
-          $scope.entity = {};
-          $scope.title = options.title || '';
+          $scope.entity = entity;
+          $scope.title = opts.title || '';
           $scope.errors = {};
           $scope.validate = validator($scope);
-          $scope.submit = submitter($scope, $mdDialog, deferred);
+          $scope.submit = submitter($scope, $mdDialog, submit, deferred);
           $scope.cancel = canceller($scope, $mdDialog, deferred);
         }]
       });
@@ -83,6 +87,7 @@ angular
       var schema = opts.schema;
       var entity = opts.entity || {};
       var deferred = $q.defer();
+      var submit = opts.submit;
 
       // normalize schea
       schema = $schemaNormalizer(schema);
@@ -95,7 +100,7 @@ angular
           $scope.entity = entity;
           $scope.errors = {};
           $scope.validate = validator($scope);
-          $scope.submit = submitter($scope, $sideContent, deferred);
+          $scope.submit = submitter($scope, $sideContent, submit, deferred);
           $scope.cancel = canceller($scope, $sideContent, deferred);
         }]
       });
@@ -110,27 +115,17 @@ angular
 
   return {
     restrict: 'AE',
-    controller: function() {
-    },
     templateUrl: 'schema-form/form.html'
   };
 
 })
-.directive('schemaItem', function($compile) {
+.directive('schemaItem', function($compile, $templateCache) {
 
   var linker = function(scope, element) {
 
     var schema = scope.schema;
-    var path = schema.path;
 
-    var template = '<label for="sf-'+path+'" ng-bind="schema.key|translate"></label>' +
-      '<md-input id="sf-'+path+'" type="text" ng-model="entity[schema.path]" ng-change="validate(schema.path)"></md-input>' +
-      '<span class="error" ng-bind="errors[spec.path]" />'
-    ;
-    template =
-      '<md-input-group>'+template+'</md-input-group>'
-    ;
-
+    var template = $templateCache.get('schema-form/input.html');
     var content = $compile(angular.element(template))(scope);
     
     if (schema.style) {
@@ -143,7 +138,8 @@ angular
   return {
     scope: {
       schema: '=',
-      entity: '='
+      entity: '=',
+      errors: '='
     },
     restrict: 'AE',
     replace: true,

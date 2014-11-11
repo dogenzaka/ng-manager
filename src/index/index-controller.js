@@ -24,7 +24,7 @@ angular
 
     $scope.moveTo = function(path) {
       $location.url(path);
-      $mdSidenav('left').toggle();
+      $mdSidenav('left').close();
     };
 
     $rootScope.$on('content.title', function(evt, title) {

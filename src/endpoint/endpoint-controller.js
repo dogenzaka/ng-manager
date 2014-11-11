@@ -25,7 +25,8 @@ angular
     };
 
     $rootScope.$emit('content.title', {
-      section: 'Endpoints'
+      section: 'Settings',
+      page: 'Endpoints'
     });
 
     // Showing form for adding new schema

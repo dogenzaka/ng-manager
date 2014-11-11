@@ -15,12 +15,13 @@
   opacity: 0;
 }
 
-.endpoint-list .endpoint-list-header {
-  padding: 0.4em 10px;
+.endpoint-list .endpoint-list-header md-toolbar {
+  padding: 0.2em 10px;
 }
 .endpoint-list .endpoint-list-header md-button {
   padding: 0.4em 1em;
   margin: 0.4em;
+  font-size: 0.8em;
 }
 .endpoint-list md-list md-item-content .controls {
   padding-right: 10px;
@@ -34,23 +35,29 @@
   cursor: pointer;
 }
 
-.entity-list .entity-list-header {
-  padding: 0.4em 10px;
+.entity-list .entity-list-header md-toolbar {
+  padding: 0.2em 10px;
 }
 .entity-list .entity-list-header md-button {
   padding: 0.4em 1em;
   margin: 0.4em;
+  font-size: 0.8em;
 }
 .entity-list table {
   table-layout: fixed;
   margin-bottom: 0;
+  width: 100%;
+  border-spacing: 0;
 }
 .entity-list table thead th {
-  border-bottom-width: 1px;
+  border-bottom: 2px solid #eee;
 }
-.entity-list table th,
+.entity-list table th {
+  padding: 6px 8px;
+}
 .entity-list table td {
   padding: 8px 4px 10px 8px;
+  font-size: 0.9em;
 }
 .entity-list table th {
   text-align: left;
@@ -60,13 +67,13 @@
   white-space: nowrap;
   overflow: hidden;
   cursor: pointer;
-  border-top: none;
 }
 .entity-list table td input {
   width: 100%;
   line-height: inherit;
   padding: 0;
   border: none;
+  background: transparent;
 }
 .entity-list table tbody tr:hover {
   background-color: #eef;
@@ -98,8 +105,9 @@ body {
 .global-progress md-progress-linear {
   position: absolute;
 }
-.global-progress md-progress-linear .container {
+.global-progress md-progress-linear .md-container {
   top: 0px;
+  z-index: 10;
 }
 
 .menu-item {
@@ -193,6 +201,9 @@ body {
   display: block;
   position: absolute;
   padding: 0 0 0.4em 0;
+}
+.schema-form-controls {
+  padding: 1.4em 0 0 0;
 }
 .schema-form-controls md-button {
   padding: 0.4em 0.6em;

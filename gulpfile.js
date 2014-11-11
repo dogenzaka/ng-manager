@@ -20,7 +20,6 @@ gulp.task('components', function() {
     'bower_components/angular-route/angular-route.js',
     'bower_components/angular-aria/angular-aria.js',
     'bower_components/angular-translate/angular-translate.js',
-    'bower_components/angular-loading-bar/build/loading-bar.js',
     'bower_components/hammerjs/hammer.js',
     'bower_components/lodash/dist/lodash.compat.js',
     'bower_components/tv4/tv4.js'
@@ -34,8 +33,20 @@ gulp.task('components', function() {
 
   gulp
   .src([
-    'bower_components/angular-material/angular-material.css',
-    'bower_components/angular-loading-bar/build/loading-bar.css'
+    'bower_components/angular-material/angular-material.css'
+    ,'bower_components/angular-material/themes/blue-theme.css'
+    ,'bower_components/angular-material/themes/blue-grey-theme.css'
+    ,'bower_components/angular-material/themes/brown-theme.css'
+    ,'bower_components/angular-material/themes/cyan-theme.css'
+    ,'bower_components/angular-material/themes/deep-purple-theme.css'
+    ,'bower_components/angular-material/themes/deep-orange-theme.css'
+    ,'bower_components/angular-material/themes/indigo-theme.css'
+    ,'bower_components/angular-material/themes/green-theme.css'
+    ,'bower_components/angular-material/themes/grey-theme.css'
+    ,'bower_components/angular-material/themes/teal-theme.css'
+    ,'bower_components/angular-material/themes/orange-theme.css'
+    ,'bower_components/angular-material/themes/red-theme.css'
+  ,
   ])
   .pipe(concat('components.css'))
   .pipe(cssmin())
