@@ -38,15 +38,7 @@ angular
 
         $scope.fields = data.fields;
         $scope.keys = keys;
-
-        $scope.rows = _.map(data.list, function(data) {
-
-          var key = _.values(_.pick(data, keys)).join('/');
-          return {
-            key: key,
-            data: data
-          };
-        });
+        $scope.rows = data.list;
 
         $scope.edit = function(row, id) {
           row.editing = id;

@@ -4,8 +4,7 @@
     "define",
     "require",
     "requirejs",
-    "angular",
-    "_"
+    "angular"
   ],
 
   "indent": 2,

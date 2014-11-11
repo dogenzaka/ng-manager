@@ -26,7 +26,6 @@ angular
 
     restrict: 'AE',
     scope: {
-      key: '=',
       row: '=',
       fields: '=',
       kind: '='
@@ -35,12 +34,12 @@ angular
     link: function(scope) {
 
       var kind = scope.kind;
-      var key = scope.key;
+      var row = scope.row;
 
       scope.edit = function() {
 
         $entityService
-        .get({ kind: kind, key: key })
+        .get({ kind: kind, key: row.key })
         .then(function(data) {
           $entityService.showForm({
             kind: kind,
@@ -75,7 +74,6 @@ angular
 
     restrict: 'AE',
     scope: {
-      key: '=',
       field: '=',
       row: '=',
       kind: '='
@@ -85,7 +83,6 @@ angular
 
       var row = scope.row;
       var field = scope.field;
-      var key = scope.key;
       
       scope.edit = function() {
         scope.editing = true;

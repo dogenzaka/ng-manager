@@ -84,7 +84,7 @@ angular
       }
 
       $apiService
-      .get('/entity/'+kind)
+      .get('/entity/'+kind+'/'+key)
       .then(function(data) {
         var config = getEntityConfig(kind);
         if (config === undefined) {

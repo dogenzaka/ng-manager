@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var data = require('./data');
+var _ = require('lodash');
 
 app.get('/config', function(req, res) {
 
@@ -14,7 +15,6 @@ app.get('/config', function(req, res) {
 
     entities: [{
       id: 'user',
-      keys: ['user_id'],
       schema: {
         type: 'object',
         properties: {
@@ -34,8 +34,7 @@ app.get('/config', function(req, res) {
             'last_name',
             'email',
             'phone'
-          ],
-          keys: ['user_id']
+          ]
         }
       }
     }],
@@ -63,39 +62,62 @@ app.get('/config', function(req, res) {
 
 });
 
-app.get('/entity/:type', function(req, res) {
+var primaryKeys = {
+  user: ['user_id']
+};
 
-  var type = req.param('type');
+var pick = function(obj, keys) {
+  var items = [];
+  _.each(keys, function(key) {
+    items.push(obj[key]);
+  });
+  return items;
+};
+
+app.get('/entity/:kind', function(req, res) {
+
+  var kind = req.param('kind');
   var limit = req.param('limit') || 20;
   var offset = req.param('offset') || 0;
   // var query = req.param('query');
-
+  var primaryKey = primaryKeys[kind];
+  var slice = data[kind].slice(offset, limit);
+  var list = _.map(slice, function(item) {
+    var keys = pick(item, primaryKey);
+    return {
+      key: keys.join(','),
+      data: item
+    };
+  });
   res.json({
-    list: data[type].slice(offset, limit)
+    list: list
   });
 });
 
-app.get('/entity/:type/:id', function(req, res) {
-  var type = req.param('type');
-  var id = req.param('id');
-  var map = data[type];
-  if (map && map[id]) {
-    res.json(map[id]);
-  } else {
-    res.status(404).end();
+app.get('/entity/:kind/:keys', function(req, res) {
+  var kind = req.param('kind');
+  var keys = req.param('keys').split(',');
+  var list = data[kind];
+  var primaryKey = primaryKeys[kind];
+
+  if (list) {
+    var item = _.find(list, function(item) {
+      return _.isEqual(pick(item, primaryKey), keys);
+    });
+    if (item) {
+      res.json(item);
+      return;
+    }
   }
+  res.status(404).end();
 });
 
-app.put('/entity/:type/:id', function(req, res) {
-  var type = req.param('type');
-  var id = req.param('id');
+app.put('/entity/:kind/:key', function(req, res) {
   res.json({
   });
 });
 
-app.delete('/entity/:type/:id', function(req, res) {
-  var type = req.param('type');
-  var id = req.param('id');
+app.delete('/entity/:kind/:key', function(req, res) {
   res.json({
   });
 });
