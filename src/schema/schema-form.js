@@ -62,11 +62,12 @@ angular
       var event = opts.event;
       var deferred = $q.defer();
       var submit = opts.submit;
+      var theme = opts.theme || 'indigo';
       // normalize schea
       schema = $schemaNormalizer(schema);
 
       $mdDialog.show({
-        template: '<md-dialog><schema-form /></md-dialog>',
+        template: '<md-dialog md-theme="'+theme+'"><schema-form /></md-dialog>',
         targetEvent: event,
         controller: ['$scope', function($scope) {
           $scope.schema = schema;
@@ -88,12 +89,13 @@ angular
       var entity = opts.entity || {};
       var deferred = $q.defer();
       var submit = opts.submit;
+      var theme = opts.theme || 'teal';
 
       // normalize schea
       schema = $schemaNormalizer(schema);
 
       $sideContent.show({
-        template: '<md-content><schema-form /></md-content>',
+        template: '<md-content md-theme="'+theme+'"><schema-form /></md-content>',
         targetEvent: event,
         controller: ['$scope', function($scope) {
           $scope.schema = schema;

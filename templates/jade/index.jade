@@ -14,14 +14,13 @@ html(ng-app='ngManager')
     div(layout='vertical' layout-fill='' tabindex='1' role='main')
       md-toolbar(md-theme='blue')
         div.md-toolbar-tools.content-header
-          button.menu-icon(hide-md='' ng-click='toggleMenu()' aria-label='Toggle Menu')
-            md-icon(icon='/img/icons/ic_menu_24px.svg')
+          a.icon.icon-large.icon-light.icon-navigation-menu(hide-md='' ng-click='toggleMenu()' href='javascript:void()' aria-label='{{"Toggle Menu"|translate}}')
           h3(ng-if='head.title' ng-bind='head.title.section|translate')
           span.menu-separate-icon(layout='vertical' layout-align='center center' ng-if='head.title.page')
-            md-icon(icon='/img/icons/ic_chevron_right_w_24px.svg')
+            .icon.icon-large.icon-navigation-chevron-right
           h3(ng-if='head.title.page' ng-bind='head.title.page|translate')
-      .global-progress.reveal(ng-if='progress')
-        md-progress-linear(mode='{{progress.mode}}' value='{{progress.value}}')
+      .global-progress(ng-if='progress')
+        md-progress-linear(md-theme='indigo' mode='{{progress.mode}}' value='{{progress.value}}')
       div(ng-view='')
 
     script(type='text/javascript' src='./js/components.js')

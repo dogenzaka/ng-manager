@@ -108,6 +108,17 @@ gulp.task('scripts', function() {
 
 });
 
+gulp.task('fonts', function() {
+
+  gulp
+  .src([
+    './fonts/**/*'
+  ])
+  .pipe(gulp.dest('app/fonts/'))
+  ;
+
+})
+
 // Launch the server
 gulp.task('server', ['components','stylus','jade','scripts'], function() {
 

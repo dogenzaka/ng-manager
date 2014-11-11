@@ -32,24 +32,26 @@ angular
     });
 
     $rootScope.$on('progress.start', function() {
-      $scope.progress = { mode: 'indeterminate', value: 0 };
+      $scope.progress = { mode: 'query', value: 0 };
     });
 
     $rootScope.$on('progress.end', function() {
       var progress = $scope.progress;
-      if (progress.mode === 'indeterminate') {
-        progress.mode = 'determinate';
-        progress.value = 0;
+      if (progress.mode === 'query') {
+        $timeout(function() {
+          $scope.progress = false;
+        }, 500);
+      } else if (progress.mode === 'determinate') {
+        var p = $interval(function() {
+          progress.value += 20;
+          if (progress.value >= 100) {
+            $interval.cancel(p);
+            $timeout(function() {
+              delete $scope.progress;
+            }, 400);
+          }
+        }, 50);
       }
-      var p = $interval(function() {
-        progress.value += 20;
-        if (progress.value >= 100) {
-          $interval.cancel(p);
-          $timeout(function() {
-            delete $scope.progress;
-          }, 400);
-        }
-      }, 50);
     });
 
     $scope.openRight = true;

@@ -1,6 +1,9 @@
 tr
-  td(entity-cell='' ng-repeat='field in fields' field='field' row='row' key='key')
   td.actions
-    img(src='/img/icons/ic_description_24px.svg' ng-click='edit()')
-    img(src='/img/icons/ic_delete_24px.svg' ng-click='remove()')
+    a(ng-click='edit()')
+      .icon.icon-small.icon-editor-mode-edit
+  td(entity-cell='' ng-repeat='field in fields' field='field' row='row')
+  td.actions
+    a(ng-click='remove()')
+      .icon.icon-action-delete
 

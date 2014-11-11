@@ -1,4 +1,4 @@
-md-toolbar(md-theme='teal')
+md-toolbar
   .md-toolbar-tools
     h2(ng-bind='title|translate')
 
@@ -7,6 +7,6 @@ md-content(ng-style='contentStyle')
     schema-item(ng-repeat='key in schema.keyOrder' schema='schema.properties[key]' entity='entity' errors='errors')
 
     section.schema-form-controls(layout='horizontal' layout-align='center')
-      md-button.md-raised.md-primary(ng-bind='"Submit"|translate' ng-click='submit()' md-theme='teal' aria-label='{{"Submit"|translate}}')
+      md-button.md-raised.md-primary(ng-bind='"Submit"|translate' ng-click='submit()' aria-label='{{"Submit"|translate}}')
       md-button(ng-bind='"Cancel"|translate' ng-click='cancel()' aria-label='{{"Cancel"|translate}}')
 

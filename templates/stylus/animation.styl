@@ -1,16 +1,36 @@
 .reveal
-  -webkit-transition opacity 0.15s linear
-  transition opacity 0.15s linear
+  -webkit-transition 0.2s linear opacity
+  transition 0.2s linear opacity
 
 .reveal.ng-enter
   opacity 0
 
-.reveal.ng-enter.ng-enter-active
+.reveal.ng-leave
   opacity 1
 
-.reveal.ng-leave
+.reveal.ng-enter.ng-enter-active
   opacity 1
 
 .reveal.ng-leave.ng-leave-active
   opacity 0
+
+.global-progress
+  -webkit-transition 0.2s linear opacity
+  transition 0.2s linear opacity
+
+.global-progress.ng-enter
+  .md-container
+    opacity 0
+
+.global-progress.ng-leave
+  .md-container
+    opacity 1
+
+.global-progress.ng-enter.ng-enter-active
+  .md-container
+    opacity 1
+
+.global-progress.ng-leave.ng-leave-active
+  .md-container
+    opacity 0
 
