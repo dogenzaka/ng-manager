@@ -4,6 +4,7 @@ angular
 
   var config = null;
 
+  // Resolves URL from path data
   var getUrl = function(path) {
     var ep = $endpointService.getSelected();
     var url = ep.url.replace(/(.*)\/+$/,'$1');
@@ -11,39 +12,59 @@ angular
     return url + '/' + path;
   };
 
+  // sends GET request
   var get = function(path, query) {
+    return $q(function(resolve, reject) {
+      $http({
+        url: getUrl(path),
+        method: 'GET',
+        params: query
+      })
+      .then(function(result) {
+        resolve(result.data);
+      }, function(result) {
+        var msg = (result.data && result.data.message) || result.statusText;
+        var err = new Error(msg);
+        err.status = status;
+        reject(err);
+      });
+    });
+  };
 
-    return $http({
-      url: getUrl(path),
-      method: 'GET',
-      params: query
-    })
-    .then(function(data) {
-      return data.data;
-    }, function(data, status) {
-      var msg = (data && data.message) || 'Server error';
-      var err = new Error(msg);
-      err.status = status;
-      return err;
+  // sends PUT request
+  // data will be stringified as JSON object
+  var put = function(path, data) {
+    return $q(function(resolve, reject) {
+      $http({
+        url: getUrl(path),
+        method: 'PUT',
+        data: data
+      })
+      .then(function(data) {
+        resolve(data.data);
+      }, function(data) {
+        var msg = (data && data.statusText);
+        var err = new Error(msg);
+        err.status = status;
+        reject(err);
+      });
     });
 
   };
 
   var getConfig = function() {
-
-    var deferred = $q.defer();
-
-    if (config !== null) {
-      deferred.resolve(config);
-    } else {
-      console.info('Getting config');
-      get('/config')
-      .then(
-        deferred.resolve.bind(deferred),
-        deferred.reject.bind(deferred)
-      );
-    }
-    return deferred.promise;
+    return $q(function(resolve, reject) {
+      if (config !== null) {
+        resolve(config);
+      } else {
+        console.info('Getting config');
+        get('/config')
+        .then(
+          resolve,
+          reject
+        );
+      }
+    });
   };
 
   return {
@@ -64,7 +85,9 @@ angular
       return config;
     },
 
-    get: get
+    get: get,
+
+    put: put
 
   };
 })
