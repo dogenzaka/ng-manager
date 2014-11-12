@@ -4,7 +4,7 @@
       tr
         th.actions
         th(ng-repeat='field in fields' ng-style='field.style')
-          span(ng-bind='field.id|translate')
+          span(ng-bind='::field.id|translate')
         th.actions
 #entity-table-body
   table.body

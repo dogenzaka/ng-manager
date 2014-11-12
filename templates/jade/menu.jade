@@ -4,8 +4,8 @@ md-content(ng-if='config' flex='')
       a
         span(translate='Entities')
     div.menu-item.menu-sub-item(ng-repeat='entity in config.entities')
-      a(href='#/entity/{{entity.id}}' ink-ripple='' ng-class='{active:hash=="#/entity/{{entity.id}}"}')
-        span(ng-bind='entity.id|translate')
+      a(href='#/entity/{{::entity.id}}' ink-ripple='' ng-class='{active:hash=="#/entity/{{::entity.id}}"}')
+        span(ng-bind='::entity.id|translate')
   section
     div.menu-item.menu-title
       a

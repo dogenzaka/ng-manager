@@ -20,7 +20,7 @@ angular
 
     $scope.site = { title: 'NG-Manager' };
 
-    $scope.head = {};
+    $scope.head = { title: '' };
 
     $rootScope.$on('content.title', function(evt, title) {
       $scope.head.title = title;
