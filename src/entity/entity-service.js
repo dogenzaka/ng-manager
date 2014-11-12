@@ -1,3 +1,4 @@
+/* global _ */
 angular
 .module('ngManager')
 .service('$entityService', function($q, $apiService, $schemaForm) {
@@ -67,39 +68,34 @@ angular
 
     get: function(opts) {
 
-      var deferred = $q.defer();
-
       opts = opts || {};
 
-      var kind = opts.kind || '';
-      if (kind === '') {
-        deferred.reject(new Error('kind is empty'));
-        return deferred.promise;
-      }
+      return $q(function(resolve, reject) {
 
-      var key = opts.key;
-      if (key === undefined) {
-        deferred.reject(new Error('key is null'));
-        return deferred.promise;
-      }
-
-      $apiService
-      .get('/entity/'+kind+'/'+key)
-      .then(function(data) {
-        var config = getEntityConfig(kind);
-        if (config === undefined) {
-          deferred.reject({
-            message: 'Entity configuration not found for {{kind}}',
-            params: { kind: kind }
-          });
-        } else {
-          deferred.resolve(data);
+        var kind = opts.kind || '';
+        if (kind === '') {
+          return reject(new Error('kind is empty'));
         }
-      }, function(err) {
-        deferred.reject(err);
-      });
 
-      return deferred.promise;
+        var key = opts.key;
+        if (key === undefined) {
+          return reject(new Error('key is null'));
+        }
+
+        $apiService
+        .get('/entity/'+kind+'/'+key)
+        .then(function(data) {
+          var config = getEntityConfig(kind);
+          if (config === undefined) {
+            reject({
+              message: 'Entity configuration not found for {{kind}}',
+              params: { kind: kind }
+            });
+          } else {
+            resolve(data);
+          }
+        }, reject);
+      });
     },
 
     showForm: function(opts) {
@@ -113,6 +109,17 @@ angular
       });
 
       return deferred.promise;
+
+    },
+
+    saveField: function(opts) {
+
+      var kind = opts.kind;
+      var key = opts.key;
+      var field = opts.field;
+
+      return $apiService
+      .put('/entity/'+kind+'/'+key+'/'+field);
 
     },
 

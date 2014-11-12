@@ -1,4 +1,9 @@
 td(ng-style='field.style' ng-click='edit()')
+  div.saving.reveal(ng-if='saving')
+    .indicator.spinner
+      .icon.icon-navigation-refresh
+  div.error(ng-if='error')
+    .error-content
+      .icon.icon-alert-error(title='{{error.message}}')
   span(ng-bind='row.data[field.id]' ng-if='!editing')
   input(type='text' ng-model='row.data[field.id]' ng-if='editing' ng-blur='blur()')
-

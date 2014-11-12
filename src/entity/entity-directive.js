@@ -81,6 +81,7 @@ angular
     replace: true,
     link: function(scope, element) {
 
+      var kind = scope.kind;
       var row = scope.row;
       var field = scope.field;
       
@@ -99,6 +100,20 @@ angular
                 break;
               case 13: // ENTER
                 input.blur();
+                scope.saving = true;
+                scope.error = false;
+                $entityService.saveField({
+                  kind: scope.kind,
+                  key: row.key,
+                  field: field.id,
+                  value: row.data[field.id]
+                }).then(function() {
+                  scope.saving = false;
+                }, function(err) {
+                  scope.saving = false;
+                  scope.error = err;
+                });
+                scope.$digest();
                 break;
             }
           });
