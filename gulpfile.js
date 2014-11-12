@@ -59,10 +59,13 @@ gulp.task('components', function() {
 gulp.task('stylus', function() {
 
   gulp
-  .src('./templates/stylus/**/*.styl')
+  .src([
+    './templates/stylus/main.styl'
+  ])
   .pipe(plumber())
-  .pipe(stylus())
-  .pipe(concat('main.css'))
+  .pipe(stylus({
+    compress: true
+  }))
   .pipe(gulp.dest('app/css'))
   ;
 

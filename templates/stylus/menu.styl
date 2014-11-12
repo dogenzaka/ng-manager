@@ -1,48 +1,56 @@
 .menu-item
-  background-color #fff
-  border-width 0
-  cursor pointer
-  display block
-  color #333
-  font-size inherit
-  line-height 40px
-  max-height 40px
-  margin 0
-  outline none
-  padding 0px 28px
-  position relative
-  text-align left
-  text-decoration none
-  width 100%
-  z-index 1
-  -webkit-transition 0.2s linear
-  -webkit-transition-property max-height, background-color
-  -moz-transition 0.2s linear
-  -moz-transition-property max-height, background-color
-  transition 0.2s linear
-  transition-property max-height, background-color
+  a
+    background-color #fff
+    border-width 0
+    display block
+    color #333
+    font-size inherit
+    line-height 40px
+    max-height 40px
+    margin 0
+    outline none
+    padding 0px 28px
+    position relative
+    text-align left
+    text-decoration none
+    width 100%
+    z-index 1
+    -webkit-transition 0.2s linear
+    -webkit-transition-property max-height, background-color
+    -moz-transition 0.2s linear
+    -moz-transition-property max-height, background-color
+    transition 0.2s linear
+    transition-property max-height, background-color
 
 .menu-item.ng-hide
-  max-height 0
+  a
+    max-height 0
 
 .menu-item:hover, .menu-item:focus
-  color #999
-
-.menu-item.menu-sub-item.active
-  background-color #eeeeee
-  font-weight bold
-  color #4285f4
+  a
+    color #999
 
 .menu-item.menu-title
-  color #888
-  font-size 16px
-  padding-left 16px
-  text-align left
-  text-transform uppercase
+  a
+    color #888
+    font-size 16px
+    padding-left 16px
+    text-align left
+    text-transform uppercase
+
+.menu-item.menu-sub-item
+  a
+    cursor pointer
+  a.active
+    background-color #eeeeee
+    font-weight bold
+    color #4285f4
 
 .menu-item.menu-title.active
-  font-weight bold
+  a
+    font-weight bold
 
-.menu-item.menu-title:hover, .menu-item.menu-title:focus
-  color #AAA
+//.menu-item.menu-title:hover, .menu-item.menu-title:focus
+//  a
+//    color #AAA
 

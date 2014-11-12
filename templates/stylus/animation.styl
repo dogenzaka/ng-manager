@@ -34,3 +34,17 @@
   .md-container
     opacity 0
 
+
+// Spinner from http://tobiasahlin.com/spinkit/
+.spinner
+  -webkit-animation rotation 1.0s infinite ease-in-out
+  animation rotation 1.0s infinite ease-in-out
+
+@keyframes rotation {
+  0% {
+    -webkit-transform rotate(0)
+  }
+  100% {
+    -webkit-transform rotate(360deg)
+  }
+}
