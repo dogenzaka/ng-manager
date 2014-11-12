@@ -1,11 +1,15 @@
 md-content(ng-if='config' flex='')
-  div
-    a.menu-item.menu-title
-      span(translate='Entities')
-    a.menu-item.menu-sub-item(ng-repeat='entity in config.entities' ng-click='moveTo("entity/"+entity.id)' ink-ripple='')
-      span(ng-bind='entity.id|translate')
-  div
-    a.menu-item.menu-title
-      span(translate='Settings')
-    a.menu-item.menu-sub-item(ng-click='moveTo("endpoints")' ink-ripple='')
-      span(translate='Endpoints')
+  section
+    div.menu-item.menu-title
+      a
+        span(translate='Entities')
+    div.menu-item.menu-sub-item(ng-repeat='entity in config.entities')
+      a(href='#/entity/{{entity.id}}' ink-ripple='' ng-class='{active:hash=="#/entity/{{entity.id}}"}')
+        span(ng-bind='entity.id|translate')
+  section
+    div.menu-item.menu-title
+      a
+        span(translate='Settings')
+    div.menu-item.menu-sub-item(ng-click='moveTo("endpoints")')
+      a(href='#/endpoints' ink-ripple='' ng-class='{active:hash=="#/endpoints"}')
+        span(translate='Endpoints')

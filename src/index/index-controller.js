@@ -22,13 +22,12 @@ angular
 
     $scope.head = {};
 
-    $scope.moveTo = function(path) {
-      $location.url(path);
-      $mdSidenav('left').close();
-    };
-
     $rootScope.$on('content.title', function(evt, title) {
       $scope.head.title = title;
+    });
+
+    $rootScope.$on('$locationChangeSuccess', function() {
+      $scope.hash = location.hash;
     });
 
     $rootScope.$on('progress.start', function() {
@@ -67,7 +66,7 @@ angular
       }
     });
 
-    $window.addEventListener('resize', function(evt) {
+    $window.addEventListener('resize', function() {
       $rootScope.$broadcast('window.resize');
     });
 });
