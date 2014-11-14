@@ -15,12 +15,18 @@ angular
 
       });
 
+      scope.$on('entity.removed', function(e, data) {
+        var rows = scope.rows;
+        console.log(data);
+        rows.splice(rows.indexOf(data.row), 1);
+      });
+
     },
     templateUrl: 'entity/table.html'
   };
 
 })
-.directive('entityRow', function($entityService, $errorService) {
+.directive('entityRow', function($entityService, $errorService, $document, $rootScope) {
 
   return {
 
@@ -36,6 +42,7 @@ angular
       var kind = scope.kind;
       var row = scope.row;
 
+      // show modification form
       scope.edit = function() {
 
         $entityService
@@ -51,16 +58,38 @@ angular
 
       };
 
+      // remove the entity of the row
       scope.remove = function() {
 
-        $entityService
-        .remove({ kind: kind, key: key })
-        .then(function(data) {
-        }, function(err) {
-          $errorService.showError(err);
-        });
+        if (scope.removing) {
+
+          $entityService
+          .remove({ kind: kind, key: row.key })
+          .then(function() {
+            $rootScope.$broadcast('entity.removed', {
+              kind: kind,
+              key: row.key,
+              row: row
+            });
+          }, function(err) {
+            $errorService.showError(err);
+          });
+
+        } else {
+
+          scope.removing = true;
+
+        }
 
       };
+
+      scope.cancelRemoving = function() {
+        delete scope.removing;
+      };
+
+      scope.$on('$destroy', function() {
+        $document.off('click', scope.cancelRemoving);
+      });
 
     },
     templateUrl: 'entity/row.html'
@@ -88,6 +117,24 @@ angular
       scope.edit = function() {
         scope.editing = true;
         setTimeout(function() {
+
+          var save = function() {
+            scope.saving = true;
+            scope.error = false;
+            $entityService.saveField({
+              kind: kind,
+              key: row.key,
+              field: field.id,
+              value: row.data[field.id]
+            }).then(function() {
+              scope.saving = false;
+            }, function(err) {
+              scope.saving = false;
+              scope.error = err;
+            });
+            scope.$digest();
+          };
+
           var input = element.find('input');
           input.focus();
           var orig = row.data[field.id];
@@ -99,28 +146,15 @@ angular
                 input.blur();
                 break;
               case 13: // ENTER
+                save();
                 input.blur();
-                scope.saving = true;
-                scope.error = false;
-                $entityService.saveField({
-                  kind: scope.kind,
-                  key: row.key,
-                  field: field.id,
-                  value: row.data[field.id]
-                }).then(function() {
-                  scope.saving = false;
-                }, function(err) {
-                  scope.saving = false;
-                  scope.error = err;
-                });
-                scope.$digest();
                 break;
             }
           });
           input.bind('blur', function() {
             if (orig !== row.data[field.id]) {
-              // Saving new value
-              console.log("SAVING NEW FIELD", row.data[field.id]);
+              // Saving new value?
+              // save();
             }
           });
         }, 0);

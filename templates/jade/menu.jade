@@ -10,6 +10,7 @@ md-content(ng-if='config' flex='')
     div.menu-item.menu-title
       a
         span(translate='Settings')
-    div.menu-item.menu-sub-item(ng-click='moveTo("endpoints")')
+    div.menu-item.menu-sub-item
       a(href='#/endpoints' ink-ripple='' ng-class='{active:hash=="#/endpoints"}')
         span(translate='Endpoints')
+

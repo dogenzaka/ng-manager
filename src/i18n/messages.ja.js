@@ -2,8 +2,6 @@ angular
 .module('ngManager')
 .config(function($translateLoaderProvider) {
 
-  console.info('i18n: ja');
-
   $translateLoaderProvider.translations('ja', {
     // Words
     Add: '追加',

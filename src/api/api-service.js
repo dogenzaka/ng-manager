@@ -12,6 +12,21 @@ angular
     return url + '/' + path;
   };
 
+  var resolution = function(resolve) {
+    return function(result) {
+      return resolve(result.data);
+    };
+  };
+
+  var rejection = function(reject) {
+    return function(result) {
+      var msg = (result.data && result.data.message) || result.statusText;
+      var err = new Error(msg);
+      err.status = status;
+      reject(err);
+    };
+  };
+
   // sends GET request
   var get = function(path, query) {
     return $q(function(resolve, reject) {
@@ -20,14 +35,7 @@ angular
         method: 'GET',
         params: query
       })
-      .then(function(result) {
-        resolve(result.data);
-      }, function(result) {
-        var msg = (result.data && result.data.message) || result.statusText;
-        var err = new Error(msg);
-        err.status = status;
-        reject(err);
-      });
+      .then(resolution(resolve), rejection(reject));
     });
   };
 
@@ -40,16 +48,20 @@ angular
         method: 'PUT',
         data: data
       })
-      .then(function(data) {
-        resolve(data.data);
-      }, function(data) {
-        var msg = (data && data.statusText);
-        var err = new Error(msg);
-        err.status = status;
-        reject(err);
-      });
+      .then(resolution(resolve), rejection(reject));
     });
 
+  };
+
+  var del = function(path, query) {
+    return $q(function(resolve, reject) {
+      $http({
+        url: getUrl(path),
+        method: 'DELETE',
+        params: query
+      })
+      .then(resolution(resolve), rejection(reject));
+    });
   };
 
   var getConfig = function() {
@@ -87,7 +99,9 @@ angular
 
     get: get,
 
-    put: put
+    put: put,
+
+    del: del
 
   };
 })

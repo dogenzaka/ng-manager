@@ -14,7 +14,7 @@ html(ng-app='ngManager')
     div(layout='vertical' layout-fill='' tabindex='1' role='main')
       md-toolbar(md-theme='blue')
         div.md-toolbar-tools.content-header
-          a.icon.icon-large.icon-light.icon-navigation-menu(hide-md='' ng-click='toggleMenu()' href='javascript:void()' aria-label='{{::"Toggle Menu"|translate}}')
+          a.icon.icon-large.icon-light.icon-navigation-menu(hide-md='' ng-click='toggleMenu()' aria-label='{{::"Toggle Menu"|translate}}')
           h3(ng-if='head.title' ng-bind='head.title.section|translate')
           span.menu-separate-icon(layout='vertical' layout-align='center center' ng-if='head.title.page')
             .icon.icon-large.icon-navigation-chevron-right

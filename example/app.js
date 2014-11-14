@@ -4,6 +4,9 @@ var app = express();
 var path = require('path');
 var data = require('./data');
 var _ = require('lodash');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 app.get('/config', function(req, res) {
 
@@ -66,12 +69,34 @@ var primaryKeys = {
   user: ['user_id']
 };
 
+// pick value for specific keys as array
 var pick = function(obj, keys) {
   var items = [];
   _.each(keys, function(key) {
     items.push(obj[key]);
   });
   return items;
+};
+
+// find item in list
+var find = function(kind, keys) {
+  var primaryKey = primaryKeys[kind];
+  var list = data[kind];
+  if (list) {
+    return _.find(list, function(item) {
+      return _.isEqual(pick(item, primaryKey), keys);
+    });
+  }
+  return;
+};
+
+var remove = function(kind, keys) {
+  var list = data[kind];
+  var item = find(kind, keys);
+  if (list && item) {
+    list.splice(list.indexOf(item), 1);
+  }
+  return;
 };
 
 app.get('/entity/:kind', function(req, res) {
@@ -97,19 +122,12 @@ app.get('/entity/:kind', function(req, res) {
 app.get('/entity/:kind/:keys', function(req, res) {
   var kind = req.param('kind');
   var keys = req.param('keys').split(',');
-  var list = data[kind];
-  var primaryKey = primaryKeys[kind];
-
-  if (list) {
-    var item = _.find(list, function(item) {
-      return _.isEqual(pick(item, primaryKey), keys);
-    });
-    if (item) {
-      res.json(item);
-      return;
-    }
+  var item = find(kind, keys);
+  if (item) {
+    res.json(item);
+  } else {
+    res.status(404).end();
   }
-  res.status(404).end();
 });
 
 app.put('/entity/:kind/:key', function(req, res) {
@@ -117,9 +135,30 @@ app.put('/entity/:kind/:key', function(req, res) {
   });
 });
 
-app.delete('/entity/:kind/:key', function(req, res) {
-  res.json({
-  });
+app.put('/entity/:kind/:keys/:field', function(req, res) {
+  var kind = req.param('kind');
+  var keys = req.param('keys').split(',');
+  var field = req.param('field');
+  var item = find(kind, keys);
+  if (item) {
+    console.log("BODY", req.body);
+    item[field] = req.body.value;
+    res.status(200).end();
+  } else {
+    res.status(404).end();
+  }
+});
+
+app.delete('/entity/:kind/:keys', function(req, res) {
+  var kind = req.param('kind');
+  var keys = req.param('keys').split(',');
+  var item = find(kind, keys);
+  if (item) {
+    remove(kind, keys);
+    res.status(200).end();
+  } else {
+    res.status(404).end();
+  }
 });
 
 app.use(express.static(path.resolve(__dirname,'..','app')));

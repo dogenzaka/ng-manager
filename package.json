@@ -27,6 +27,7 @@
     "gulp-uglify": "^1.0.1"
   },
   "dependencies": {
+    "body-parser": "^1.9.2",
     "faker": "^2.0.1",
     "lodash": "^2.4.1"
   }

@@ -1,9 +1,10 @@
 tr
-  td.actions
+  td.edit
     a(ng-click='edit()')
-      .icon.icon-small.icon-editor-mode-edit
-  td(entity-cell='' ng-repeat='field in fields' field='field' row='row')
-  td.actions
-    a(ng-click='remove()')
-      .icon.icon-action-delete
-
+      span.icon.icon-editor-mode-edit
+  td(entity-cell='' ng-repeat='field in fields' kind='kind' field='field' row='row')
+  td.remove
+    a(ng-click='cancelRemoving()' ng-if='removing')
+      span.icon.icon-content-clear
+    a(ng-click='remove()' ng-class='{active:removing}')
+      span.icon.icon-action-delete

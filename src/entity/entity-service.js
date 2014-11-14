@@ -100,16 +100,14 @@ angular
 
     showForm: function(opts) {
 
-      var deferred = $q.defer();
-      var spec = getEntityConfig(opts.kind);
-
-      $schemaForm.showSide({
-        schema: spec.schema,
-        entity: opts.entity
+      return $q(function(resolve) {
+        var spec = getEntityConfig(opts.kind);
+        $schemaForm.showSide({
+          schema: spec.schema,
+          entity: opts.entity
+        });
+        resolve(spec);
       });
-
-      return deferred.promise;
-
     },
 
     saveField: function(opts) {
@@ -117,18 +115,20 @@ angular
       var kind = opts.kind;
       var key = opts.key;
       var field = opts.field;
+      var value = opts.value;
 
       return $apiService
-      .put('/entity/'+kind+'/'+key+'/'+field);
+      .put('/entity/'+kind+'/'+key+'/'+field, { value: value })
+      ;
 
     },
 
     remove: function(opts) {
 
-      var deferred = $q.defer();
+      var kind = opts.kind;
+      var key = opts.key;
 
-      return deferred.promise;
-
+      return $apiService.del('/entity/'+kind+'/'+key);
     }
 
   };

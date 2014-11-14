@@ -22,19 +22,20 @@
 
     th
       padding 6px 8px
+      text-align left
 
     td
       padding 8px 4px
       font-size 0.9em
-
-    th
-      text-align left
-
-    td
       text-overflow ellipsis
       white-space nowrap
       overflow hidden
       cursor pointer
+
+      .icon
+        font-size 1.2em
+        color #000
+        text-decoration none
 
       input
         width 100%
@@ -58,22 +59,32 @@
 
     tbody
       tr:hover
-        background-color #eef
+        background-color indigo50
 
-    th.actions, td.actions
+    th.remove, td.remove
+      width 40px
+
+    th.edit, td.edit
       width 30px
-      .icon
-        font-size 1.2em
-        color #000
-        text-decoration none
 
-    td.actions:hover
-      background-color transparent
+    td.edit
+      text-align center
+      a
+        .icon-editor-mode-edit
+          color indigoA100
 
-    td.actions
-      img:hover
-        background #fff
-        border-radius 3px
+    td.remove
+      text-align center
+      padding 0
+      position relative
+      a
+        .icon-action-delete
+          color indigo100
+        .icon-content-clear
+          color grey500
+      a.active
+        .icon-action-delete
+          color indigo500
 
   #entity-table-body
     overflow-y auto

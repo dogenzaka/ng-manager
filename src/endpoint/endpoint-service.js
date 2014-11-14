@@ -1,3 +1,4 @@
+/* global _ */
 angular
 .module('ngManager')
 .factory('$endpointService', function() {
@@ -52,7 +53,6 @@ angular
       localStorage.setItem('endpoints', JSON.stringify(list));
     }
   };
-        
-        
+
 });
 
