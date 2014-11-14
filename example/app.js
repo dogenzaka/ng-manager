@@ -141,7 +141,6 @@ app.put('/entity/:kind/:keys/:field', function(req, res) {
   var field = req.param('field');
   var item = find(kind, keys);
   if (item) {
-    console.log("BODY", req.body);
     item[field] = req.body.value;
     res.status(200).end();
   } else {

@@ -2,10 +2,10 @@
   table.head
     thead
       tr
-        th.actions
+        th.edit
         th(ng-repeat='field in fields' ng-style='field.style')
           span(ng-bind='::field.id|translate')
-        th.actions
+        th.remove
 #entity-table-body
   table.body
     tbody

@@ -100,13 +100,22 @@ angular
 
     showForm: function(opts) {
 
-      return $q(function(resolve) {
-        var spec = getEntityConfig(opts.kind);
+      var kind = opts.kind;
+      var key = opts.key;
+
+      return $q(function(resolve, reject) {
+        var spec = getEntityConfig(kind);
         $schemaForm.showSide({
           schema: spec.schema,
           entity: opts.entity
-        });
-        resolve(spec);
+        }).then(function(data) {
+          console.log("POSTING", data);
+          $apiService
+          .post('/entity/'+kind+'/'+key)
+          .then(function(data) {
+            resolve();
+          });
+        }, reject);
       });
     },
 
