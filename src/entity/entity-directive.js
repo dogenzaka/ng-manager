@@ -1,12 +1,13 @@
 angular
 .module('ngManager')
-.directive('entityTable', function() {
+.directive('entityTable', function($entityService) {
 
   return {
     restrict: 'AE',
     link: function(scope, element) {
 
       var body = element.children().eq(1);
+      var kind = scope.kind;
 
       body.on('scroll', function(e) {
 
@@ -15,9 +16,13 @@ angular
 
       });
 
+      scope.add = function() {
+        $entityService.showForm({ kind: kind }, function(data) {
+        });
+      };
+
       scope.$on('entity.removed', function(e, data) {
         var rows = scope.rows;
-        console.log(data);
         rows.splice(rows.indexOf(data.row), 1);
       });
 
@@ -42,15 +47,20 @@ angular
       var kind = scope.kind;
       var row = scope.row;
 
+      scope.key = $entityService.getKey({ kind: kind, entity: row });
+
       // show modification form
       scope.edit = function() {
 
         $entityService
-        .get({ kind: kind, key: row.key })
+        .get({ kind: kind, key: scope.key })
         .then(function(data) {
           $entityService.showForm({
             kind: kind,
+            key: scope.key,
             entity: data
+          }).then(function() {
+            scope.row = data;
           });
         }, function(err) {
           $errorService.showError(err);
@@ -63,12 +73,14 @@ angular
 
         if (scope.removing) {
 
+          var key = $entityService.getKey({ kind: kind, entity: row });
+
           $entityService
-          .remove({ kind: kind, key: row.key })
+          .remove({ kind: kind, key: key })
           .then(function() {
             $rootScope.$broadcast('entity.removed', {
               kind: kind,
-              key: row.key,
+              key: key,
               row: row
             });
           }, function(err) {
@@ -104,6 +116,7 @@ angular
     restrict: 'AE',
     scope: {
       field: '=',
+      key: '=',
       row: '=',
       kind: '='
     },
@@ -113,6 +126,7 @@ angular
       var kind = scope.kind;
       var row = scope.row;
       var field = scope.field;
+      var key = scope.key;
       
       scope.edit = function() {
         scope.editing = true;
@@ -123,9 +137,9 @@ angular
             scope.error = false;
             $entityService.saveField({
               kind: kind,
-              key: row.key,
+              key: key,
               field: field.id,
-              value: row.data[field.id]
+              value: row[field.id]
             }).then(function() {
               scope.saving = false;
             }, function(err) {
@@ -137,11 +151,11 @@ angular
 
           var input = element.find('input');
           input.focus();
-          var orig = row.data[field.id];
+          var orig = row[field.id];
           input.bind('keyup', function(evt) {
             switch (evt.keyCode) {
               case 27: // ESC
-                row.data[field.id] = orig;
+                row[field.id] = orig;
                 scope.$digest();
                 input.blur();
                 break;
@@ -152,7 +166,7 @@ angular
             }
           });
           input.bind('blur', function() {
-            if (orig !== row.data[field.id]) {
+            if (orig !== row[field.id]) {
               // Saving new value?
               // save();
             }

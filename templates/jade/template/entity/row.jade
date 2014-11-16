@@ -2,7 +2,7 @@ tr
   td.edit
     a(ng-click='edit()')
       span.icon.icon-editor-mode-edit
-  td(entity-cell='' ng-repeat='field in fields' kind='kind' field='field' row='row')
+  td(entity-cell='' ng-repeat='field in fields' kind='kind' field='field' row='row' key='key')
   td.remove
     a(ng-click='cancelRemoving()' ng-if='removing')
       span.icon.icon-content-clear

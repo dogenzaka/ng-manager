@@ -12,14 +12,27 @@ var generate = function(generator, size) {
 
 var user = function(i) {
   return {
-    user_id: 'user_' + i,
-    first_name: faker.name.firstName(),
-    last_name: faker.name.lastName(),
+    userId: 'user_' + i,
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
     email: faker.internet.email(),
     phone: faker.phone.phoneNumber()
   };
 };
 
+var company = function(i) {
+  return {
+    companyId: 'company_' + i,
+    name: faker.company.companyName(),
+    phrase: faker.company.catchPhrase(),
+    country: faker.address.country(),
+    zipCode: faker.address.zipCode(),
+    city: faker.address.city(),
+    streetAdress: faker.address.streetAddress()
+  };
+};
+
 module.exports = {
-  user: generate(user, 100)
+  user: generate(user, 300),
+  company: generate(company, 300)
 };

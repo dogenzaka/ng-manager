@@ -39,6 +39,19 @@ angular
     });
   };
 
+  // sends POST request
+  // data will be stringified as JSON object
+  var post = function(path, data) {
+    return $q(function(resolve, reject) {
+      $http({
+        url: getUrl(path),
+        method: 'PUT',
+        data: data
+      })
+      .then(resolution(resolve), rejection(reject));
+    });
+  };
+
   // sends PUT request
   // data will be stringified as JSON object
   var put = function(path, data) {
@@ -50,7 +63,6 @@ angular
       })
       .then(resolution(resolve), rejection(reject));
     });
-
   };
 
   var del = function(path, query) {
@@ -98,6 +110,8 @@ angular
     },
 
     get: get,
+
+    post: post,
 
     put: put,
 

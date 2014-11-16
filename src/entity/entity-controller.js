@@ -1,4 +1,3 @@
-/* global _ */
 angular
 .module('ngManager')
 .controller('EntityCtrl', function(
@@ -21,6 +20,19 @@ angular
 
     $scope.kind = kind;
 
+    var getFields = function(entityConfig) {
+      var features = entityConfig.features;
+      var schema = entityConfig.schema;
+      var fields = features.list && features.list.fields || _.keys(schema.properties);
+      return fields.map(function(field) {
+        if (typeof field === 'string') {
+          return { id: field };
+        } else {
+          return field;
+        }
+      });
+    };
+
     $scope.list = function() {
       $entityService.list({
         kind: kind
@@ -28,17 +40,10 @@ angular
 
         // Get entity schema
         var entityConfig = $entityService.getConfig(kind);
-        var schema = entityConfig.schema;
-        var keys = entityConfig.keys || entityConfig.key;
-        if (!keys) {
-          keys = _.keys(schema.properties).shift();
-        }
-        if (typeof keys === 'string') {
-          keys = [keys];
-        }
+        var fields = getFields(entityConfig);
 
-        $scope.fields = data.fields;
-        $scope.keys = keys;
+        $scope.fields = fields;
+        $scope.schema = entityConfig.schema;
         $scope.rows = data.list;
 
         $scope.edit = function(row, id) {

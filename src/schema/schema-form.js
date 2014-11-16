@@ -80,7 +80,7 @@ angular
         }]
       });
 
-      return deferred;
+      return deferred.promise;
     },
 
     showSide: function(opts) {
@@ -107,7 +107,7 @@ angular
         }]
       });
 
-      return deferred;
+      return deferred.promise;
     }
 
   };

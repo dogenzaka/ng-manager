@@ -8,6 +8,60 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
+var specs = {
+  user: {
+    id: 'user',
+    schema: {
+      type: 'object',
+      properties: {
+        userId: 'string',
+        firstName: 'string',
+        lastName: 'string',
+        email: { type: 'string', style: 'long' },
+        phone: 'string'
+      },
+      primaryKey: ['userId'],
+      required: ['userId','firstName','lastName']
+    },
+
+    features: {
+      list: {
+        fields: [
+          { id: 'userId', style: { width: '120px' }},
+          'firstName',
+          'lastName',
+          'email',
+          'phone'
+        ]
+      }
+    }
+  }, 
+
+  company: {
+    id: 'company',
+    schema: {
+      type: 'object',
+      properties: {
+        companyId: 'string',
+        name: 'string',
+        phrase: 'string',
+        country: 'string',
+        zipCode: 'string',
+        city: 'string',
+        streetAddress: 'string'
+      },
+      primaryKey: ['companyId'],
+      required: ['companyId', 'name']
+    },
+
+    features: {
+      list: {
+        fields: ['companyId', 'name', 'country', 'city']
+      }
+    }
+  }
+};
+
 app.get('/config', function(req, res) {
 
   res.json({
@@ -16,46 +70,36 @@ app.get('/config', function(req, res) {
       title: 'Example App'
     },
 
-    entities: [{
-      id: 'user',
-      schema: {
-        type: 'object',
-        properties: {
-          user_id: 'string',
-          first_name: 'string',
-          last_name: 'string',
-          email: { type: 'string', style: 'long' },
-          phone: 'string'
-        },
-        required: ['user_id','first_name','last_name']
-      },
-      features: {
-        list: {
-          fields: [
-            { id: 'user_id', style: { width: '120px' }},
-            'first_name',
-            'last_name',
-            'email',
-            'phone'
-          ]
-        }
-      }
-    }],
+    entities: _.values(specs),
 
     i18n: {
       en: {
+        company: 'Company',
+        companyId: 'Company ID',
+        phrase: 'Phrase',
+        country: 'Country',
+        zipCode: 'Zip code',
+        city: 'City',
+        streetAddress: 'Street Address',
         user: 'User',
-        user_id: 'User ID',
-        first_name: 'First Name',
-        last_name: 'Last Name',
+        userId: 'User ID',
+        firstName: 'First Name',
+        lastName: 'Last Name',
         email: 'E-Mail',
         phone: 'Phone'
       },
       ja: {
+        company: '会社',
+        companyId: '会社ID',
+        phrase: 'フレーズ',
+        country: '国',
+        zipCode: '郵便番号',
+        city: '都市',
+        streetAddress: '住所',
         user: 'ユーザー',
-        user_id: 'ユーザーID',
-        first_name: '名',
-        last_name: '姓',
+        userId: 'ユーザーID',
+        firstName: '名',
+        lastName: '姓',
         email: 'メールアドレス',
         phone: '電話番号'
       }
@@ -64,10 +108,6 @@ app.get('/config', function(req, res) {
   });
 
 });
-
-var primaryKeys = {
-  user: ['user_id']
-};
 
 // pick value for specific keys as array
 var pick = function(obj, keys) {
@@ -80,7 +120,8 @@ var pick = function(obj, keys) {
 
 // find item in list
 var find = function(kind, keys) {
-  var primaryKey = primaryKeys[kind];
+  var spec = specs[kind];
+  var primaryKey = spec.schema.primaryKey;
   var list = data[kind];
   if (list) {
     return _.find(list, function(item) {
@@ -104,18 +145,15 @@ app.get('/entity/:kind', function(req, res) {
   var kind = req.param('kind');
   var limit = req.param('limit') || 20;
   var offset = req.param('offset') || 0;
-  // var query = req.param('query');
-  var primaryKey = primaryKeys[kind];
+
+  var spec = specs[kind];
+  if (!spec) {
+    return res.status(404).end();
+  }
+
   var slice = data[kind].slice(offset, limit);
-  var list = _.map(slice, function(item) {
-    var keys = pick(item, primaryKey);
-    return {
-      key: keys.join(','),
-      data: item
-    };
-  });
   res.json({
-    list: list
+    list: slice
   });
 });
 
@@ -130,9 +168,25 @@ app.get('/entity/:kind/:keys', function(req, res) {
   }
 });
 
-app.put('/entity/:kind/:key', function(req, res) {
-  res.json({
-  });
+app.put('/entity/:kind/:keys', function(req, res) {
+  var kind = req.param('kind');
+  var keys = req.param('keys').split(',');
+  var item = find(kind, keys);
+  var list = data[kind];
+
+  if (!list) {
+    res.status(404).end();
+    return;
+  }
+
+  if (item) {
+    list[list.indexOf(item)] = req.body;
+    res.status(204).end();
+  } else {
+    list.push(item);
+    res.status(201).end();
+  }
+
 });
 
 app.put('/entity/:kind/:keys/:field', function(req, res) {

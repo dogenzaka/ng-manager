@@ -102,21 +102,28 @@ angular
 
       var kind = opts.kind;
       var key = opts.key;
+      var entity = opts.entity;
+      var spec = getEntityConfig(kind);
+      var submit = function() {
+        return $apiService.put('/entity/'+kind+'/'+key, entity);
+      };
 
-      return $q(function(resolve, reject) {
-        var spec = getEntityConfig(kind);
-        $schemaForm.showSide({
-          schema: spec.schema,
-          entity: opts.entity
-        }).then(function(data) {
-          console.log("POSTING", data);
-          $apiService
-          .post('/entity/'+kind+'/'+key)
-          .then(function(data) {
-            resolve();
-          });
-        }, reject);
+      return $schemaForm.showSide({
+        schema: spec.schema,
+        entity: entity,
+        submit: submit
       });
+    },
+
+    getKey: function(opts) {
+      var kind = opts.kind;
+      var entity = opts.entity;
+      var spec = getEntityConfig(kind);
+      var keys = spec.schema.primaryKey;
+      var key = keys.map(function(key) {
+        return encodeURIComponent(entity[key]);
+      }).join(',');
+      return key;
     },
 
     saveField: function(opts) {
