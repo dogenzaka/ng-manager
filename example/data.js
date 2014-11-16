@@ -28,7 +28,7 @@ var company = function(i) {
     country: faker.address.country(),
     zipCode: faker.address.zipCode(),
     city: faker.address.city(),
-    streetAdress: faker.address.streetAddress()
+    streetAddress: faker.address.streetAddress()
   };
 };
 
