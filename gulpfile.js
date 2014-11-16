@@ -120,10 +120,10 @@ gulp.task('fonts', function() {
   .pipe(gulp.dest('app/fonts/'))
   ;
 
-})
+});
 
 // Launch the server
-gulp.task('server', ['components','stylus','jade','scripts'], function() {
+gulp.task('server', ['components','stylus','jade','fonts','scripts'], function() {
 
   gulp.watch('templates/stylus/**/*', ['stylus']);
   gulp.watch('templates/jade/**/*', ['jade']);
