@@ -29,6 +29,16 @@ angular
       schema.keyOrder = _.keys(schema.properties);
     }
 
+    /*
+    if (schema.type === 'array') {
+      // Normalize children
+      _.each(schema.items, function(prop, key) {
+        schema.items[key] = normalize(prop, path, key);
+      });
+      schema.keyOrder = _.keys(schema.properties);
+    }
+    */
+
     // Mark as normalized
     schema.$$normalized = true;
 

@@ -39,7 +39,9 @@ angular
           type: 'object',
           properties: {
             name: { type: 'string' },
-            url: { type: 'string', format: 'uri', style: 'long' }
+            url: { type: 'string', format: 'uri', style: 'long' },
+            boolean: { type: 'boolean' },
+            number: {type: 'number'},
           },
           required: ['name','url']
         },
@@ -51,8 +53,6 @@ angular
           return deferred.promise;
         }
       });
-
     };
-
   }
 );
