@@ -1,0 +1,4 @@
+md-input-group(id='sf-{{::schema.path}}')
+  md-radio-group(ng-model='entity[schema.path]')
+    md-radio-button(ng-repeat='key in schema.titlemap' value='{{::key.value|translate}}') {{::key.name|translate}}
+  span.error(ng-bind='errors[schema.path]')

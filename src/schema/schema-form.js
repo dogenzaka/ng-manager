@@ -126,41 +126,31 @@ angular
   var linker = function(scope, element) {
 
     var schema = scope.schema;
-    if(schema.type === 'string')
-      var template = $templateCache.get('schema-form/input.html');
-    if(schema.type === 'boolean')
-      var template = $templateCache.get('schema-form/input_boolean.html');
-    if(schema.type === 'number')
-      var template = $templateCache.get('schema-form/input_number.html');
-    if(schema.type === 'array')
-      var template = $templateCache.get('schema-form/input_array.html');
-    var content = $compile(angular.element(template))(scope);
-    
-    if (schema.style) {
-      content.addClass(schema.style);
+    var template = {};
+    switch(schema.type){
+      case 'string':
+        if(schema.titlemap){
+          template = $templateCache.get('schema-form/input_radio.html');
+        }else{
+          template = $templateCache.get('schema-form/input.html');
+        }
+        break;
+      case 'boolean':
+        template = $templateCache.get('schema-form/input_boolean.html');
+        break;
+      case 'number':
+        template = $templateCache.get('schema-form/input_number.html');
+        break;
+      case 'array':
+        if(schema.titlemap){
+          scope.entity[scope.schema.path] = [];
+          template = $templateCache.get('schema-form/input_checkboxes.html');
+        }else{
+          template = $templateCache.get('schema-form/input_array.html');
+        }
+        break;
     }
-
-    element.append(content);
-  };
-
-  return {
-    scope: {
-      schema: '=',
-      entity: '=',
-      errors: '='
-    },
-    restrict: 'AE',
-    replace: true,
-    link: linker
-  };
-
-})
-.directive('schemaEnumItem', function($compile, $templateCache) {
-
-  var linker = function(scope, element) {
-
-    var schema = scope.schema;
-    var template = $templateCache.get('schema-form/input_enum_item.html');
+    
     var content = $compile(angular.element(template))(scope);
     
     if (schema.style) {

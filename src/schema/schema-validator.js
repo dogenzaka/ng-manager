@@ -140,7 +140,6 @@ angular
         }
       });
     }
-
   };
 
   return {
