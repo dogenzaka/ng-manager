@@ -126,8 +126,31 @@ angular
   var linker = function(scope, element) {
 
     var schema = scope.schema;
-
-    var template = $templateCache.get('schema-form/input.html');
+    var template = {};
+    switch(schema.type){
+      case 'string':
+        if(schema.titlemap){
+          template = $templateCache.get('schema-form/input_radio.html');
+        }else{
+          template = $templateCache.get('schema-form/input.html');
+        }
+        break;
+      case 'boolean':
+        template = $templateCache.get('schema-form/input_boolean.html');
+        break;
+      case 'number':
+        template = $templateCache.get('schema-form/input_number.html');
+        break;
+      case 'array':
+        if(schema.titlemap){
+          scope.entity[scope.schema.path] = [];
+          template = $templateCache.get('schema-form/input_checkboxes.html');
+        }else{
+          template = $templateCache.get('schema-form/input_array.html');
+        }
+        break;
+    }
+    
     var content = $compile(angular.element(template))(scope);
     
     if (schema.style) {

@@ -39,7 +39,20 @@ angular
           type: 'object',
           properties: {
             name: { type: 'string' },
-            url: { type: 'string', format: 'uri', style: 'long' }
+            url: { type: 'string', format: 'uri', style: 'long' },
+            boolean: { type: 'boolean' },
+            number: {type: 'number'},
+            checkboxes: {
+              type: 'array',
+              enum: ['dr','jr','sir','mrs','mr','NaN','dj']
+            },
+            array: {
+              type: 'array',
+              items: {
+                string_in_array: { type: 'string' },
+                boolean_in_array: { type: 'boolean'}
+              }
+            }
           },
           required: ['name','url']
         },
