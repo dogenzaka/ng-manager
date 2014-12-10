@@ -4,10 +4,13 @@
     md-toolbar(md-theme='indigo')
       section.endpoint-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
         md-button.md-raised(translate='Add' ng-click='showForm($event)' aria-label='::"Add"|translate')
-
+    md-toolbar
+      p {{"Search" | translate }} 
+        input(type='text' ng-model='search')
+          
   .endpoint-list-body
     md-list
-      md-item(ng-repeat='endpoint in endpoints | orderBy:"name" track by $index' ng-click='select($index)')
+      md-item(ng-repeat='endpoint in endpoints | filter:search | orderBy:"name" track by $index' ng-click='select($index)')
         md-item-content
           .md-tile-content(ink-ripple='')
             h2(ng-bind='endpoint.name')

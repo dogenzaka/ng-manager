@@ -40,6 +40,7 @@ angular
           properties: {
             name: { type: 'string' },
             url: { type: 'string', format: 'uri', style: 'long' },
+            /*
             boolean: { type: 'boolean' },
             number: {type: 'number'},
             checkboxes: {
@@ -53,6 +54,7 @@ angular
                 boolean_in_array: { type: 'boolean'}
               }
             }
+            */
           },
           required: ['name','url']
         },
