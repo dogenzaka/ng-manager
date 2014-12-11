@@ -21,7 +21,7 @@ html(ng-app='ngManager')
           h3(ng-if='head.title.page' ng-bind='head.title.page|translate')
       .global-progress(ng-if='progress')
         md-progress-linear(md-theme='indigo' mode='{{progress.mode}}' value='{{progress.value}}')
-      div(ng-view='')
+      md-content(ng-view='')
 
     script(type='text/javascript' src='./js/components.js')
     script(type='text/javascript' src='./js/main.js')
