@@ -2,7 +2,9 @@ angular
 .module('ngManager')
 .controller('EndpointCtrl', function( $q, $scope, $rootScope, $schemaForm, $endpointService, $apiService, $errorService) {
 
-    $scope.endpoints = $endpointService.getAll();
+    var max_num = 3;
+    $scope.endpoints_org = $endpointService.getAll();
+    $scope.endpoints = $scope.endpoints_org.slice(0, max_num);
 
     $scope.remove = function(index) {
       $endpointService.remove(index);
@@ -29,6 +31,13 @@ angular
       page: 'Endpoints'
     });
 
+    $scope.loadMore = function(){
+      if(max_num < $scope.endpoints_org.length){
+        max_num++;
+        $scope.endpoints = $scope.endpoints_org.slice(0, max_num);
+      }
+    }
+
     // Showing form for adding new schema
     $scope.showForm = function($event) {
 
@@ -40,19 +49,6 @@ angular
           properties: {
             name: { type: 'string' },
             url: { type: 'string', format: 'uri', style: 'long' },
-            boolean: { type: 'boolean' },
-            number: {type: 'number'},
-            checkboxes: {
-              type: 'array',
-              enum: ['dr','jr','sir','mrs','mr','NaN','dj']
-            },
-            array: {
-              type: 'array',
-              items: {
-                string_in_array: { type: 'string' },
-                boolean_in_array: { type: 'boolean'}
-              }
-            }
           },
           required: ['name','url']
         },

@@ -3,7 +3,7 @@ md-toolbar
     h2(ng-bind='::title|translate')
 
 md-content(ng-style='contentStyle')
-  div.schema-form(ng-submit='submit()')
+  div.schema-form(ng-submit='submit()' infinite-scroll='loadMore()' infinite-scroll-distance='2')
     schema-item(ng-repeat='key in schema.keyOrder' schema='schema.properties[key]' entity='entity' errors='errors')
 
     section.schema-form-controls(layout='horizontal' layout-align='center')

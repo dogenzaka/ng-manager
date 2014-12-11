@@ -22,7 +22,8 @@ gulp.task('components', function() {
     'bower_components/angular-translate/angular-translate.js',
     'bower_components/hammerjs/hammer.js',
     'bower_components/lodash/dist/lodash.compat.js',
-    'bower_components/tv4/tv4.js'
+    'bower_components/tv4/tv4.js',
+    'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js'
   ])
   .pipe(sourcemaps.init())
   .pipe(concat('components.js'))

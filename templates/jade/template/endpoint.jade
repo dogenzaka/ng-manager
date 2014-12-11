@@ -7,15 +7,16 @@
 
   .endpoint-list-body
     md-list
-      md-item(ng-repeat='endpoint in endpoints | orderBy:"name" track by $index' ng-click='select($index)')
-        md-item-content
-          .md-tile-content(ink-ripple='')
-            h2(ng-bind='endpoint.name')
-            h3(ng-bind='endpoint.url')
-            h3(ng-bind='endpoint.boolean')
-            h3(ng-bind='endpoint.number')
-          .md-tile-right.controls
-            md-button(ng-click='remove($index)' aria-label='{{::"Remove"|translate}}')
-              .icon.icon-large.icon-action-delete
-              md-tooltip(ng-bind='"Remove"|translate')
-        md-divider(ng-if='!$last')
+      div(infinite-scroll='loadMore()' infinite-scroll-distance='2')
+        md-item(ng-repeat='endpoint in endpoints | orderBy:"name" track by $index' ng-click='select($index)')
+          md-item-content
+            .md-tile-content(ink-ripple='')
+              h2(ng-bind='endpoint.name')
+              h3(ng-bind='endpoint.url')
+              h3(ng-bind='endpoint.boolean')
+              h3(ng-bind='endpoint.number')
+            .md-tile-right.controls
+              md-button(ng-click='remove($index)' aria-label='{{::"Remove"|translate}}')
+                .icon.icon-large.icon-action-delete
+                md-tooltip(ng-bind='"Remove"|translate')
+          md-divider(ng-if='!$last')
