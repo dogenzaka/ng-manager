@@ -38,6 +38,26 @@ angular
       }
     }
 
+    $scope.import = function($event){
+      var file = document.getElementById("importfile").files[0];
+      var reader = new FileReader();
+      var entities = null;
+      reader.readAsText(file, "utf-8");
+      reader.onload = function(e){
+        try{
+          entities = JSON.parse(e.target.result);
+        } catch(error) {
+
+        }
+        if(entities !== null){
+          for(var i = 0; i < entities.length; i++){
+            $endpointService.add(entities[i]);
+          }
+        }
+      }
+    }
+
+
     // Showing form for adding new schema
     $scope.showForm = function($event) {
 
