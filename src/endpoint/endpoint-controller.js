@@ -57,6 +57,39 @@ angular
       }
     }
 
+    $scope.export = function($event){
+
+      var filename = $filter('date')(new Date(), 'yyyyMMddHHmm')+".json";
+      console.log(filename);
+
+      /*
+
+      window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+      window.requestFileSystem(TEMPORARY, 1024*1024, function(fileSystem){
+        // ファイル新規作成（上書き）
+        fileSystem.root.getFile(filename, {create: true, exclusive: false}, function(fileEntry){
+          // ファイル書き込み
+          fileEntry.createWriter(function(fileWriter){
+            var blob = new Blob([ content ], { "type" : "text/plain" });
+            fileWriter.write(blob);
+            // ファイル書き込み成功イベント
+            fileWriter.onwriteend = function(e){
+              console.log("ファイル書き込み成功");
+            };
+            // ファイル書き込み失敗イベント
+            fileWriter.onerror = function(e){
+              console.log("ファイル書き込み失敗");
+            };
+          });
+            
+          // リンクへ紐付ける
+          $("#" + id).attr("href", fileEntry.toURL());
+        }, function(error){
+            console.log("error.code=" + error.code);
+        });
+      });
+      */
+    }
 
     // Showing form for adding new schema
     $scope.showForm = function($event) {
