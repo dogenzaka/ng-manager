@@ -8,6 +8,9 @@
       section.endpoint-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
         input(type='file' id='importfile')
         md-button.md-raised(translate='Import' ng-click='import($event)' aria-label='::"Import"|translate')
+    md-toolbar(md-theme='indigo')
+      section.endpoint-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
+        md-button.md-raised(translate='Export' ng-click='export($event)' aria-label='::"Export"|translate')
 
   .endpoint-list-body
     md-list

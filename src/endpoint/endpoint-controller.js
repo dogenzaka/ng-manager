@@ -1,6 +1,6 @@
 angular
 .module('ngManager')
-.controller('EndpointCtrl', function( $q, $scope, $rootScope, $schemaForm, $endpointService, $apiService, $errorService) {
+.controller('EndpointCtrl', function( $q, $scope, $rootScope, $schemaForm, $endpointService, $apiService, $errorService, $filter) {
 
     var max_num = 3;
     $scope.endpoints_org = $endpointService.getAll();
@@ -56,7 +56,38 @@ angular
         }
       }
     }
+    $scope.export = function($event){
 
+      var filename = "endpoint_" + $filter('date')(new Date(), 'yyyyMMddHHmm') + ".json";
+      var content = JSON.stringify($scope.endpoints_org);
+      window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+      window.requestFileSystem(TEMPORARY, 1024*1024, function(fileSystem){
+        // ファイル新規作成（上書き）
+        fileSystem.root.getFile(filename, {create: true, exclusive: false}, function(fileEntry){
+          // ファイル書き込み
+          fileEntry.createWriter(function(fileWriter){
+            var blob = new Blob([ content ], { "type" : "text/plain" });
+            fileWriter.write(blob);
+            // ファイル書き込み成功イベント
+            fileWriter.onwriteend = function(e){
+              console.log("ファイル書き込み成功");
+              var link = document.createElement('a');
+              link.href = fileEntry.toURL();
+              link.download = filename;
+              document.body.appendChild(link) // for Firefox
+              link.click()
+              document.body.removeChild(link) // for Firefox
+            };
+            // ファイル書き込み失敗イベント
+            fileWriter.onerror = function(e){
+              console.log("ファイル書き込み失敗");
+            };
+          });
+        }, function(error){
+            console.log("error.code=" + error.code);
+        });
+      });
+    }
 
     // Showing form for adding new schema
     $scope.showForm = function($event) {
