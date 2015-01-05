@@ -6,7 +6,8 @@ angular
   'ngAnimate',
   'ngAria',
   'ngMaterial',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'infinite-scroll'
 ])
 .config(function($routeProvider) {
 

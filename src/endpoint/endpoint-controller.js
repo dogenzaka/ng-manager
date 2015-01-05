@@ -1,8 +1,10 @@
 angular
 .module('ngManager')
-.controller('EndpointCtrl', function( $q, $scope, $rootScope, $schemaForm, $endpointService, $apiService, $errorService) {
+.controller('EndpointCtrl', function( $q, $scope, $rootScope, $schemaForm, $endpointService, $apiService, $errorService, $filter) {
 
-    $scope.endpoints = $endpointService.getAll();
+    var max_num = 3;
+    $scope.endpoints_org = $endpointService.getAll();
+    $scope.endpoints = $scope.endpoints_org.slice(0, max_num);
 
     $scope.remove = function(index) {
       $endpointService.remove(index);
@@ -28,6 +30,66 @@ angular
       section: 'Settings',
       page: 'Endpoints'
     });
+
+    $scope.loadMore = function(){
+      if(max_num < $scope.endpoints_org.length){
+        max_num++;
+        $scope.endpoints = $scope.endpoints_org.slice(0, max_num);
+      }
+    }
+
+    $scope.import = function($event){
+      var file = document.getElementById("importfile").files[0];
+      var reader = new FileReader();
+      var entities = null;
+      reader.readAsText(file, "utf-8");
+      reader.onload = function(e){
+        try{
+          entities = JSON.parse(e.target.result);
+        } catch(error) {
+          //error
+        }
+        if(entities !== null){
+          for(var i = 0; i < entities.length; i++){
+            $endpointService.add(entities[i]);
+          }
+        }
+      }
+    }
+
+    $scope.export = function($event){
+
+      var filename = "endpoint_" + $filter('date')(new Date(), 'yyyyMMddHHmm') + ".json";
+      var content = JSON.stringify($scope.endpoints_org);
+      window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+      window.requestFileSystem(TEMPORARY, 1024*1024, function(fileSystem){
+        // ファイル新規作成（上書き）
+        fileSystem.root.getFile(filename, {create: true, exclusive: false}, function(fileEntry){
+          // ファイル書き込み
+          fileEntry.createWriter(function(fileWriter){
+            var blob = new Blob([ content ], { "type" : "text/plain" });
+            fileWriter.write(blob);
+            // ファイル書き込み成功イベント
+            fileWriter.onwriteend = function(e){
+              console.log("ファイル書き込み成功");
+              var link = document.createElement('a');
+              link.href = fileEntry.toURL();
+              link.download = filename;
+              document.body.appendChild(link) // for Firefox
+              link.click()
+              document.body.removeChild(link) // for Firefox
+            };
+            // ファイル書き込み失敗イベント
+            fileWriter.onerror = function(e){
+              console.log("ファイル書き込み失敗");
+            };
+          });
+        }, function(error){
+            console.log("error.code=" + error.code);
+        });
+      });
+
+    }
 
     // Showing form for adding new schema
     $scope.showForm = function($event) {
