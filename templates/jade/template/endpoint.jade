@@ -4,21 +4,28 @@
     md-toolbar(md-theme='indigo')
       section.endpoint-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
         md-button.md-raised(translate='Add' ng-click='showForm($event)' aria-label='::"Add"|translate')
-    md-toolbar(md-theme='indigo')
       section.endpoint-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
         input(type='file' id='importfile')
         md-button.md-raised(translate='Import' ng-click='import($event)' aria-label='::"Import"|translate')
-    md-toolbar(md-theme='indigo')
-      section.endpoint-list-header(layout='vertical' layout-sm='horizontal' layout-align='left center')
         md-button.md-raised(translate='Export' ng-click='export($event)' aria-label='::"Export"|translate')
-    md-toolbar
-      p {{"Search" | translate }} 
-        input(type='text' ng-model='search')
+    md-content
+      .row
+        input(type='hidden' ng-model='searchModel.kind' ng-init='endpoint')
+        md-input-group
+          label(for='search-query' ng-bind='"Query"|translate')
+          md-input(id='search-query' type='text' ng-model='searchModel.query')
+        md-input-group
+          label(for='search-limit' ng-bind='"Limit"|translate')
+          md-input(id='search-limit' type='number' ng-model='searchModel.limit')
+        md-input-group
+          label(for='search-offset' ng-bind='"Offset"|translate')
+          md-input(id='search-offset' type='number' ng-model='searchModel.offset')
+      md-button.md-raised(translate='Search' ng-click='search(searchModel)' aria-label='::"Search"|translate')
 
   .endpoint-list-body
     md-list
       div(infinite-scroll='loadMore()' infinite-scroll-distance='2')
-        md-item(ng-repeat='endpoint in endpoints | filter:search | orderBy:"name" track by $index' ng-click='select($index)')
+        md-item(ng-repeat='endpoint in endpoints' ng-click='select($index)')
           md-item-content
             .md-tile-content(ink-ripple='')
               h2(ng-bind='endpoint.name')

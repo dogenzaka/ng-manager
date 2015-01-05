@@ -1,13 +1,14 @@
 /* global _ */
 angular
 .module('ngManager')
-.factory('$endpointService', function() {
-        
+.factory('$endpointService', function($http) {
+
   var endpoints = [];
   var data = localStorage.getItem("endpoints");
   if (data) {
     endpoints = JSON.parse(data);
   }
+  var apiUrl = "192.168.1.1/hogehoge/" //smaple
 
   return {
 
@@ -19,6 +20,14 @@ angular
       return _.find(endpoints, function(ep) {
         return ep.selected === true;
       });
+    },
+
+    search: function(params) {
+      console.log(params);
+      var result = $http.get(apiUrl, params).then(function(response) {
+        return response.data;
+      });
+      if(result) endpoints = result;
     },
 
     get: function(index) {

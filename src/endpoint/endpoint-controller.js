@@ -88,8 +88,13 @@ angular
             console.log("error.code=" + error.code);
         });
       });
-
     }
+
+    $scope.search = function(params) {
+      params.kind = 'endpoint';
+      //TODO : validation
+      $endpointService.search(params);
+    };
 
     // Showing form for adding new schema
     $scope.showForm = function($event) {
@@ -101,8 +106,8 @@ angular
           type: 'object',
           properties: {
             name: { type: 'string' },
-            url: { type: 'string', format: 'uri', style: 'long' },
-          }
+            url: { type: 'string', format: 'uri', style: 'long' }
+          },
           required: ['name','url']
         },
         submit: function(scope) {
