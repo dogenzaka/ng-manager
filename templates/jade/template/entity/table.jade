@@ -6,7 +6,7 @@
         th(ng-repeat='field in fields' ng-style='field.style')
           span(ng-bind='::field.id|translate')
         th.remove
-#entity-table-body
+#entity-table-body(infinite-scroll='loadMore()' infinite-scroll-distance='5')
   table.body
     tbody
       tr(ng-repeat='row in rows' entity-row='' fields='fields' row='row' kind='kind')

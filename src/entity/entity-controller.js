@@ -10,6 +10,7 @@ angular
   $window) {
 
     var kind = $routeParams.kind;
+    var max_num = 10;
 
     console.info('Entity', kind);
 
@@ -44,7 +45,10 @@ angular
 
         $scope.fields = fields;
         $scope.schema = entityConfig.schema;
-        $scope.rows = data.list;
+        $scope.rows_org = data.list;
+//        $scope.rows = data.list;
+        $scope.rows = $scope.rows_org.slice(0, max_num);
+
 
         $scope.edit = function(row, id) {
           row.editing = id;
@@ -61,6 +65,21 @@ angular
         $errorService.showError(err);
       });
     };
+
+    $scope.loadMore = function(){
+      if(max_num < $scope.rows_org.length){
+        max_num++;
+        $scope.rows = $scope.rows_org.slice(0, max_num);
+      }
+    }
+
+    $scope.export = function($event){
+      $entityService.export(kind,$scope.rows_org);
+    }
+
+    $scope.import = function($event){
+      $entityService.import(kind,$scope.rows_org);
+    }
 
     var resize = function() {
       var body = document.getElementById('entity-table-body');

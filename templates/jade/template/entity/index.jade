@@ -4,6 +4,9 @@
     md-toolbar(md-theme='indigo')
       section(layout='vertical' layout-sm='horizontal' layout-align='left center')
         md-button.md-raised(translate='Add' ng-click='add()' aria-label='Add')
+    md-toolbar(md-theme='indigo')
+      section(layout='vertical' layout-sm='horizontal' layout-align='left center')
+        md-button.md-raised(translate='Export' ng-click='export($event)' aria-label='::"Export"|translate')
 
   .entity-list-body
     md-content

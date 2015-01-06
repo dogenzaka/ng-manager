@@ -47,7 +47,7 @@ angular
         try{
           entities = JSON.parse(e.target.result);
         } catch(error) {
-
+          //todo error
         }
         if(entities !== null){
           for(var i = 0; i < entities.length; i++){
@@ -56,6 +56,7 @@ angular
         }
       }
     }
+
     $scope.export = function($event){
 
       var filename = "endpoint_" + $filter('date')(new Date(), 'yyyyMMddHHmm') + ".json";
