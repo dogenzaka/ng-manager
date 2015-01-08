@@ -14,7 +14,7 @@ var specs = {
     schema: {
       type: 'object',
       properties: {
-        userId: { type: 'number', maxLength: 100, minLength: 1},
+        userId: { type: 'string', maxLength: 100, minLength: 1},
         firstName: { type: 'string', maxLength: 100, minLength: 1},
         lastName: { type: 'string', maxLength: 100, minLength: 1},
         email: { type: 'string', style: 'long' },
