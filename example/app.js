@@ -14,9 +14,9 @@ var specs = {
     schema: {
       type: 'object',
       properties: {
-        userId: { type: 'string', maxLength: 100, minLength: 1},
-        firstName: { type: 'string', maxLength: 100, minLength: 1},
-        lastName: { type: 'string', maxLength: 100, minLength: 1},
+        userId: { type: 'string', maxLength: 100, minLength: 1 },
+        firstName: { type: 'string', maxLength: 100, minLength: 1 },
+        lastName: { type: 'string', maxLength: 100, minLength: 1 },
         email: { type: 'string', style: 'long' },
         phone: 'string'
       },
@@ -42,8 +42,8 @@ var specs = {
     schema: {
       type: 'object',
       properties: {
-        companyId: { type: 'string', maxLength: 100, minLength: 1},
-        name: { type: 'string', maxLength: 100, minLength: 1},
+        companyId: { type: 'string', maxLength: 100, minLength: 1 },
+        name: { type: 'string', maxLength: 100, minLength: 1 },
         phrase: 'string',
         country: 'string',
         zipCode: 'string',
