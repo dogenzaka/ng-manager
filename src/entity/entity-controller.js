@@ -79,7 +79,6 @@ angular
         limit: limit,
         offset: offset
       }).then(function(data) {
-        console.log(data);
         if ( data.list.length !== 0 ) {
           loadCount += data.list.length;
           $scope.rows = $scope.rows.concat(data.list);
@@ -95,7 +94,7 @@ angular
     }
 
     $scope.import = function($event){
-      $entityService.import(kind,$scope.rows);
+      $entityService.import(kind);
     }
 
     var resize = function() {

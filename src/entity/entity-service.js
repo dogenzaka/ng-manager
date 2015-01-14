@@ -159,26 +159,34 @@ angular
       return $apiService.del('/entity/'+kind+'/'+key);
     },
 
-    import: function(file, kind){
+    import: function(kind){
+      var _this = this;
+      var file = document.getElementById("importfile").files[0];
       var reader = new FileReader();
       var entities = null;
       reader.readAsText(file, "utf-8");
+
       reader.onload = function(e){
+
         try{
           entities = JSON.parse(e.target.result);
         } catch(error) {
           //todo error
+          console.err(error);
         }
+
         if(entities !== null){
           for(var i = 0; i < entities.length; i++){
-            key = this.getKey({
+            var key = _this.getKey({
               kind: kind,
               entity: entities[i]
             });
             $apiService.put('/entity/'+kind+'/'+key, entities[i]);
           }
         }
+
       }
+
     },
 
     export: function(kind){
