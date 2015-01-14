@@ -1,0 +1,24 @@
+{
+  "main": "app://ng-manager/index.html",
+  "name": "ng-manager",
+  "description": "Management console for REST services",
+  "version": "0.1.0",
+  "keywords": [ "ng-manager", "manager", "admin", "console" ],
+  "window": {
+    "title": "ng-manager",
+    "icon": "link.png",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 500,
+    "position": "mouse",
+    "min_width": 400,
+    "min_height": 200,
+    "max_width": 800,
+    "max_height": 600
+  },
+  "webkit": {
+    "plugin": false
+  },
+  "node-remote": "<local>"
+}
