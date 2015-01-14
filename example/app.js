@@ -187,7 +187,7 @@ app.put('/entity/:kind/:keys', function(req, res) {
     list[list.indexOf(item)] = req.body;
     res.status(204).end();
   } else {
-    list.push(item);
+    list.push(req.body);
     res.status(201).end();
   }
 

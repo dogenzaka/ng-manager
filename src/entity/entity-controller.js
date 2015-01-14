@@ -50,6 +50,8 @@ angular
         $scope.schema = entityConfig.schema;
         $scope.rows = data.list;
 
+        loadCount = data.list.length;
+
         $scope.edit = function(row, id) {
           row.editing = id;
         };
@@ -68,9 +70,8 @@ angular
 
     $scope.loadMore = function(){
       if(isLoading) return;
-      if(loadCount < 0) return;
 
-      var offset = loadCount*limit;
+      var offset = loadCount;
       isLoading = true;
 
       $entityService.list({
@@ -79,10 +80,8 @@ angular
         offset: offset
       }).then(function(data) {
         console.log(data);
-        if ( data.list.length === 0 ) {
-          loadCount = -1;
-        } else {
-          loadCount++;
+        if ( data.list.length !== 0 ) {
+          loadCount += data.list.length;
           $scope.rows = $scope.rows.concat(data.list);
         }
         isLoading = false;
