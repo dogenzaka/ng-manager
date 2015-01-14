@@ -33,7 +33,9 @@ var specs = {
           'email',
           'phone'
         ]
-      }
+      },
+      download: true,
+      upload: true
     }
   }, 
 
