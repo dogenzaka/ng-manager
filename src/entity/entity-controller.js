@@ -1,6 +1,7 @@
 angular
 .module('ngManager')
 .controller('EntityCtrl', function(
+  $q,
   $scope,
   $routeParams,
   $rootScope,
@@ -10,7 +11,9 @@ angular
   $window) {
 
     var kind = $routeParams.kind;
-    var max_num = 10;
+    var limit = 30;
+    var loadCount = 1;
+    var isLoading = false;
 
     console.info('Entity', kind);
 
@@ -45,10 +48,7 @@ angular
 
         $scope.fields = fields;
         $scope.schema = entityConfig.schema;
-        $scope.rows_org = data.list;
-//        $scope.rows = data.list;
-        $scope.rows = $scope.rows_org.slice(0, max_num);
-
+        $scope.rows = data.list;
 
         $scope.edit = function(row, id) {
           row.editing = id;
@@ -67,18 +67,36 @@ angular
     };
 
     $scope.loadMore = function(){
-      if(max_num < $scope.rows_org.length){
-        max_num++;
-        $scope.rows = $scope.rows_org.slice(0, max_num);
-      }
+      if(isLoading) return;
+      if(loadCount < 0) return;
+
+      var offset = loadCount*limit;
+      isLoading = true;
+
+      $entityService.list({
+        kind: kind,
+        limit: limit,
+        offset: offset
+      }).then(function(data) {
+        console.log(data);
+        if ( data.list.length === 0 ) {
+          loadCount = -1;
+        } else {
+          loadCount++;
+          $scope.rows = $scope.rows.concat(data.list);
+        }
+        isLoading = false;
+      }, function(err) {
+        $errorService.showError(err);
+      });
     }
 
     $scope.export = function($event){
-      $entityService.export(kind,$scope.rows_org);
+      $entityService.export(kind,$scope.rows);
     }
 
     $scope.import = function($event){
-      $entityService.import(kind,$scope.rows_org);
+      $entityService.import(kind,$scope.rows);
     }
 
     var resize = function() {

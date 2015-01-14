@@ -36,6 +36,8 @@ angular
       var deferred = $q.defer();
 
       var kind = opts.kind || '';
+      var limit = opts.limit || 30;
+      var offset = opts.offset || 0;
 
       if (kind === '') {
         deferred.reject(new Error('Kind is empty'));
@@ -43,7 +45,10 @@ angular
       }
 
       $apiService
-      .get('/entity/'+kind, { limit: 30 })
+      .get('/entity/'+kind, {
+        limit: limit,
+        offset: offset
+      })
       .then(function(data) {
 
         var config = getEntityConfig(kind);
@@ -102,9 +107,16 @@ angular
 
       var kind = opts.kind;
       var key = opts.key;
-      var entity = opts.entity;
+      var entity = opts.entity || {};
       var spec = getEntityConfig(kind);
+      var _this = this;
       var submit = function() {
+        if(!key){
+          key = _this.getKey({
+            kind: kind,
+            entity: entity
+          });
+        }
         return $apiService.put('/entity/'+kind+'/'+key, entity);
       };
 
@@ -147,7 +159,7 @@ angular
       return $apiService.del('/entity/'+kind+'/'+key);
     },
 
-    import: function(file, opts){
+    import: function(file, kind){
       var reader = new FileReader();
       var entities = null;
       reader.readAsText(file, "utf-8");
@@ -159,44 +171,55 @@ angular
         }
         if(entities !== null){
           for(var i = 0; i < entities.length; i++){
+            key = this.getKey({
+              kind: kind,
+              entity: entities[i]
+            });
             $apiService.put('/entity/'+kind+'/'+key, entities[i]);
           }
         }
       }
     },
 
-    export: function(kind,rows){
-      var filename = kind+ "_" + $filter('date')(new Date(), 'yyyyMMddHHmm') + ".json";
-      var content = JSON.stringify(rows);
-      window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-      window.requestFileSystem(TEMPORARY, 1024*1024, function(fileSystem){
-        // create
-        fileSystem.root.getFile(filename, {create: true, exclusive: false}, function(fileEntry){
-          // write
-          fileEntry.createWriter(function(fileWriter){
-            var blob = new Blob([ content ], { "type" : "text/plain" });
-            fileWriter.write(blob);
-            // success
-            fileWriter.onwriteend = function(e){
-              console.info("writing success");
-              var link = document.createElement('a');
-              link.href = fileEntry.toURL();
-              link.download = filename;
-              document.body.appendChild(link) // for Firefox
-              link.click()
-              document.body.removeChild(link) // for Firefox
-            };
-            // failed
-            fileWriter.onerror = function(e){
-              console.log("writing failed");
-            };
+    export: function(kind){
+
+      this.list({
+        kind: kind,
+        limit: -1 // getAll
+      })
+      .then(function(data) {
+        var rows = data.list;
+        var filename = kind+ "_" + $filter('date')(new Date(), 'yyyyMMddHHmm') + ".json";
+        var content = JSON.stringify(rows);
+        window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+        window.requestFileSystem(TEMPORARY, 1024*1024, function(fileSystem){
+          // create
+          fileSystem.root.getFile(filename, {create: true, exclusive: false}, function(fileEntry){
+            // write
+            fileEntry.createWriter(function(fileWriter){
+              var blob = new Blob([ content ], { "type" : "text/plain" });
+              fileWriter.write(blob);
+              // success
+              fileWriter.onwriteend = function(e){
+                console.info("writing success");
+                var link = document.createElement('a');
+                link.href = fileEntry.toURL();
+                link.download = filename;
+                document.body.appendChild(link) // for Firefox
+                link.click()
+                document.body.removeChild(link) // for Firefox
+              };
+              // failed
+              fileWriter.onerror = function(e){
+                console.log("writing failed");
+              };
+            });
+          }, function(error){
+              console.log("error : " + error.code);
           });
-        }, function(error){
-            console.log("error : " + error.code);
         });
       });
     }
-
   }
 
 })
