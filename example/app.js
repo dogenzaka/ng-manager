@@ -33,7 +33,9 @@ var specs = {
           'email',
           'phone'
         ]
-      }
+      },
+      download: true,
+      upload: true
     }
   }, 
 
@@ -143,15 +145,19 @@ var remove = function(kind, keys) {
 app.get('/entity/:kind', function(req, res) {
 
   var kind = req.param('kind');
-  var limit = req.param('limit') || 20;
-  var offset = req.param('offset') || 0;
+  var limit = Number(req.param('limit')) || 20;
+  var offset = Number(req.param('offset')) || 0;
 
   var spec = specs[kind];
   if (!spec) {
     return res.status(404).end();
   }
 
-  var slice = data[kind].slice(offset, limit);
+  if(limit === -1){
+    var slice = data[kind];
+  }else{
+    var slice = data[kind].slice(offset, limit+offset);
+  }
   res.json({
     list: slice
   });
@@ -183,7 +189,7 @@ app.put('/entity/:kind/:keys', function(req, res) {
     list[list.indexOf(item)] = req.body;
     res.status(204).end();
   } else {
-    list.push(item);
+    list.push(req.body);
     res.status(201).end();
   }
 
@@ -213,6 +219,29 @@ app.delete('/entity/:kind/:keys', function(req, res) {
     res.status(404).end();
   }
 });
+
+/* just sample (this is not a function of search)*/
+app.get('/entity/:kind/search', function(req, res) {
+
+  var kind = req.param('kind');
+  var limit = Number(req.param('limit')) || 20;
+  var offset = Number(req.param('offset')) || 0;
+
+  var spec = specs[kind];
+  if (!spec) {
+    return res.status(404).end();
+  }
+
+  if(limit === -1){
+    var slice = data[kind];
+  }else{
+    var slice = data[kind].slice(offset, limit+offset);
+  }
+  res.json({
+    list: slice
+  });
+});
+
 
 app.use(express.static(path.resolve(__dirname,'..','app')));
 

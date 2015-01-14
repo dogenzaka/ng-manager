@@ -76,6 +76,17 @@ angular
     });
   };
 
+  var search = function(path, query) {
+    return $q(function(resolve, reject) {
+      $http({
+        url: getUrl(path),
+        method: 'GET',
+        params: query
+      })
+      .then(resolution(resolve), rejection(reject));
+    });
+  }
+
   var getConfig = function() {
     return $q(function(resolve, reject) {
       if (config !== null) {
@@ -115,7 +126,9 @@ angular
 
     put: put,
 
-    del: del
+    del: del,
+
+    search: search
 
   };
 })

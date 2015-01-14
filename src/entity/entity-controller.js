@@ -1,6 +1,8 @@
+/* global _ */
 angular
 .module('ngManager')
 .controller('EntityCtrl', function(
+  $q,
   $scope,
   $routeParams,
   $rootScope,
@@ -10,6 +12,9 @@ angular
   $window) {
 
     var kind = $routeParams.kind;
+    var limit = 30;
+    var loadCount = 1;
+    var isLoading = false;
 
     console.info('Entity', kind);
 
@@ -46,6 +51,8 @@ angular
         $scope.schema = entityConfig.schema;
         $scope.rows = data.list;
 
+        loadCount = data.list.length;
+
         $scope.edit = function(row, id) {
           row.editing = id;
         };
@@ -61,6 +68,35 @@ angular
         $errorService.showError(err);
       });
     };
+
+    $scope.loadMore = function(){
+      if(isLoading) return;
+
+      var offset = loadCount;
+      isLoading = true;
+
+      $entityService.list({
+        kind: kind,
+        limit: limit,
+        offset: offset
+      }).then(function(data) {
+        if ( data.list.length !== 0 ) {
+          loadCount += data.list.length;
+          $scope.rows = $scope.rows.concat(data.list);
+        }
+        isLoading = false;
+      }, function(err) {
+        $errorService.showError(err);
+      });
+    }
+
+    $scope.export = function($event){
+      $entityService.export(kind,$scope.rows);
+    }
+
+    $scope.import = function($event){
+      $entityService.import(kind);
+    }
 
     var resize = function() {
       var body = document.getElementById('entity-table-body');
