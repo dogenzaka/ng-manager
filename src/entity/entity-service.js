@@ -171,9 +171,10 @@ angular
         try{
           entities = JSON.parse(e.target.result);
         } catch(error) {
-          //todo error
           console.err(error);
         }
+
+        // TODO: validation
 
         if(entities !== null){
           for(var i = 0; i < entities.length; i++){
