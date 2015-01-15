@@ -8,7 +8,8 @@ angular
   'ngAria',
   'ngMaterial',
   'pascalprecht.translate',
-  'infinite-scroll'
+  'infinite-scroll',
+  'materialDatePicker'
 ])
 .config(function($routeProvider, $mdThemingProvider) {
 
