@@ -4,7 +4,7 @@ angular
 .service('$entityService', function($q, $apiService, $schemaForm, $filter) {
 
   var getEntityConfig = function(kind) {
-    return _.find($apiService.config().entities, function(entity) {
+    return _.find($apiService.getConfig().entities, function(entity) {
       return entity.id === kind;
     });
   };

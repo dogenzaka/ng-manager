@@ -8,12 +8,12 @@ html(ng-app='ngManager')
     meta(name='viewport' content='initial-scale=1,maximum-scale=1')
   body(layout='row' ng-controller='IndexCtrl')
     md-sidenav.md-sidenav-left.md-whiteframe-z2(layout='column' md-component-id='left-menu' md-is-locked-open='$media("gt-md")')
-      md-toolbar(md-theme='blue')
+      md-toolbar(md-theme='menu')
         h1.md-toolbar-tools
           a(href='#/' ng-bind='site.title')
       include ./menu.jade
     div(layout='column' layout-fill='' tabindex='1' role='main')
-      md-toolbar(md-theme='blue')
+      md-toolbar(md-theme='menu')
         div.md-toolbar-tools.content-header
           a.icon.icon-large.icon-light.icon-navigation-menu(hide-gt-md='' ng-click='toggleMenu()' aria-label='{{::"Toggle Menu"|translate}}')
           h3(ng-if='head.title' ng-bind='head.title.section|translate')
@@ -21,7 +21,7 @@ html(ng-app='ngManager')
             .icon.icon-large.icon-navigation-chevron-right
           h3(ng-if='head.title.page' ng-bind='head.title.page|translate')
       .global-progress(ng-if='progress')
-        md-progress-linear(md-theme='indigo' mode='{{progress.mode}}' value='{{progress.value}}')
+        md-progress-linear(md-theme='menu' mode='{{progress.mode}}' value='{{progress.value}}')
       md-content(ng-view='')
 
     script(type='text/javascript' src='./js/components.js')

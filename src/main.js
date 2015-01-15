@@ -10,7 +10,25 @@ angular
   'pascalprecht.translate',
   'infinite-scroll'
 ])
-.config(function($routeProvider) {
+.config(function($routeProvider, $mdThemingProvider) {
+
+  console.info('Configuring theme');
+  $mdThemingProvider.theme('menu')
+  .primaryColor('indigo')
+  .accentColor('orange')
+  ;
+  $mdThemingProvider.theme('endpoint')
+  .primaryColor('indigo')
+  .accentColor('orange')
+  ;
+  $mdThemingProvider.theme('entity')
+  .primaryColor('indigo')
+  .accentColor('orange')
+  ;
+  $mdThemingProvider.theme('side')
+  .primaryColor('teal')
+  .accentColor('orange')
+  ;
 
   console.info('Configuring routings');
 
