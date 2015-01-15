@@ -133,6 +133,17 @@ var find = function(kind, keys) {
   return;
 };
 
+var search = function(kind, q){
+
+  var list  = data[kind];
+  if(list){
+    return _.filter(list, function(item) {
+      return _.contains(_.values(item).toString(), q);
+    });
+  }
+  return [];
+};
+
 var remove = function(kind, keys) {
   var list = data[kind];
   var item = find(kind, keys);
@@ -153,10 +164,11 @@ app.get('/entity/:kind', function(req, res) {
     return res.status(404).end();
   }
 
+  var slice;
   if(limit === -1){
-    var slice = data[kind];
+    slice = data[kind];
   }else{
-    var slice = data[kind].slice(offset, limit+offset);
+    slice = data[kind].slice(offset, limit+offset);
   }
   res.json({
     list: slice
@@ -220,22 +232,24 @@ app.delete('/entity/:kind/:keys', function(req, res) {
   }
 });
 
-/* just sample (this is not a function of search)*/
-app.get('/entity/:kind/search', function(req, res) {
+app.get('/search/entity/:kind', function(req, res) {
 
   var kind = req.param('kind');
   var limit = Number(req.param('limit')) || 20;
   var offset = Number(req.param('offset')) || 0;
+  var q = req.param('query');
+  var items = search(kind,q);
 
   var spec = specs[kind];
   if (!spec) {
     return res.status(404).end();
   }
 
+  var slice;
   if(limit === -1){
-    var slice = data[kind];
+    slice = items;
   }else{
-    var slice = data[kind].slice(offset, limit+offset);
+    slice = items.slice(offset, limit+offset);
   }
   res.json({
     list: slice

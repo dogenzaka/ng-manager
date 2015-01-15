@@ -159,6 +159,40 @@ angular
       return $apiService.del('/entity/'+kind+'/'+key);
     },
 
+    search: function(opts) {
+
+      return $q(function(resolve, reject) {
+
+        var kind = opts.kind;
+        if (kind === '') {
+          return reject(new Error('kind is empty'));
+        }
+
+        var query = opts.query || '';
+        if (query === '') {
+          return reject(new Error('query is null'));
+        }
+
+        $apiService
+        .get('/search/entity/'+kind, {
+          query: query,
+          limit: -1,
+          offset: 0
+        })
+        .then(function(data) {
+          var config = getEntityConfig(kind);
+          if (config === undefined) {
+            reject({
+              message: 'Entity configuration not found for {{kind}}',
+              params: { kind: kind }
+            });
+          } else {
+            resolve(data);
+          }
+        }, reject);
+      });
+    },
+
     import: function(kind){
       var _this = this;
       var file = document.getElementById("importfile").files[0];
@@ -186,7 +220,7 @@ angular
           }
         }
 
-      }
+      };
 
     },
 
@@ -214,9 +248,9 @@ angular
                 var link = document.createElement('a');
                 link.href = fileEntry.toURL();
                 link.download = filename;
-                document.body.appendChild(link) // for Firefox
-                link.click()
-                document.body.removeChild(link) // for Firefox
+                document.body.appendChild(link); // for Firefox
+                link.click();
+                document.body.removeChild(link); // for Firefox
               };
               // failed
               fileWriter.onerror = function(e){
@@ -229,7 +263,7 @@ angular
         });
       });
     }
-  }
+  };
 
 })
 ;

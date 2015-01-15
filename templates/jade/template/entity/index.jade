@@ -7,10 +7,13 @@
     md-toolbar(md-theme='indigo')
       section(layout='vertical' layout-sm='horizontal' layout-align='left center')
         input(type='file' id='importfile')
-        md-button.md-raised(translate='Import' ng-click='import($event)' aria-label='::"Import"|translate')
+        md-button.md-raised(translate='Import' ng-click='import()' aria-label='::"Import"|translate')
+        md-button.md-raised(translate='Export' ng-click='export()' aria-label='::"Export"|translate')
     md-toolbar(md-theme='indigo')
       section(layout='vertical' layout-sm='horizontal' layout-align='left center')
-        md-button.md-raised(translate='Export' ng-click='export($event)' aria-label='::"Export"|translate')
+        md-input-group
+          md-input(id='search' type='text' ng-model='search_q')
+        md-button.md-raised(translate='Search' ng-click='search(search_q)' aria-label='::"Search"|translate')
 
   .entity-list-body
     md-content

@@ -70,18 +70,18 @@ angular
             var blob = new Blob([ content ], { "type" : "text/plain" });
             fileWriter.write(blob);
             // ファイル書き込み成功イベント
-            fileWriter.onwriteend = function(e){
+            fileWriter.onwriteend = function(){
               console.log("ファイル書き込み成功");
               var link = document.createElement('a');
               link.href = fileEntry.toURL();
               link.download = filename;
-              document.body.appendChild(link) // for Firefox
-              link.click()
-              document.body.removeChild(link) // for Firefox
+              document.body.appendChild(link); // for Firefox
+              link.click();
+              document.body.removeChild(link); // for Firefox
             };
             // ファイル書き込み失敗イベント
             fileWriter.onerror = function(e){
-              console.log("ファイル書き込み失敗");
+              console.err(e);
             };
           });
         }, function(error){
