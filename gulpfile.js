@@ -23,7 +23,7 @@ gulp.task('components', function() {
     'bower_components/hammerjs/hammer.js',
     'bower_components/lodash/dist/lodash.compat.js',
     'bower_components/tv4/tv4.js',
-    'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js'
+    'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js'
   ])
   .pipe(sourcemaps.init())
   .pipe(concat('components.js'))
@@ -123,8 +123,17 @@ gulp.task('fonts', function() {
 
 });
 
+gulp.task('nwk', function() {
+  gulp
+  .src([
+    './nwk/**/*'
+  ])
+  .pipe(gulp.dest('app'))
+  ;
+});
+
 // Launch the server
-gulp.task('server', ['components','stylus','jade','fonts','scripts'], function() {
+gulp.task('server', ['components','stylus','jade','fonts','scripts','nwk'], function() {
 
   gulp.watch('templates/stylus/**/*', ['stylus']);
   gulp.watch('templates/jade/**/*', ['jade']);
@@ -137,3 +146,8 @@ gulp.task('server', ['components','stylus','jade','fonts','scripts'], function()
 });
 
 gulp.task('default', ['server']);
+
+gulp.task('build', ['components','stylus','jade','fonts','scripts'], function () {
+  process.exit(0)
+});
+
