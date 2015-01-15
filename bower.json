@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "lodash": "~2.4.1",
-    "angular-material": "~0.6.1",
+    "angular-material": "~0.7.0",
     "angular-translate": "~2.4.0",
     "tv4": "~1.1.4",
     "angular-loading-bar": "~0.6.0",

@@ -19,7 +19,7 @@ angular
       lastScope = null;
     }
 
-    var element = $compile('<md-sidenav class="md-sidenav-right md-whiteframe-z2 side-form" md-component-id="right-form"><md-content layout="column"><schema-form /></md-content></md-sidenav>')(scope);
+    var element = $compile('<md-sidenav class="md-sidenav-right md-whiteframe-z2 side-form" md-theme="side" md-component-id="right-form"><md-content layout="column"><schema-form /></md-content></md-sidenav>')(scope);
 
     var show = function() {
       $rootElement.find('body').append(element);
