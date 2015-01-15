@@ -8,15 +8,21 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+  res.set('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+
 var specs = {
   user: {
     id: 'user',
     schema: {
       type: 'object',
       properties: {
-        userId: 'string',
-        firstName: 'string',
-        lastName: 'string',
+        userId: { type: 'string', maxLength: 100, minLength: 1 },
+        firstName: { type: 'string', maxLength: 100, minLength: 1 },
+        lastName: { type: 'string', maxLength: 100, minLength: 1 },
         email: { type: 'string', style: 'long' },
         phone: 'string'
       },
@@ -44,8 +50,8 @@ var specs = {
     schema: {
       type: 'object',
       properties: {
-        companyId: 'string',
-        name: 'string',
+        companyId: { type: 'string', maxLength: 100, minLength: 1 },
+        name: { type: 'string', maxLength: 100, minLength: 1 },
         phrase: 'string',
         country: 'string',
         zipCode: 'string',

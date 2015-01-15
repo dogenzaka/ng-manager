@@ -2,6 +2,7 @@ angular
 .module('ngManager')
 .factory('$schemaForm', function(
   $mdDialog,
+  $rootScope,
   $sideContent,
   $schemaNormalizer,
   $schemaValidator,
@@ -94,18 +95,18 @@ angular
       // normalize schea
       schema = $schemaNormalizer(schema);
 
-      $sideContent.show({
-        template: '<md-content md-theme="'+theme+'"><schema-form /></md-content>',
-        targetEvent: event,
-        controller: ['$scope', function($scope) {
-          $scope.schema = schema;
-          $scope.entity = entity;
-          $scope.errors = {};
-          $scope.validate = validator($scope);
-          $scope.submit = submitter($scope, $sideContent, submit, deferred);
-          $scope.cancel = canceller($scope, $sideContent, deferred);
-        }]
-      });
+      var scope = $rootScope.$new();
+      scope.schema = schema;
+      scope.entity = entity;
+      scope.errors = {};
+      scope.validate = validator(scope);
+
+      var interim = $sideContent(scope);
+
+      scope.submit = submitter(scope, interim, submit, deferred);
+      scope.cancel = canceller(scope, interim, deferred);
+
+      interim.show();
 
       return deferred.promise;
     }

@@ -99,8 +99,8 @@ angular
         schema: {
           type: 'object',
           properties: {
-            name: { type: 'string' },
-            url: { type: 'string', format: 'uri', style: 'long' },
+            name: { type: 'string', maxLength: 100, minLength: 1 },
+            url: { type: 'string', maxLength: 100, minLength: 1, format: 'uri', style: 'long' },
           },
           required: ['name','url']
         },

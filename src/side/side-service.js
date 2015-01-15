@@ -1,73 +1,40 @@
 angular
 .module('ngManager')
-.service('$sideContent', function($rootElement, $$interimElement, $animate, $timeout, $window) {
+.service('$sideContent', function($rootElement,
+                                  $mdSidenav,
+                                  $mdTheming,
+                                  $animate,
+                                  $timeout,
+                                  $window,
+                                  $compile) {
 
-  var $sideService;
+  var lastScope = null;
+  var lastElement = null;
 
-  var onShow = function(scope, element, options) {
+  return function(scope) {
 
-    // Always wrapping jqlite like mdDialog
-    options.parent = angular.element(options.parent);
+    if (lastScope) {
+      lastScope.$destroy();
+      lastElement.remove();
+      lastScope = null;
+    }
 
-    var backdrop = angular.element('<md-backdrop class="opaque ng-enter">');
-    options.backdrop = backdrop;
+    var element = $compile('<md-sidenav class="md-sidenav-right md-whiteframe-z2 side-form" md-theme="side" md-component-id="right-form"><md-content layout="column"><schema-form /></md-content></md-sidenav>')(scope);
 
-    options.onClickOutside = function(e) {
-      if (e.target === backdrop[0]) {
-        $timeout($sideService.cancel);
-      }
+    var show = function() {
+      $rootElement.find('body').append(element);
+      $mdSidenav('right-form').toggle();
+      lastScope = scope;
+      lastElement = element;
     };
 
-    options.onKeyupRoot = function(e) {
-      if (e.keyCode === 27) {
-        $timeout($sideService.cancel);
-      }
+    var hide = function() {
+      $mdSidenav('right-form').close();
     };
 
-    var resize = function() {
-      var height = $window.innerHeight;
-      element.css('height', height + 'px');
+    return {
+      show: show,
+      hide: hide
     };
-    resize();
-
-    $rootElement.bind('click', options.onClickOutside);
-    $rootElement.bind('keyup', options.onKeyupRoot);
-
-    scope.$on('window.resize', resize);
-
-    $animate.enter(element, options.parent).then(function() {
-      $animate.enter(backdrop, options.parent, null);
-    });
   };
-
-  var onRemove = function(scope, element, options) {
-    if (options.backdrop) {
-      $animate.leave(options.backdrop);
-    }
-    $animate.leave(element);
-    if (options.escapeToClose) {
-      $rootElement.off('keyup', options.onKeyupRoot);
-    }
-    if (options.clickOutsideToClose) {
-      $rootElement.off('click', options.onClickOutside);
-    }
-  };
-
-  $sideService = $$interimElement({
-
-    hasBackdrop: true,
-    isolateScope: true,
-    onShow: onShow,
-    onRemove: onRemove,
-    clickOutsideToClose: true,
-    escapeToClose: true,
-    targetEvent: null,
-    transformTemplate: function(template) {
-      return '<div class="side-content md-whiteframe-z2" layout="vertical" component="right">' + template + '</div>';
-    }
-
-  });
-
-  return $sideService;
-
 });

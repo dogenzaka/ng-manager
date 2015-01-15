@@ -116,7 +116,7 @@ angular
       });
     },
 
-    config: function() {
+    getConfig: function() {
       return config;
     },
 
