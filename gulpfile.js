@@ -23,11 +23,14 @@ gulp.task('components', function() {
     'bower_components/hammerjs/hammer.js',
     'bower_components/lodash/dist/lodash.compat.js',
     'bower_components/tv4/tv4.js',
-    'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js'
+    'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
+    'bower_components/angular-strap/dist/angular-strap.js',
+    'bower_components/angular-strap/dist/angular-strap.tpl.js',
+    'bower_components/material-date-picker/build/datepicker.js'
   ])
   .pipe(sourcemaps.init())
   .pipe(concat('components.js'))
-  .pipe(uglify())
+//  .pipe(uglify())
   .pipe(sourcemaps.write('maps/'))
   .pipe(gulp.dest('app/js/'))
   ;
@@ -47,6 +50,7 @@ gulp.task('components', function() {
     ,'bower_components/angular-material/themes/teal-theme.css'
     ,'bower_components/angular-material/themes/orange-theme.css'
     ,'bower_components/angular-material/themes/red-theme.css'
+    ,'bower_components/material-date-picker/build/styles/main.css'
   ,
   ])
   .pipe(concat('components.css'))
@@ -105,7 +109,7 @@ gulp.task('scripts', function() {
   .pipe(sourcemaps.init())
   .pipe(concat('main.js'))
   .pipe(annotate())
-  .pipe(uglify())
+//  .pipe(uglify())
   .pipe(sourcemaps.write('maps/'))
   .pipe(gulp.dest('app/js/'))
   ;
