@@ -4,6 +4,7 @@
     md-content.toolbar(md-theme='endpoint')
       section.endpoint-list-header(layout='row' layout-sm='horizontal' layout-align='left center')
         md-button.md-raised.md-primary(translate='Add' ng-click='showForm($event)' aria-label='::"Add"|translate')
+
   .endpoint-list-body
     md-list
       div(infinite-scroll='loadMore()' infinite-scroll-distance='2')

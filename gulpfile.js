@@ -14,6 +14,7 @@ gulp.task('components', function() {
 
   gulp
   .src([
+    'bower_components/jquery/dist/jquery.js',
     'bower_components/angular/angular.js',
     'bower_components/angular-animate/angular-animate.js',
     'bower_components/angular-material/angular-material.js',
@@ -23,7 +24,11 @@ gulp.task('components', function() {
     'bower_components/hammerjs/hammer.js',
     'bower_components/lodash/dist/lodash.compat.js',
     'bower_components/tv4/tv4.js',
-    'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js'
+    'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
+    'bower_components/angular-strap/dist/angular-strap.js',
+    'bower_components/angular-strap/dist/angular-strap.tpl.js',
+    'bower_components/material-date-picker/build/datepicker.js',
+    'bower_components/angular-ui-utils/ui-utils.js'
   ])
   .pipe(sourcemaps.init())
   .pipe(concat('components.js'))
@@ -47,6 +52,9 @@ gulp.task('components', function() {
     ,'bower_components/angular-material/themes/teal-theme.css'
     ,'bower_components/angular-material/themes/orange-theme.css'
     ,'bower_components/angular-material/themes/red-theme.css'
+    ,'bower_components/material-date-picker/build/styles/main.css'
+    ,'bower_components/angular-motion/dist/angular-motion.css'
+    ,'bower_components/bootstrap/dist/css/bootstrap.css'
   ,
   ])
   .pipe(concat('components.css'))

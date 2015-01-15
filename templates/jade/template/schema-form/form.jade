@@ -5,6 +5,7 @@ md-toolbar
 md-content(ng-style='contentStyle')
   div.schema-form(ng-submit='submit()' infinite-scroll='loadMore()' infinite-scroll-distance='2')
     schema-item(ng-repeat='key in schema.keyOrder' schema='schema.properties[key]' entity='entity' errors='errors')
+    md-date-picker(text-color='#42DFDFD' line-color='#EFEFDF')
 
     section.schema-form-controls(layout='horizontal' layout-align='center')
       md-button.md-raised.md-primary(ng-bind='::"Submit"|translate' ng-click='submit()' aria-label='{{::"Submit"|translate}}')
