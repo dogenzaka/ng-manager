@@ -14,7 +14,7 @@ angular
 
     $scope.toggleMenu = function() {
       $timeout(function() {
-        $mdSidenav('left').toggle();
+        $mdSidenav('left-menu').toggle();
       });
     };
 
@@ -28,6 +28,7 @@ angular
 
     $rootScope.$on('$locationChangeSuccess', function() {
       $scope.hash = location.hash;
+      $mdSidenav('left-menu').close();
     });
 
     $rootScope.$on('progress.start', function() {

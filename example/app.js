@@ -8,6 +8,12 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+  res.set('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+
 var specs = {
   user: {
     id: 'user',

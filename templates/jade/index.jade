@@ -2,19 +2,20 @@ doctype html
 html(ng-app='ngManager')
   head
     title NG-Manager
+    meta(charset='utf8')
     link(rel='stylesheet' type='text/css' href='./css/components.css')
     link(rel='stylesheet' type='text/css' href='./css/main.css')
     meta(name='viewport' content='initial-scale=1,maximum-scale=1')
-  body(layout='horizontal' ng-controller='IndexCtrl')
-    md-sidenav.md-sidenav-left.md-whiteframe-z2(layout='vertical' component-id='left' is-locked-open='$media("md")')
+  body(layout='row' ng-controller='IndexCtrl')
+    md-sidenav.md-sidenav-left.md-whiteframe-z2(layout='column' md-component-id='left-menu' md-is-locked-open='$media("gt-md")')
       md-toolbar(md-theme='blue')
         h1.md-toolbar-tools
           a(href='#/' ng-bind='site.title')
       include ./menu.jade
-    div(layout='vertical' layout-fill='' tabindex='1' role='main')
+    div(layout='column' layout-fill='' tabindex='1' role='main')
       md-toolbar(md-theme='blue')
         div.md-toolbar-tools.content-header
-          a.icon.icon-large.icon-light.icon-navigation-menu(hide-md='' ng-click='toggleMenu()' aria-label='{{::"Toggle Menu"|translate}}')
+          a.icon.icon-large.icon-light.icon-navigation-menu(hide-gt-md='' ng-click='toggleMenu()' aria-label='{{::"Toggle Menu"|translate}}')
           h3(ng-if='head.title' ng-bind='head.title.section|translate')
           span.menu-separate-icon(layout='vertical' layout-align='center center' ng-if='head.title.page')
             .icon.icon-large.icon-navigation-chevron-right
