@@ -9,7 +9,7 @@ angular
   'ngMaterial',
   'pascalprecht.translate',
   'infinite-scroll',
-  'materialDatePicker'
+  'datePicker'
 ])
 .config(function($routeProvider, $mdThemingProvider) {
 
