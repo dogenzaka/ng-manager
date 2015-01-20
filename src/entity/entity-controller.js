@@ -1,3 +1,4 @@
+/* global _ */
 angular
 .module('ngManager')
 .controller('EntityCtrl', function(
@@ -14,6 +15,7 @@ angular
     var limit = 30;
     var loadCount = 1;
     var isLoading = false;
+    var isSearch = false;
 
     console.info('Entity', kind);
 
@@ -69,7 +71,7 @@ angular
     };
 
     $scope.loadMore = function(){
-      if(isLoading) return;
+      if(isLoading || isSearch) return;
 
       var offset = loadCount;
       isLoading = true;
@@ -87,15 +89,29 @@ angular
       }, function(err) {
         $errorService.showError(err);
       });
-    }
+    };
 
-    $scope.export = function($event){
+    $scope.export = function(){
       $entityService.export(kind,$scope.rows);
-    }
+    };
 
-    $scope.import = function($event){
+    $scope.import = function(){
       $entityService.import(kind);
-    }
+    };
+
+    $scope.search = function(query){
+      $entityService.search({
+        kind: kind,
+        query: query
+      }).then(function(data) {
+        if ( data.list.length !== 0 ) {
+          $scope.rows = data.list;
+          isSearch = true;
+        }
+      }, function(err) {
+        $errorService.showError(err);
+      });
+    };
 
     var resize = function() {
       var body = document.getElementById('entity-table-body');

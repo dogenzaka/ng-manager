@@ -12,7 +12,6 @@ angular
       body.on('scroll', function(e) {
 
         var target = e.target;
-        var pos = target.scrollTop;
 
       });
 

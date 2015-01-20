@@ -8,7 +8,7 @@
   .endpoint-list-body
     md-list
       div(infinite-scroll='loadMore()' infinite-scroll-distance='2')
-        md-item(ng-repeat='endpoint in endpoints | orderBy:"name" track by $index' ng-click='select($index)')
+        md-item(ng-repeat='endpoint in endpoints' ng-click='select($index)')
           md-item-content
             .md-tile-content(ink-ripple='')
               h2(ng-bind='endpoint.name')

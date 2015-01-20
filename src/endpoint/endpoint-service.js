@@ -2,7 +2,7 @@
 angular
 .module('ngManager')
 .factory('$endpointService', function() {
-        
+
   var endpoints = [];
   var data = localStorage.getItem("endpoints");
   if (data) {
