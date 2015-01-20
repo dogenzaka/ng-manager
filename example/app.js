@@ -161,9 +161,9 @@ var remove = function(kind, keys) {
 
 app.get('/entity/:kind', function(req, res) {
 
-  var kind = req.param('kind');
-  var limit = Number(req.param('limit')) || 20;
-  var offset = Number(req.param('offset')) || 0;
+  var kind = req.params.kind;
+  var limit = Number(req.params.limit) || 20;
+  var offset = Number(req.params.offset) || 0;
 
   var spec = specs[kind];
   if (!spec) {
@@ -182,8 +182,8 @@ app.get('/entity/:kind', function(req, res) {
 });
 
 app.get('/entity/:kind/:keys', function(req, res) {
-  var kind = req.param('kind');
-  var keys = req.param('keys').split(',');
+  var kind = req.params.kind;
+  var keys = req.params.keys.split(',');
   var item = find(kind, keys);
   if (item) {
     res.json(item);
@@ -193,8 +193,8 @@ app.get('/entity/:kind/:keys', function(req, res) {
 });
 
 app.put('/entity/:kind/:keys', function(req, res) {
-  var kind = req.param('kind');
-  var keys = req.param('keys').split(',');
+  var kind = req.params.kind;
+  var keys = req.params.keys.split(',');
   var item = find(kind, keys);
   var list = data[kind];
 
@@ -214,9 +214,9 @@ app.put('/entity/:kind/:keys', function(req, res) {
 });
 
 app.put('/entity/:kind/:keys/:field', function(req, res) {
-  var kind = req.param('kind');
-  var keys = req.param('keys').split(',');
-  var field = req.param('field');
+  var kind = req.params.kind;
+  var keys = req.params.keys.split(',');
+  var field = req.params.field;
   var item = find(kind, keys);
   if (item) {
     item[field] = req.body.value;
@@ -227,8 +227,8 @@ app.put('/entity/:kind/:keys/:field', function(req, res) {
 });
 
 app.delete('/entity/:kind/:keys', function(req, res) {
-  var kind = req.param('kind');
-  var keys = req.param('keys').split(',');
+  var kind = req.params.kind;
+  var keys = req.params.keys.split(',');
   var item = find(kind, keys);
   if (item) {
     remove(kind, keys);
@@ -240,9 +240,9 @@ app.delete('/entity/:kind/:keys', function(req, res) {
 
 app.get('/search/entity/:kind', function(req, res) {
 
-  var kind = req.param('kind');
-  var limit = Number(req.param('limit')) || 20;
-  var offset = Number(req.param('offset')) || 0;
+  var kind = req.params.kind;
+  var limit = Number(req.params.limit) || 20;
+  var offset = Number(req.params.offset) || 0;
   var q = req.param('query');
   var items = search(kind,q);
 
