@@ -90,12 +90,6 @@ angular
       });
     }
 
-    $scope.search = function(params) {
-      params.kind = 'endpoint';
-      //TODO : validation
-      $endpointService.search(params);
-    };
-
     // Showing form for adding new schema
     $scope.showForm = function($event) {
 
