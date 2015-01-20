@@ -162,8 +162,8 @@ var remove = function(kind, keys) {
 app.get('/entity/:kind', function(req, res) {
 
   var kind = req.params.kind;
-  var limit = Number(req.params.limit) || 20;
-  var offset = Number(req.params.offset) || 0;
+  var limit = Number(req.query.limit) || 20;
+  var offset = Number(req.query.offset) || 0;
 
   var spec = specs[kind];
   if (!spec) {
@@ -241,9 +241,9 @@ app.delete('/entity/:kind/:keys', function(req, res) {
 app.get('/search/entity/:kind', function(req, res) {
 
   var kind = req.params.kind;
-  var limit = Number(req.params.limit) || 20;
-  var offset = Number(req.params.offset) || 0;
-  var q = req.param('query');
+  var limit = Number(req.query.limit) || 20;
+  var offset = Number(req.query.offset) || 0;
+  var q = req.query.query;
   var items = search(kind,q);
 
   var spec = specs[kind];
