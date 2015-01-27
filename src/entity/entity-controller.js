@@ -16,6 +16,7 @@ angular
     var loadCount = 1;
     var isLoading = false;
     var isSearch = false;
+    var isFilter = false;
 
     console.info('Entity', kind);
 
@@ -25,6 +26,7 @@ angular
     });
 
     $scope.kind = kind;
+    $scope.filter_q = {};
 
     var getFields = function(entityConfig) {
       var features = entityConfig.features;
@@ -71,7 +73,7 @@ angular
     };
 
     $scope.loadMore = function(){
-      if(isLoading || isSearch) return;
+      if(isLoading || isSearch || isFilter) return;
 
       var offset = loadCount;
       isLoading = true;
@@ -108,6 +110,19 @@ angular
           $scope.rows = data.list;
           isSearch = true;
         }
+      }, function(err) {
+        $errorService.showError(err);
+      });
+    };
+
+    $scope.filter = function(){
+      console.log($scope.filter_q);
+      $entityService.filter({
+        kind: kind,
+        query: $scope.filter_q
+      }).then(function(data) {
+        $scope.rows = data.list;
+        isFilter = true;
       }, function(err) {
         $errorService.showError(err);
       });

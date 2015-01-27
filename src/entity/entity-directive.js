@@ -4,16 +4,9 @@ angular
 
   return {
     restrict: 'AE',
-    link: function(scope, element) {
+    link: function(scope) {
 
-      var body = element.children().eq(1);
       var kind = scope.kind;
-
-      body.on('scroll', function(e) {
-
-        var target = e.target;
-
-      });
 
       scope.add = function() {
         $entityService.showForm({ kind: kind }, function(data) {
@@ -27,6 +20,35 @@ angular
 
     },
     templateUrl: 'entity/table.html'
+  };
+
+})
+.directive('headCell', function() {
+
+  return {
+
+    restrict: 'AE',
+    scope: false,
+    replace: true,
+    link: function(scope) {
+
+      scope.opening = '';
+
+      scope.open = function(){
+        scope.opening = 'is_open';
+      };
+
+      scope.close = function(){
+        scope.opening = '';
+      };
+      
+      scope.blur = function(){
+        scope.opening = '';
+      };
+
+    },
+    templateUrl: 'entity/head-cell.html'
+
   };
 
 })
