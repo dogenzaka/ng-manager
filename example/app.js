@@ -64,7 +64,17 @@ var specs = {
 
     features: {
       list: {
-        fields: ['companyId', 'name', 'country', 'city']
+        fields: [
+          'companyId',
+          'name',
+          {
+            id:'country', 
+            filter: {
+              items: ['Japan','Nepal','India']
+            }
+          },
+          'city'
+        ]
       }
     }
   }
@@ -146,6 +156,15 @@ var search = function(kind, q){
     return _.filter(list, function(item) {
       return _.contains(_.values(item).toString(), q);
     });
+  }
+  return [];
+};
+
+var filter = function(kind, q){
+
+  var list = data[kind];
+  if(list){
+    return _.where(list, q);
   }
   return [];
 };
@@ -262,6 +281,29 @@ app.get('/search/entity/:kind', function(req, res) {
   });
 });
 
+app.get('/filter/entity/:kind', function(req, res) {
+
+  var kind = req.params.kind;
+  var limit = Number(req.query.limit) || 20;
+  var offset = Number(req.query.offset) || 0;
+  var q = JSON.parse(req.query.query);
+  var items = filter(kind,q);
+
+  var spec = specs[kind];
+  if (!spec) {
+    return res.status(404).end();
+  }
+
+  var slice;
+  if(limit === -1){
+    slice = items;
+  }else{
+    slice = items.slice(offset, limit+offset);
+  }
+  res.json({
+    list: slice
+  });
+});
 
 app.use(express.static(path.resolve(__dirname,'..','app')));
 

@@ -3,7 +3,7 @@
     thead
       tr
         th.edit
-        th(ng-repeat='field in fields' ng-style='field.style')
+        th(ng-repeat='field in fields' ng-style='field.style' head-cell)
           span(ng-bind='::field.id|translate')
         th.remove
 #entity-table-body(infinite-scroll='loadMore()' infinite-scroll-distance='0')
