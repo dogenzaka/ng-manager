@@ -71,6 +71,7 @@ angular
     var token = $location.search().token;
     if(token){
       $authService.saveToken(token,ep);
+      $location.url('/top');
     }
 
     $rootScope.login = $authService.checkLogin(ep);

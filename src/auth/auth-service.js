@@ -49,11 +49,9 @@ angular
   };
 
   var checkLogin = function(ep){
-    console.log(tokens);
     var list = _.find(tokens, function(t){
       return t.name === ep.name;
     });
-    console.log(list);
     return list != null;
   };
 

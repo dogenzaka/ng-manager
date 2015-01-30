@@ -41,7 +41,6 @@ passport.use(new GoogleStrategy({
       var sha1 = crypto.createHash('sha1');
       sha1.update(accessToken);
       var tokenHash = sha1.digest('hex');
-      console.log(tokenHash);
       tokenStrage.push(tokenHash);
       profile.tokenHash = tokenHash;
       return done(null, profile);
