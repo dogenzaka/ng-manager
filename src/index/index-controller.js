@@ -10,7 +10,9 @@ angular
   $location,
   $window,
   $translate,
-  $translateLoader) {
+  $translateLoader,
+  $endpointService,
+  $authService) {
 
     $scope.toggleMenu = function() {
       $timeout(function() {
@@ -70,4 +72,11 @@ angular
     $window.addEventListener('resize', function() {
       $rootScope.$broadcast('window.resize');
     });
+
+    $scope.logout = function(){
+
+      $authService.logout();
+      $location.url('/login');
+
+    };
 });

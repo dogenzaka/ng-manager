@@ -28,7 +28,8 @@ gulp.task('components', function() {
     'bower_components/angular-strap/dist/angular-strap.js',
     'bower_components/angular-strap/dist/angular-strap.tpl.js',
     'bower_components/material-date-picker/build/datepicker.js',
-    'bower_components/angular-ui-utils/ui-utils.js'
+    'bower_components/angular-ui-utils/ui-utils.js',
+    'bower_components/angular-cookies/angular-cookies.min.js'
   ])
   .pipe(sourcemaps.init())
   .pipe(concat('components.js'))

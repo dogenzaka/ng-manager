@@ -5,6 +5,14 @@ var path = require('path');
 var data = require('./data');
 var _ = require('lodash');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var crypto = require('crypto');
+
+var GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+var GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+var GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL;
+var tokenStrage = [];
 
 app.use(bodyParser.json());
 
@@ -13,6 +21,35 @@ app.use(function(req, res, next) {
   next();
 });
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: GOOGLE_CALLBACK_URL
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+
+      var sha1 = crypto.createHash('sha1');
+      sha1.update(accessToken);
+      var tokenHash = sha1.digest('hex');
+      tokenStrage.push(tokenHash);
+      profile.tokenHash = tokenHash;
+      return done(null, profile);
+    });
+  }
+));
+
+app.use( passport.initialize());
+app.use( passport.session());
 
 var specs = {
   user: {
@@ -121,10 +158,49 @@ app.get('/config', function(req, res) {
         email: 'メールアドレス',
         phone: '電話番号'
       }
-    }
+    },
+
+    auth: [
+      {
+        name: 'google',
+        type: 'oauth2',
+        url: '/oauth/google'
+      }
+    ]
 
   });
 
+});
+
+app.get('/oauth/google',
+  passport.authenticate('google', { scope: [
+    'https://www.googleapis.com/auth/plus.login',
+    'https://www.googleapis.com/auth/plus.profile.emails.read'
+  ]})
+);
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: [
+    'https://www.googleapis.com/auth/userinfo.profile'
+  ]}),
+  function(req, res){
+    // The request will be redirected to Google for authentication, so this
+    // function will not be called.
+  }
+);
+
+app.get('/oauth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/login'
+  }),
+  function(req, res) {
+    res.redirect('/#/?token=' + req.user.tokenHash);
+  }
+);
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.status(200).end();
 });
 
 // pick value for specific keys as array
@@ -185,6 +261,12 @@ app.get('/entity/:kind', function(req, res) {
   var offset = Number(req.query.offset) || 0;
 
   var spec = specs[kind];
+
+  var token = req.header('X-XSRF-TOKEN');
+  if(!token || tokenStrage.indexOf(token) < 0){
+    return res.status(401).end();
+  }
+
   if (!spec) {
     return res.status(404).end();
   }

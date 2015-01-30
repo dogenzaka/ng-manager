@@ -14,3 +14,8 @@ md-content(ng-if='config' flex='')
       a(href='#/endpoints' ink-ripple='' ng-class='{active:hash=="#/endpoints"}')
         span(translate='Endpoints')
 
+  section(ng-if='login')
+    div.menu-item.menu-logout
+      a(ng-click='logout()')
+        span(translate='Logout')
+
