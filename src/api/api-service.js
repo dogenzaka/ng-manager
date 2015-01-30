@@ -1,3 +1,4 @@
+/* global _ */
 angular
 .module('ngManager')
 .factory('$apiService', function($q, $endpointService, $http, $rootScope) {
@@ -85,7 +86,7 @@ angular
       })
       .then(resolution(resolve), rejection(reject));
     });
-  }
+  };
 
   var getConfig = function() {
     return $q(function(resolve, reject) {
@@ -165,8 +166,42 @@ angular
     }
   };
 })
+.factory('authHttpInterceptor', function ($q, $rootScope, $location, $endpointService, $cookies) {
+  return {
+    'request': function(config) {
+      var ep = $endpointService.getSelected();
+
+      if(!ep){
+        return config || $q.when(config);
+      }
+
+      var tokens = [];
+      var data = localStorage.getItem('tokens');
+      if(data){
+        tokens = JSON.parse(data);
+      }
+
+      var token = _.find(tokens, { 'name': ep.name });
+      if(token){
+        $cookies['XSRF-TOKEN'] = token.token;
+      } else {
+        $cookies['XSRF-TOKEN'] = null;
+      }
+      return config || $q.when(config);
+    },
+    'responseError': function(rejection) {
+      var status = rejection.status;
+      console.log(status);
+      if (status === 401) {
+        $location.path('/login');
+      }
+      return $q.reject(rejection);
+    }
+  };
+})
 .config(function ($httpProvider) {
   $httpProvider.interceptors.push('progressHttpInterceptor');
+  $httpProvider.interceptors.push('authHttpInterceptor');
 })
 ;
 

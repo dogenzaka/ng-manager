@@ -1,0 +1,5 @@
+.login
+  md-content.toolbar(md-theme='login')
+    div(ng-repeat='auth in config.auth')
+      md-button.md-raised.md-primary(translate='Login with {{auth.name}}' ng-href='{{auth.url}}' aria-label='::"Login"|translate')
+  

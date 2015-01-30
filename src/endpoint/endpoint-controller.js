@@ -36,9 +36,9 @@ angular
         max_num++;
         $scope.endpoints = $scope.endpoints_org.slice(0, max_num);
       }
-    }
+    };
 
-    $scope.import = function($event){
+    $scope.import = function(){
       var file = document.getElementById("importfile").files[0];
       var reader = new FileReader();
       var entities = null;
@@ -54,15 +54,15 @@ angular
             $endpointService.add(entities[i]);
           }
         }
-      }
-    }
+      };
+    };
 
-    $scope.export = function($event){
+    $scope.export = function(){
 
       var filename = "endpoint_" + $filter('date')(new Date(), 'yyyyMMddHHmm') + ".json";
       var content = JSON.stringify($scope.endpoints_org);
       window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-      window.requestFileSystem(TEMPORARY, 1024*1024, function(fileSystem){
+      window.requestFileSystem(window.TEMPORARY, 1024*1024, function(fileSystem){
         // ファイル新規作成（上書き）
         fileSystem.root.getFile(filename, {create: true, exclusive: false}, function(fileEntry){
           // ファイル書き込み
@@ -88,7 +88,7 @@ angular
             console.log("error.code=" + error.code);
         });
       });
-    }
+    };
 
     // Showing form for adding new schema
     $scope.showForm = function($event) {

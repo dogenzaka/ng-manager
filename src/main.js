@@ -9,7 +9,8 @@ angular
   'ngMaterial',
   'pascalprecht.translate',
   'infinite-scroll',
-  'datePicker'
+  'datePicker',
+  'ngCookies'
 ])
 .config(function($routeProvider, $mdThemingProvider) {
 
@@ -23,6 +24,10 @@ angular
   .accentColor('orange')
   ;
   $mdThemingProvider.theme('entity')
+  .primaryColor('indigo')
+  .accentColor('orange')
+  ;
+  $mdThemingProvider.theme('login')
   .primaryColor('indigo')
   .accentColor('orange')
   ;
@@ -46,15 +51,14 @@ angular
     controller: 'EntityCtrl',
     templateUrl: 'entity/index.html'
   })
-  /*
-  .otherwise({
-    redirectTo: '/'
+  .when('/login', {
+    controller: 'LoginCtrl',
+    templateUrl: 'login.html'
   })
-  */
   ;
 
 })
-.run(function($endpointService, $apiService, $errorService, $location) {
+.run(function($rootScope, $endpointService, $apiService, $errorService, $location, $authService) {
 
   console.info('Started running ng-manager');
 
@@ -64,6 +68,13 @@ angular
     // Select endpoints
     $location.url('/endpoints');
   } else {
+    var token = $location.search().token;
+    if(token){
+      $authService.saveToken(token,ep);
+    }
+
+    $rootScope.login = $authService.checkLogin(ep);
+
     $apiService
     .setup()
     .then(function() {
