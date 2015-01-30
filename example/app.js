@@ -9,9 +9,9 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var crypto = require('crypto');
 
-var GOOGLE_CLIENT_ID = '530976673948-7sail1efeqbf5smomfpe9j748him7o8l.apps.googleusercontent.com';
-var GOOGLE_CLIENT_SECRET = 'eNXHgKJXNuPZq3JvGNLUeCm5';
-var GOOGLE_CALLBACK_URL = 'http://localhost:4000/oauth/google/callback';
+var GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+var GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+var GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL;
 var tokenStrage = [];
 
 app.use(bodyParser.json());
