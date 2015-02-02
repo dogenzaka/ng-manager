@@ -35,6 +35,10 @@ angular
   .primaryColor('teal')
   .accentColor('orange')
   ;
+  $mdThemingProvider.theme('dialog')
+  .primaryColor('indigo')
+  .accentColor('orange')
+  ;
 
   console.info('Configuring routings');
 
