@@ -1,4 +1,3 @@
-/* global _ */
 'use strict';
 
 angular
@@ -16,28 +15,28 @@ angular
 
   console.info('Configuring theme');
   $mdThemingProvider.theme('menu')
-  .primaryColor('indigo')
-  .accentColor('orange')
+  .primaryPalette('indigo')
+  .accentPalette('orange')
   ;
   $mdThemingProvider.theme('endpoint')
-  .primaryColor('indigo')
-  .accentColor('orange')
+  .primaryPalette('indigo')
+  .accentPalette('orange')
   ;
   $mdThemingProvider.theme('entity')
-  .primaryColor('indigo')
-  .accentColor('orange')
+  .primaryPalette('indigo')
+  .accentPalette('orange')
   ;
   $mdThemingProvider.theme('login')
-  .primaryColor('indigo')
-  .accentColor('orange')
+  .primaryPalette('indigo')
+  .accentPalette('orange')
   ;
   $mdThemingProvider.theme('side')
-  .primaryColor('teal')
-  .accentColor('orange')
+  .primaryPalette('teal')
+  .accentPalette('orange')
   ;
   $mdThemingProvider.theme('dialog')
-  .primaryColor('indigo')
-  .accentColor('orange')
+  .primaryPalette('indigo')
+  .accentPalette('orange')
   ;
 
   console.info('Configuring routings');

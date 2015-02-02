@@ -48,8 +48,8 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-app.use( passport.initialize());
-app.use( passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 var specs = {
   user: {
@@ -174,11 +174,12 @@ app.get('/config', function(req, res) {
 
 app.get('/oauth/google',
   passport.authenticate('google', { scope: [
-    'https://www.googleapis.com/auth/plus.login',
+    //'https://www.googleapis.com/auth/plus.login',
     'https://www.googleapis.com/auth/plus.profile.emails.read'
   ]})
 );
 
+/*
 app.get('/auth/google',
   passport.authenticate('google', { scope: [
     'https://www.googleapis.com/auth/userinfo.profile'
@@ -188,6 +189,7 @@ app.get('/auth/google',
     // function will not be called.
   }
 );
+*/
 
 app.get('/oauth/google/callback',
   passport.authenticate('google', {

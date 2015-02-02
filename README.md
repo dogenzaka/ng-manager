@@ -30,6 +30,15 @@ To install dependencies, use bower.
 bower install
 ```
 
+Example server uses Google OAuth as authentication provider. Before starting, you
+should set client info into environment variables.
+
+```shell
+export GOOGLE_CLIENT_ID=... 
+export GOOGLE_CLIENT_SECRET=...
+export GOOGLE_CALLBACK_URL=...
+```
+
 To run example server, run
 
 ```
