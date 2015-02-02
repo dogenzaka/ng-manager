@@ -63,7 +63,7 @@ angular
       var event = opts.event;
       var deferred = $q.defer();
       var submit = opts.submit;
-      var theme = opts.theme || 'indigo';
+      var theme = opts.theme || 'dialog';
       // normalize schea
       schema = $schemaNormalizer(schema);
 
