@@ -142,15 +142,16 @@ angular
         template = $templateCache.get('schema-form/input_number.html');
         break;
       case 'object':
-        scope.entity[scope.schema.path] = {};
+        console.log(scope.entity);
+        scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || {};
         template = $templateCache.get('schema-form/input_object.html');
         break;
       case 'array':
         if(schema.titlemap){
-          scope.entity[scope.schema.path] = [];
+          scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_checkboxes.html');
         }else{
-          scope.entity[scope.schema.path] = [];
+          scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_array.html');
         }
         break;

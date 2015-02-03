@@ -18,7 +18,7 @@ var user = function(i) {
     email: faker.internet.email(),
     phone: faker.phone.phoneNumber(),
     vod: {
-      dimensions: {
+      dimentions: {
         width: 100,
         height: 100
       },
