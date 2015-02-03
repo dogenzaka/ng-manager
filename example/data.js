@@ -17,6 +17,13 @@ var user = function(i) {
     lastName: faker.name.lastName(),
     email: faker.internet.email(),
     phone: faker.phone.phoneNumber(),
+    vod: {
+      dimensions: {
+        width: 100,
+        height: 100
+      },
+      duration: 3600000000
+    },
     createdAt: faker.date.past()
   };
 };

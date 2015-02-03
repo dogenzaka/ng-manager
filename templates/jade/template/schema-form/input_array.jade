@@ -1,3 +1,4 @@
-md-input-group
-  schema-item(ng-repeat='key in schema.keyOrder' schema='schema.items[key]' entity='entity' errors='errors')
+.md-whiteframe-z1
+  label(for='sf-{{::schema.path}}' ng-bind='::schema.key|translate')
+  schema-item(ng-repeat='key in schema.keyOrder' schema='schema.items[key]' entity='entity[schema.path]' errors='errors')
   span.error(ng-bind='errors[schema.path]')

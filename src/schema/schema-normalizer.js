@@ -1,3 +1,4 @@
+/* global _ */
 angular
 .module('ngManager')
 .factory('$schemaNormalizer', function() {
