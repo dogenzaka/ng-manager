@@ -16,7 +16,8 @@ var user = function(i) {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.email(),
-    phone: faker.phone.phoneNumber()
+    phone: faker.phone.phoneNumber(),
+    createdAt: faker.date.past()
   };
 };
 
