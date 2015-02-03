@@ -61,7 +61,8 @@ var specs = {
         firstName: { type: 'string', maxLength: 100, minLength: 1 },
         lastName: { type: 'string', maxLength: 100, minLength: 1 },
         email: { type: 'string', style: 'long' },
-        phone: 'string'
+        phone: 'string',
+        createdAt: 'date'
       },
       primaryKey: ['userId'],
       required: ['userId','firstName','lastName']
@@ -74,7 +75,8 @@ var specs = {
           'firstName',
           'lastName',
           'email',
-          'phone'
+          'phone',
+          { id: 'createdAt', type: 'date', format: 'short' }
         ]
       },
       download: true,

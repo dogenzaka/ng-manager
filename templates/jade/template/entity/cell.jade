@@ -5,5 +5,5 @@ td(ng-style='field.style' ng-click='edit()')
   div.error(ng-if='error')
     .error-content
       .icon.icon-alert-error(title='{{error.message}}')
-  span(ng-bind='row[field.id]' ng-if='!editing')
+  span(ng-if='!editing') {{ row[field.id]|viewfilter:field.type:field.format }}
   input(type='text' ng-model='row[field.id]' ng-if='editing' ng-blur='blur()')
