@@ -4,7 +4,7 @@ angular
   return function (input, type, format) {
 
     if(typeof(input) === 'object'){
-      input = input.tostring;
+      input = input.toString();
     }
 
     switch(type){

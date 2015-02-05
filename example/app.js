@@ -62,6 +62,19 @@ var specs = {
         lastName: { type: 'string', maxLength: 100, minLength: 1 },
         email: { type: 'string', style: 'long' },
         phone: 'string',
+        vod: {
+          type: 'object',
+          properties: {
+            dimentions: {
+              type: 'object',
+              properties: {
+                width: { type: 'number' },
+                height: { type: 'number' },
+              }
+            },
+            duration: { type: 'number' }
+          }
+        },
         createdAt: 'date'
       },
       primaryKey: ['userId'],
@@ -76,6 +89,7 @@ var specs = {
           'lastName',
           'email',
           'phone',
+          'vod',
           { id: 'createdAt', type: 'date', format: 'short' }
         ]
       },
@@ -143,7 +157,8 @@ app.get('/config', function(req, res) {
         firstName: 'First Name',
         lastName: 'Last Name',
         email: 'E-Mail',
-        phone: 'Phone'
+        phone: 'Phone',
+        createdAt: 'CreatedAt'
       },
       ja: {
         company: '会社',
@@ -158,7 +173,13 @@ app.get('/config', function(req, res) {
         firstName: '名',
         lastName: '姓',
         email: 'メールアドレス',
-        phone: '電話番号'
+        phone: '電話番号',
+        createdAt: '作成日',
+        vod: 'VOD',
+        dimentions: '大きさ',
+        width: '幅',
+        height: '高さ',
+        duration: '保存期間'
       }
     },
 

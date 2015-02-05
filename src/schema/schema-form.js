@@ -90,7 +90,6 @@ angular
       var entity = opts.entity || {};
       var deferred = $q.defer();
       var submit = opts.submit;
-      var theme = opts.theme || 'teal';
 
       // normalize schea
       schema = $schemaNormalizer(schema);
@@ -127,7 +126,7 @@ angular
   var linker = function(scope, element) {
 
     var schema = scope.schema;
-    var template = {};
+    var template = "";
     switch(schema.type){
       case 'string':
         if(schema.titlemap){
@@ -142,11 +141,17 @@ angular
       case 'number':
         template = $templateCache.get('schema-form/input_number.html');
         break;
+      case 'object':
+        console.log(scope.entity);
+        scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || {};
+        template = $templateCache.get('schema-form/input_object.html');
+        break;
       case 'array':
         if(schema.titlemap){
-          scope.entity[scope.schema.path] = [];
+          scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_checkboxes.html');
         }else{
+          scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_array.html');
         }
         break;

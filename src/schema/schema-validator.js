@@ -1,4 +1,4 @@
-/* global tv4 */
+/* global tv4,_ */
 angular
 .module('ngManager')
 .factory('$schemaValidator', function() {
