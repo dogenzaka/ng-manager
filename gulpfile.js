@@ -155,8 +155,5 @@ gulp.task('server', ['components','stylus','jade','fonts','scripts','nwk'], func
 });
 
 gulp.task('default', ['server']);
-
-gulp.task('build', ['components','stylus','jade','fonts','scripts'], function () {
-  process.exit(0)
-});
+gulp.task('build', ['components','stylus','jade','fonts','scripts']);
 
