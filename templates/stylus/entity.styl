@@ -7,12 +7,37 @@
       
       input[type="text"]
         margin 7px 0px 5px 5px
+        
+      .md-button
+        padding 0.4em 1em
+        margin 0.4em
+        font-size 14px
+        
+      .md-toggle-icon
+        font-size 1.5em;
 
-    .md-button
-      padding 0.4em 1em
-      margin 0.4em
-      font-size 14px
+        &:before
+          display inline-block
+          position relative
+          top 4px
+          transition transform 0.2s ease-in-out
+          -webkit-transition: -webkit-transform 0.2s ease-in-out
 
+      .md-toggle-icon.toggled        
+        &:before
+          transform: rotate(180deg);
+          -webkit-transform: rotate(180deg);
+                    
+      .md-whiteframe-z1
+        margin 1em
+        padding 1em
+        
+        md-input-container
+          padding 2px 2px 0px
+          
+        .schema-form-controls
+          padding 1em 0 0
+        
   table
     table-layout fixed
     margin-bottom 0

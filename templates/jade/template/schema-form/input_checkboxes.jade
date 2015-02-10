@@ -1,4 +1,4 @@
-md-input-group(id='sf-{{::schema.path}}')
+md-input-container(id='sf-{{::schema.path}}')
   md-checkbox(ng-repeat='key in schema.titlemap'
     ng-true-value="'{{key.value}}'"
     ng-model='entity[schema.path][$index]'

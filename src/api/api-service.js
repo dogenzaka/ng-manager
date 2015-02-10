@@ -110,6 +110,7 @@ angular
       config = null;
       return getConfig().then(function(data) {
         config = data;
+        console.log(config);
         $rootScope.$emit('config', config);
         return config;
       }, function(err) {

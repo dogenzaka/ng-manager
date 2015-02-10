@@ -7,8 +7,19 @@
         //input(type='file' id='importfile')
         md-button.md-raised.md-primary(translate='Import' ng-click='import($event)' aria-label='::"Import"|translate')
         md-button.md-raised.md-primary(translate='Export' ng-click='export($event)' aria-label='::"Export"|translate')
-        md-input(id='search' type='text' ng-model='search_q')
-        md-button.md-raised.md-primary(translate='Search' ng-click='search(search_q)' aria-label='::"Search"|translate')
+        //md-input(id='search' type='text' ng-model='search_q')
+        //md-button.md-raised.md-primary(translate='Search' ng-click='search(search_q)' aria-label='::"Search"|translate')
+        md-button(ng-model="toggled" ng-click='toggleSearchform()' ng-if='searchSchema.type')
+          span {{ "Search"|translate }}
+          span.icon.icon-navigation-expand-more(class='md-toggle-icon' ng-class='{"toggled" : toggled}')
+
+      //search form
+      section(class='searchform' ng-show='toggled')
+        .md-whiteframe-z1()
+          div(layout='row' layout-align='start center' layout-wrap)
+            schema-item(ng-repeat='key in searchSchema.keyOrder' schema='searchSchema.properties[key]' search_q='search_q' errors='errors' entity='searchForm' flex='33')
+          section.schema-form-controls(layout='row' layout-align='start center')
+            md-button.md-raised.md-primary(ng-bind='::"Search"|translate' ng-click='search()' aria-label='{{::"Search"|translate}}')
 
   .entity-list-body
     md-content

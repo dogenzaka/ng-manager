@@ -93,6 +93,7 @@ angular
 
       // normalize schea
       schema = $schemaNormalizer(schema);
+      console.log(schema);
 
       var scope = $rootScope.$new();
       scope.schema = schema;

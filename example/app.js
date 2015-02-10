@@ -128,6 +128,21 @@ var specs = {
           },
           'city'
         ]
+      },
+      search: {
+        schema: {
+          type: 'object',
+          properties: {
+            companyId: { type: 'string' },
+            country: {
+              type: 'string',
+              enum: ['Japan','Nepal','India']
+            },
+            zipCode: 'number',
+            city: 'string',
+            streetAddress: 'string'
+          }          
+        }
       }
     }
   }
@@ -252,13 +267,10 @@ var find = function(kind, keys) {
 
 var search = function(kind, q){
 
+  // your search method here  
   var list  = data[kind];
-  if(list){
-    return _.filter(list, function(item) {
-      return _.contains(_.values(item).toString(), q);
-    });
-  }
-  return [];
+  return list;
+
 };
 
 var filter = function(kind, q){
@@ -369,7 +381,7 @@ app.get('/search/entity/:kind', function(req, res) {
   var kind = req.params.kind;
   var limit = Number(req.query.limit) || 20;
   var offset = Number(req.query.offset) || 0;
-  var q = req.query.query;
+  var q = JSON.parse(req.query.query);
   var items = search(kind,q);
 
   var spec = specs[kind];
