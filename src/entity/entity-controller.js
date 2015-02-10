@@ -139,7 +139,6 @@ angular
     };
 
     $scope.filter = function(){
-      console.log($scope.filter_q);
       $entityService.filter({
         kind: kind,
         query: $scope.filter_q
