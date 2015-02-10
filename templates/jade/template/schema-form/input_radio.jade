@@ -1,4 +1,5 @@
-md-input-group(id='sf-{{::schema.path}}')
-  md-radio-group(ng-model='entity[schema.path]')
+md-input-container(id='sf-{{::schema.path}}')
+  span {{::schema.key|translate}}
+  md-radio-group(ng-model='entity[schema.path]' layout='row' layout-align='start center')
     md-radio-button(ng-repeat='key in schema.titlemap' value='{{::key.value|translate}}') {{::key.name|translate}}
   span.error(ng-bind='errors[schema.path]')

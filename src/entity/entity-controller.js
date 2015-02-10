@@ -9,6 +9,7 @@ angular
   $schemaForm,
   $entityService,
   $errorService,
+  $schemaNormalizer,
   $window) {
 
     var kind = $routeParams.kind;
@@ -41,6 +42,12 @@ angular
       });
     };
 
+    var getSearchSchema = function(entityConfig) {
+      // TODO : normalize
+      var schema = entityConfig.features.search && entityConfig.features.search.schema || {};
+      return $schemaNormalizer(schema);
+    };
+
     $scope.list = function() {
       $entityService.list({
         kind: kind
@@ -49,10 +56,12 @@ angular
         // Get entity schema
         var entityConfig = $entityService.getConfig(kind);
         var fields = getFields(entityConfig);
+        var searchSchema = getSearchSchema(entityConfig);
 
         $scope.fields = fields;
         $scope.schema = entityConfig.schema;
         $scope.rows = data.list;
+        $scope.searchSchema = searchSchema;
 
         loadCount = data.list.length;
 
@@ -101,7 +110,8 @@ angular
       $entityService.import(kind);
     };
 
-    $scope.search = function(query){
+    $scope.search = function(){
+      var query = $scope.searchForm;
       $entityService.search({
         kind: kind,
         query: query
@@ -115,8 +125,20 @@ angular
       });
     };
 
+    $scope.toggleSearchform = function(){
+
+      if(!$scope.searchForm){
+        $scope.searchForm = {};
+      }
+
+      if(!$scope.toggled){
+        $scope.toggled = true;
+      } else {
+        $scope.toggled = !$scope.toggled;
+      }
+    };
+
     $scope.filter = function(){
-      console.log($scope.filter_q);
       $entityService.filter({
         kind: kind,
         query: $scope.filter_q
