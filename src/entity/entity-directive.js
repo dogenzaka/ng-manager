@@ -156,14 +156,16 @@ angular
           var save = function() {
             scope.saving = true;
             scope.error = false;
-            if(typeof orig === 'string'){
+            if (typeof orig === 'string') {
               row[field.id] = input[0].value;
-            } else {
-              try{
+            } else {  
+              try {
                 row[field.id] = JSON.parse(input[0].value);
-              }catch(e){
-                row[field.id] = orig;
+              } catch (err) {
                 console.log("ERROR. JSON.parse failed");
+                scope.error = err;
+                scope.saving = false;
+                return;
               }
             }
             // TODO : validation
