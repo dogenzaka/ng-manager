@@ -4,7 +4,7 @@ angular
   return function (input, type, format) {
 
     if(typeof(input) === 'object'){
-      input = input.toString();
+      input = JSON.stringify(input);
     }
 
     switch(type){

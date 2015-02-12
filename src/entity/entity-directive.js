@@ -156,6 +156,20 @@ angular
           var save = function() {
             scope.saving = true;
             scope.error = false;
+            if (typeof orig === 'string') {
+              row[field.id] = input[0].value;
+            } else {  
+              try {
+                row[field.id] = JSON.parse(input[0].value);
+              } catch (err) {
+                console.log("ERROR. JSON.parse failed");
+                scope.error = err;
+                scope.saving = false;
+                return;
+              }
+            }
+            // TODO : validation
+
             $entityService.saveField({
               kind: kind,
               key: key,
