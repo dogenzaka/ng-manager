@@ -11,7 +11,7 @@ angular
   'datePicker',
   'ngCookies'
 ])
-.config(function($routeProvider, $mdThemingProvider) {
+.config(function($routeProvider, $mdThemingProvider, $sceDelegateProvider) {
 
   console.info('Configuring theme');
   $mdThemingProvider.theme('menu')
@@ -38,6 +38,10 @@ angular
   .primaryPalette('indigo')
   .accentPalette('orange')
   ;
+  $mdThemingProvider.theme('previewDialog')
+  .primaryPalette('teal')
+  .accentPalette('orange')
+  ;
 
   console.info('Configuring routings');
 
@@ -59,6 +63,14 @@ angular
     templateUrl: 'login.html'
   })
   ;
+
+  $sceDelegateProvider.resourceUrlWhitelist([
+    // Allow same origin resource loads.
+    'self',
+    // Allow loading from our assets domain.  Notice the difference between * and **.
+    '**'
+  ]);
+
 
 })
 .run(function($rootScope, $endpointService, $apiService, $errorService, $location, $authService) {

@@ -1,9 +1,13 @@
-td(ng-style='field.style' ng-click='edit()')
+td(ng-style='field.style')
   div.saving.reveal(ng-if='saving')
     .indicator.spinner
       .icon.icon-navigation-refresh
   div.error(ng-if='error')
     .error-content
       .icon.icon-alert-error(title='{{error.message}}')
-  span(ng-if='!editing') {{ row[field.id]|viewfilter:field.type:field.format }}
+  div.preview(ng-if='field.preview&&!editing')
+    .icon(
+      ng-click='openOpt()'
+      ng-class='{"icon-image-image": field.preview.type=="image", "icon-av-play-circle-fill":field.preview.type == "video"}')
+  span(ng-if='!editing' ng-click='edit()') {{ row[field.id]|viewfilter:field.type:field.format }}
   input(type='text' ng-if='editing' ng-blur='blur()' value='{{row[field.id]}}')
