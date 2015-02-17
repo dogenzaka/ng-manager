@@ -52,7 +52,7 @@ angular
     var list = _.find(tokens, function(t){
       return t.name === ep.name;
     });
-    return list != null;
+    return list;
   };
 
   return {
