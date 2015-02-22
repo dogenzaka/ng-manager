@@ -3,15 +3,6 @@ angular
 .module('ngManager')
 .factory('$schemaNormalizer', function() {
 
-  var enumToTitleMap = function(enm) {
-    var titleMap = []; //canonical titleMap format is a list.
-    enm.forEach(function(name) {
-      titleMap.push({name: name, value: name});
-    });
-    return titleMap;
-  };
-
-
   var normalize = function(schema, path, key) {
 
     // prevent normalizing twice
@@ -21,12 +12,6 @@ angular
 
     if (typeof schema === 'string') {
       schema = { type: schema };
-    }
-
-    // Enum to TitleMap
-    if(schema.enum){
-      schema.titlemap = enumToTitleMap(schema.enum);
-      delete schema.enum;
     }
 
     if (path) {

@@ -18,9 +18,10 @@ angular
 
     return _.map(fields, function(field) {
       if (typeof field === 'string') {
-        field = { id: field };
+        return { id: field };
+      } else {
+        return field;
       }
-      return field;
     });
 
   };

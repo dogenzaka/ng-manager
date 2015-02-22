@@ -1,5 +1,5 @@
 th(ng-style='field.style' ng-blur='blur')
-  span(ng-bind='field.id|translate')
+  span {{::field.label|translate}}
   .icon-box(ng-if='field.filter')
     span.icon.icon-navigation-expand-more(ng-click='open()' ng-if=' opening === "" ')
     span.icon.icon-navigation-expand-less(ng-click='close()' ng-if=' opening !== "" ')
