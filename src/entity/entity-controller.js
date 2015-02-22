@@ -35,10 +35,15 @@ angular
       var fields = features.list && features.list.fields || _.keys(schema.properties);
       return fields.map(function(field) {
         if (typeof field === 'string') {
-          return { id: field };
-        } else {
-          return field;
+          field = { id: field, label: field };
         }
+        field.label = field.label || field.id;
+        if (field.label.indexOf('.') >= 0) {
+          field.label = field.id.substr(field.label.indexOf('.')+1);
+        } else {
+          field.label = field.id;
+        }
+        return field;
       });
     };
 

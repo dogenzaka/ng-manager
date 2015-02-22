@@ -34,9 +34,11 @@ var company = function(i) {
     name: faker.company.companyName(),
     phrase: faker.company.catchPhrase(),
     country: faker.address.country(),
-    zipCode: faker.address.zipCode(),
-    city: faker.address.city(),
-    streetAddress: faker.address.streetAddress()
+    address: {
+      zipCode: faker.address.zipCode(),
+      city: faker.address.city(),
+      streetAddress: faker.address.streetAddress()
+    }
   };
 };
 

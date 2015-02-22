@@ -127,9 +127,9 @@ angular
 
     var schema = scope.schema;
     var template = "";
-    switch(schema.type){
+    switch(schema.type) {
       case 'string':
-        if(schema.titlemap){
+        if (schema.enum) {
           template = $templateCache.get('schema-form/input_radio.html');
         }else{
           template = $templateCache.get('schema-form/input.html');
@@ -142,15 +142,14 @@ angular
         template = $templateCache.get('schema-form/input_number.html');
         break;
       case 'object':
-        console.log(scope.entity);
         scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || {};
         template = $templateCache.get('schema-form/input_object.html');
         break;
       case 'array':
-        if(schema.titlemap){
+        if (schema.items && schema.items.enum) {
           scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_checkboxes.html');
-        }else{
+        } else {
           scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_array.html');
         }

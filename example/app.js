@@ -60,22 +60,10 @@ var specs = {
         userId: { type: 'string', maxLength: 100, minLength: 1 },
         firstName: { type: 'string', maxLength: 100, minLength: 1 },
         lastName: { type: 'string', maxLength: 100, minLength: 1 },
+        gender: { type: 'string', enum: ['male','female']},
         email: { type: 'string', style: 'long' },
         phone: 'string',
-        vod: {
-          type: 'object',
-          properties: {
-            dimentions: {
-              type: 'object',
-              properties: {
-                width: { type: 'number' },
-                height: { type: 'number' },
-              }
-            },
-            duration: { type: 'number' }
-          }
-        },
-        createdAt: 'date'
+        createdAt: { type: 'string', format: 'date' },
       },
       primaryKey: ['userId'],
       required: ['userId','firstName','lastName']
@@ -89,8 +77,7 @@ var specs = {
           'lastName',
           'email',
           'phone',
-          'vod',
-          { id: 'createdAt', type: 'date', format: 'short' }
+          { id: 'createdAt', format: 'short-date' }
         ]
       },
       download: true,
@@ -107,9 +94,14 @@ var specs = {
         name: { type: 'string', maxLength: 100, minLength: 1 },
         phrase: 'string',
         country: 'string',
-        zipCode: 'string',
-        city: 'string',
-        streetAddress: 'string'
+        address: {
+          type: 'object',
+          properties: {
+            zipCode: 'string',
+            city: 'string',
+            streetAddress: 'string'
+          }
+        }
       },
       primaryKey: ['companyId'],
       required: ['companyId', 'name']
@@ -126,7 +118,7 @@ var specs = {
               items: ['Japan','Nepal','India']
             }
           },
-          'city'
+          'address.city'
         ]
       },
       search: {
