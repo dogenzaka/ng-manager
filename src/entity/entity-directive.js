@@ -1,3 +1,4 @@
+/* global _ */
 angular
 .module('ngManager')
 .directive('entityTable', function($entityService) {
@@ -130,7 +131,7 @@ angular
   };
 
 })
-.directive('entityCell', function($entityService) {
+.directive('entityCell', function($entityService, $mdDialog) {
 
   return {
 
@@ -148,7 +149,7 @@ angular
       var row = scope.row;
       var field = scope.field;
       var key = scope.key;
-      
+
       scope.edit = function() {
         scope.editing = true;
         setTimeout(function() {
@@ -209,12 +210,63 @@ angular
         }, 0);
       };
 
+      if(field.preview){
+        scope.openOpt = function(){
+          $mdDialog.show({
+            template: '<md-dialog md-theme="previewDialog" aria-label="Preview dialog"><preview-dialog /></md-dialog>',
+            targetEvent: event,
+            controller: ['$scope', function($scope) {
+              $scope.field = field;
+              $scope.row = row;
+              $scope.kind = kind;
+            }]
+          });
+        };
+      }
+
       scope.blur = function() {
         scope.editing = false;
       };
 
     },
     templateUrl: 'entity/cell.html'
+
+  };
+
+})
+.directive('previewDialog', function() {
+
+  return {
+
+    restrict: 'AE',
+    templateUrl: 'entity/preview-dialog.html'
+
+  };
+
+})
+.directive('previewItem', function($compile) {
+
+  return {
+
+    restrict: 'AE',
+    link: function(scope, element) {
+      var field = scope.field;
+      var data = scope.row;
+
+      var template = '';
+      var url = field.preview.url.replace(/\{.+?\}/, data[field.id]);
+
+      switch (field.preview.type) {
+        case 'image':
+          template = '<img src="'+url+'" />';
+          break;
+        case 'video':
+          template = '<video controls autoplay><source src="'+url+'"></video>';
+          break;
+      }
+      var content = $compile(angular.element(template))(scope);
+      element.append(content);
+    }
 
   };
 

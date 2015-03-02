@@ -77,7 +77,15 @@ var specs = {
           'lastName',
           'email',
           'phone',
-          { id: 'createdAt', format: 'short-date' }
+          { id: 'createdAt', format: 'short-date' },
+          {
+            id: 'userIcon',
+            preview: {
+              type: 'image',
+              url: 'https://s3-ap-northeast-1.amazonaws.com/entm-vod/encoded/takusuta/{id}.png'
+            }
+          },
+          { id: 'createdAt', type: 'date', format: 'short' }
         ]
       },
       download: true,
@@ -118,9 +126,18 @@ var specs = {
               items: ['Japan','Nepal','India']
             }
           },
-          'address.city'
+          'address.city',
+          {
+            id: 'video',
+            preview: {
+              type: 'video',
+              url: 'https://s3-ap-northeast-1.amazonaws.com/entm-vod/encoded/takusuta/{id}.m3u8'
+            }
+          }
         ]
       },
+      previews: [
+      ],
       search: {
         schema: {
           type: 'object',
@@ -165,7 +182,15 @@ app.get('/config', function(req, res) {
         lastName: 'Last Name',
         email: 'E-Mail',
         phone: 'Phone',
-        createdAt: 'CreatedAt'
+        createdAt: 'CreatedAt',
+        userIcon: 'User Icon',
+        vod: 'VOD',
+        dimentions: 'Dimentions',
+        width: 'Width',
+        height: 'Height',
+        duration: 'Duration',
+        image: 'Image',
+        video: 'Video'
       },
       ja: {
         company: '会社',
@@ -182,11 +207,14 @@ app.get('/config', function(req, res) {
         email: 'メールアドレス',
         phone: '電話番号',
         createdAt: '作成日',
+        userIcon: 'ユーザーアイコン',
         vod: 'VOD',
         dimentions: '大きさ',
         width: '幅',
         height: '高さ',
-        duration: '保存期間'
+        duration: '保存期間',
+        image: 'イメージ',
+        video: 'ビデオ'
       }
     },
 
