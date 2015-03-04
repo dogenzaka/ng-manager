@@ -167,7 +167,7 @@ angular
     }
   };
 })
-.factory('authHttpInterceptor', function ($q, $rootScope, $location, $endpointService, $cookies) {
+.factory('authHttpInterceptor', function ($q, $rootScope, $location, $endpointService) {
   return {
     'request': function(config) {
       var ep = $endpointService.getSelected();
@@ -184,9 +184,9 @@ angular
 
       var token = _.find(tokens, { 'name': ep.name });
       if(token){
-        $cookies['XSRF-TOKEN'] = token.token;
-      } else {
-        $cookies['XSRF-TOKEN'] = null;
+        config.headers = {
+          'X-XSRF-TOKEN': token.token
+        };
       }
       return config || $q.when(config);
     },
