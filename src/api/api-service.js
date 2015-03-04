@@ -167,12 +167,12 @@ angular
     }
   };
 })
-.factory('authHttpInterceptor', function ($q, $rootScope, $location, $endpointService) {
+.factory('authHttpInterceptor', function ($q, $rootScope, $location, $endpointService, $cookies) {
   return {
     'request': function(config) {
       var ep = $endpointService.getSelected();
 
-      if(!ep){
+      if (!ep) {
         return config || $q.when(config);
       }
 
@@ -183,11 +183,15 @@ angular
       }
 
       var token = _.find(tokens, { 'name': ep.name });
-      if(token){
-        config.headers = {
-          'X-XSRF-TOKEN': token.token
-        };
+      var headerName = 'X-XSRF-TOKEN';
+      if (token) {
+        config.headers[headerName] = token.token;
       }
+
+      if ($cookies['XSRF-TOKEN']) {
+        delete $cookies['XSRF-TOKEN'];
+      }
+
       return config || $q.when(config);
     },
     'responseError': function(rejection) {
