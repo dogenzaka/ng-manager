@@ -15,7 +15,7 @@ angular
     var kind = $routeParams.kind;
     var limit = 30;
     var loadCount = 1;
-    var isLoading = false;
+    var isLoading;
     var isSearch = false;
     var isFilter = false;
 
@@ -54,6 +54,9 @@ angular
     };
 
     $scope.list = function() {
+
+      isLoading = true;
+
       $entityService.list({
         kind: kind
       }).then(function(data) {
@@ -80,6 +83,8 @@ angular
 
         // update size after applying list
         setTimeout(resize, 0);
+
+        isLoading = false;
 
       }, function(err) {
         $errorService.showError(err);
