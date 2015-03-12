@@ -172,7 +172,7 @@ angular
     'request': function(config) {
       var ep = $endpointService.getSelected();
 
-      if(!ep){
+      if (!ep) {
         return config || $q.when(config);
       }
 
@@ -183,11 +183,15 @@ angular
       }
 
       var token = _.find(tokens, { 'name': ep.name });
-      if(token){
-        $cookies['XSRF-TOKEN'] = token.token;
-      } else {
-        $cookies['XSRF-TOKEN'] = null;
+      var headerName = 'X-XSRF-TOKEN';
+      if (token) {
+        config.headers[headerName] = token.token;
       }
+
+      if ($cookies['XSRF-TOKEN']) {
+        delete $cookies['XSRF-TOKEN'];
+      }
+
       return config || $q.when(config);
     },
     'responseError': function(rejection) {
