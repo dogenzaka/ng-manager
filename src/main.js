@@ -9,7 +9,8 @@ angular
   'pascalprecht.translate',
   'infinite-scroll',
   'datePicker',
-  'ngCookies'
+  'ngCookies',
+  'naif.base64'
 ])
 .config(function($routeProvider, $mdThemingProvider, $sceDelegateProvider) {
 
