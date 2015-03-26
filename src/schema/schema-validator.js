@@ -128,19 +128,16 @@ angular
     }
   });
 
-  var normalize = function(data, schema) {
+  var normalize = function(data) {
+
     if (typeof data === 'object') {
       // remove empty data
       _.each(data, function(val, key) {
         if (val === '' || val === undefined || val === null) {
           delete data[key];
         } else if (typeof val === 'object') {
-          if (schema["properties"][key] != undefined && schema["properties"][key]['input'] === 'file' ) {
-             data[key] = JSON.stringify(val);
-          }
-          normalize(data[key], schema);
+          normalize(data[key]);
         }
-
       });
     }
   };
@@ -148,7 +145,9 @@ angular
   return {
 
     validate: function(data, schema, path) {
-      normalize(data, schema);
+
+      normalize(data);
+
       var result = tv4.validateMultiple(data, schema);
       if (result.valid) {
         return null;

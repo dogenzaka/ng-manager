@@ -7,11 +7,21 @@ angular.module('naif.base64', [])
     restrict: 'A',
     require: 'ngModel',
     link: function (scope, elem, attrs, ngModel) {
+
+      var arrayBufferToBase64 = function(buffer) {
+        var binary = '';
+        var bytes = new Uint8Array( buffer );
+        var len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+            binary += String.fromCharCode( bytes[ i ] );
+        }
+        return $window.btoa( binary );
+      };
+
       var fileObject = {};
 
       scope.readerOnload = function(e){
-        var base64 = _arrayBufferToBase64(e.target.result);
-        fileObject.base64 = base64;
+        fileObject.base64 = arrayBufferToBase64(e.target.result);
         scope.$apply(function(){
           ngModel.$setViewValue(angular.copy(fileObject));
         });
@@ -29,26 +39,14 @@ angular.module('naif.base64', [])
           fileObject.filesize = file.size;
           reader.readAsArrayBuffer(file);
         } else {
-          // 選択キャンセルでエラーとなる...
           fileObject.filetype = "";
           fileObject.filename = "";
           fileObject.filesize = "";
           fileObject.base64 = "";
           ngModel.$setViewValue(angular.copy(fileObject));
-
         }
       });
 
-      //http://stackoverflow.com/questions/9267899/arraybuffer-to-base64-encoded-string
-      function _arrayBufferToBase64( buffer ) {
-        var binary = '';
-        var bytes = new Uint8Array( buffer );
-        var len = bytes.byteLength;
-        for (var i = 0; i < len; i++) {
-            binary += String.fromCharCode( bytes[ i ] );
-        }
-        return $window.btoa( binary );
-      }
     }
   };
 }]);
