@@ -131,7 +131,7 @@ angular
       case 'string':
         if (schema.enum) {
           template = $templateCache.get('schema-form/input_radio.html');
-        }else{
+        } else {
           template = $templateCache.get('schema-form/input.html');
         }
         break;
@@ -143,7 +143,11 @@ angular
         break;
       case 'object':
         scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || {};
-        template = $templateCache.get('schema-form/input_object.html');
+        if (schema.format) {
+          template = $templateCache.get('schema-form/input_file.html');
+        } else {
+          template = $templateCache.get('schema-form/input_object.html');
+        }
         break;
       case 'array':
         if (schema.items && schema.items.enum) {

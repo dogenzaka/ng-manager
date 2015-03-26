@@ -1,0 +1,6 @@
+md-input-group
+  label(for='sf-{{::schema.path}}' ng-bind='::schema.key|translate' style="margin-bottom: 30px")
+  input(type='file', ng-model='entity[schema.path]', accept='{{schema.accept}}', base-sixty-four-input)
+  img(ng-src='data:{{entity[schema.path].filetype}};base64,{{entity[schema.path].base64}}', alt='{{entity[schema.path].filename}}', ng-if="::schema.preview")
+
+
