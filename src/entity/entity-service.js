@@ -134,7 +134,7 @@ angular
       var spec = getEntityConfig(kind);
       var keys = spec.schema.primaryKey;
       var key = keys.map(function(key) {
-        return encodeURIComponent(entity[key]);
+        return encodeURIComponent(entity[key] == null ? "" : entity[key]);
       }).join(',');
       return key;
     },
