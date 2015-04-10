@@ -3,7 +3,7 @@
 
   var app;
 
-  app = angular.module('datePicker', ['mgcrea.ngStrap', 'ngMaterial', 'ui.utils']);
+  app = angular.module('datePicker', ['ngMaterial', 'ui.utils']);
 
   app.directive('mdDatePicker', [    
     '$datepicker', function($datepicker) {      

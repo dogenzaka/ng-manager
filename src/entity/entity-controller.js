@@ -109,6 +109,7 @@ angular
         isLoading = false;
       }, function(err) {
         $errorService.showError(err);
+        isLoading = false;
       });
     };
 
