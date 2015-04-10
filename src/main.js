@@ -7,7 +7,6 @@ angular
   'ngAria',
   'ngMaterial',
   'pascalprecht.translate',
-  'infinite-scroll',
   'datePicker',
   'ngCookies',
   'naif.base64'

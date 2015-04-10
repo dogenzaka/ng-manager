@@ -5,7 +5,7 @@
         th.edit
         th(ng-repeat='field in fields' ng-style='field.style' head-cell)
         th.remove
-#entity-table-body(infinite-scroll='loadMore()' infinite-scroll-distance='0')
+#entity-table-body(ng-scroll='loadMore()')
   table.body
     tbody
       tr(ng-repeat='row in rows' entity-row='' fields='fields' row='row' kind='kind')
