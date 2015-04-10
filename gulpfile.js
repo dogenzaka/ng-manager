@@ -8,11 +8,13 @@ var stylus = require('gulp-stylus');
 var cssmin = require('gulp-cssmin');
 var sourcemaps = require('gulp-sourcemaps');
 var plumber = require('gulp-plumber');
+var deploy = require('gulp-gh-pages');
 
 // Concatnate 3rd party modules with duo
-gulp.task('components', function() {
+gulp.task('components', ['components-js','components-css']);
 
-  gulp
+gulp.task('components-js', function() {
+  return gulp
   .src([
     'bower_components/jquery/dist/jquery.js',
     'bower_components/angular/angular.js',
@@ -37,8 +39,11 @@ gulp.task('components', function() {
   .pipe(sourcemaps.write('maps/'))
   .pipe(gulp.dest('app/js/'))
   ;
+});
 
-  gulp
+gulp.task('components-css', function() {
+
+  return gulp
   .src([
     'bower_components/angular-material/angular-material.css'
     ,'bower_components/angular-material/themes/blue-theme.css'
@@ -68,7 +73,7 @@ gulp.task('components', function() {
 // Convert jade adn stylus files
 gulp.task('stylus', function() {
 
-  gulp
+  return gulp
   .src([
     './templates/stylus/main.styl'
   ])
@@ -90,7 +95,7 @@ gulp.task('jade', function() {
   .pipe(gulp.dest('app/'))
   ;
 
-  gulp
+  return gulp
   .src('./templates/jade/template/**/*.jade')
   .pipe(plumber())
   .pipe(jade())
@@ -105,7 +110,7 @@ gulp.task('jade', function() {
 // Concat and compress main scripts
 gulp.task('scripts', function() {
 
-  gulp
+  return gulp
   .src([
     './src/main.js',
     './src/**/*.js'
@@ -123,7 +128,7 @@ gulp.task('scripts', function() {
 
 gulp.task('fonts', function() {
 
-  gulp
+  return gulp
   .src([
     './fonts/**/*'
   ])
@@ -133,12 +138,19 @@ gulp.task('fonts', function() {
 });
 
 gulp.task('nwk', function() {
-  gulp
+
+  return gulp
   .src([
     './nwk/**/*'
   ])
   .pipe(gulp.dest('app'))
   ;
+});
+
+gulp.task('gh-pages', ['build'], function() {
+  return gulp
+  .src('./app/**/*')
+  .pipe(deploy());
 });
 
 // Launch the server
