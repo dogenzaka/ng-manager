@@ -131,6 +131,8 @@ angular
       case 'string':
         if (schema.enum) {
           template = $templateCache.get('schema-form/input_radio.html');
+        } else if (schema.format == 'textarea') {
+          template = $templateCache.get('schema-form/input_textarea.html');
         } else {
           template = $templateCache.get('schema-form/input.html');
         }
@@ -143,7 +145,7 @@ angular
         break;
       case 'object':
         scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || {};
-        if (schema.format) {
+        if (schema.format == 'file') {
           template = $templateCache.get('schema-form/input_file.html');
         } else {
           template = $templateCache.get('schema-form/input_object.html');
@@ -153,6 +155,9 @@ angular
         if (schema.items && schema.items.enum) {
           scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_checkboxes.html');
+        } else if (schema.format == 'tag') {
+          scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
+          template = $templateCache.get('schema-form/input_tag.html');
         } else {
           scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
           template = $templateCache.get('schema-form/input_array.html');

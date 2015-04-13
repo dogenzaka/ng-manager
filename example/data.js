@@ -24,6 +24,8 @@ var user = function(i) {
       },
       duration: 3600000000
     },
+    country: [{ key: 30, text: 'Japan' }, { key: 19, text: 'Spain' }],
+    comment: "ng-manager\nExtensible management console running on angular and material design.\n\nThis project is under development.",
     userIcon: '55/14/55149073c31b4f9ab651a1b02fcdf9bd/55149073c31b4f9ab651a1b02fcdf9bd%401421660751423-400k-00001',
     createdAt: faker.date.past()
   };
