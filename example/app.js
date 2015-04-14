@@ -274,40 +274,45 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/countries', function(req, res) {
-  res.json(
-    [
-      { key: 1, text: 'Argentina' },
-      { key: 2, text: 'Germany' },
-      { key: 3, text: 'Brazil' },
-      { key: 4, text: 'Colombia' },
-      { key: 5, text: 'England' },
-      { key: 6, text: 'Mexico' },
-      { key: 7, text: 'Croatia' },
-      { key: 8, text: 'Australia' },
-      { key: 9, text: 'France' },
-      { key: 10, text: 'Uruguay' },
-      { key: 11, text: 'Poland' },
-      { key: 12, text: 'Scotland' },
-      { key: 13, text: 'Ivory Coast' },
-      { key: 14, text: 'Slovakia' },
-      { key: 15, text: 'Wales' },
-      { key: 16, text: 'Ecuador' },
-      { key: 17, text: 'Belgium' },
-      { key: 18, text: 'Chile' },
-      { key: 19, text: 'Spain' },
-      { key: 20, text: 'Iceland' },
-      { key: 21, text: 'Austria' },
-      { key: 22, text: 'Rep Ireland' },
-      { key: 23, text: 'USA' },
-      { key: 24, text: 'Netherlands' },
-      { key: 25, text: 'Costa Rica' },
-      { key: 26, text: 'Denmark' },
-      { key: 27, text: 'South Korea' },
-      { key: 28, text: 'Sweden' },
-      { key: 29, text: 'Romania' },
-      { key: 30, text: 'Japan' },
-    ]
-  );
+
+  countryJSON = [
+                  { key: 1, text: 'Argentina' },
+                  { key: 2, text: 'Germany' },
+                  { key: 3, text: 'Brazil' },
+                  { key: 4, text: 'Colombia' },
+                  { key: 5, text: 'England' },
+                  { key: 6, text: 'Mexico' },
+                  { key: 7, text: 'Croatia' },
+                  { key: 8, text: 'Australia' },
+                  { key: 9, text: 'France' },
+                  { key: 10, text: 'Uruguay' },
+                  { key: 11, text: 'Poland' },
+                  { key: 12, text: 'Scotland' },
+                  { key: 13, text: 'Ivory Coast' },
+                  { key: 14, text: 'Slovakia' },
+                  { key: 15, text: 'Wales' },
+                  { key: 16, text: 'Ecuador' },
+                  { key: 17, text: 'Belgium' },
+                  { key: 18, text: 'Chile' },
+                  { key: 19, text: 'Spain' },
+                  { key: 20, text: 'Iceland' },
+                  { key: 21, text: 'Austria' },
+                  { key: 22, text: 'Rep Ireland' },
+                  { key: 23, text: 'USA' },
+                  { key: 24, text: 'Netherlands' },
+                  { key: 25, text: 'Costa Rica' },
+                  { key: 26, text: 'Denmark' },
+                  { key: 27, text: 'South Korea' },
+                  { key: 28, text: 'Sweden' },
+                  { key: 29, text: 'Romania' },
+                  { key: 30, text: 'Japan' },
+  ];
+
+  retJSON = countryJSON.filter(function(value) {
+    return value.text.toLowerCase().indexOf(req.query.query.toLowerCase()) != -1;
+  });
+
+  res.json(retJSON);
 });
 
 // pick value for specific keys as array
