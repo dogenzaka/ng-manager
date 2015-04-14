@@ -1,0 +1,5 @@
+md-input-group
+  label(for='sf-{{::schema.path}}' ng-bind='::schema.key|translate' style="margin-bottom: 30px")
+  div(ng-controller='TagCtrl')
+    tags-input(ng-model='entity[schema.path]' placeholder='Add {{::schema.path}}' add-from-autocomplete-only='{{::schema.addFromAutocompleteOnly}}' tag-uri='{{::schema.tagUri}}' max-tags="{{::schema.maxTags}}")
+      auto-complete(source='loadTags($query)' min-length='0' debounce-delay='0' max-results-to-show='10')

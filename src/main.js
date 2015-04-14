@@ -9,7 +9,8 @@ angular
   'pascalprecht.translate',
   'datePicker',
   'ngCookies',
-  'naif.base64'
+  'naif.base64',
+  'ngTagsInput',
 ])
 .config(function($routeProvider, $mdThemingProvider, $sceDelegateProvider) {
 

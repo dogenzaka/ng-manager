@@ -63,8 +63,11 @@ var specs = {
         gender: { type: 'string', enum: ['male','female']},
         email: { type: 'string', style: 'long' },
         phone: 'string',
+        comment: { type: 'string', multiline: true,  maxLength: 100 },
         userIcon: { type: 'object', format: 'file', accept: 'image/*', preview: true},
         voice: { type: 'object', format: 'file', accept: '.mp3', preview: false},
+        country: { type: 'array', format: 'tag', addFromAutocompleteOnly:true , maxTags: 2, tagUri: '/countries'},
+        tag: { type: 'array', format: 'tag', addFromAutocompleteOnly:false , maxTags: 5, tagUri: '/countries'},
         createdAt: { type: 'string', format: 'date' },
       },
       primaryKey: ['userId'],
@@ -87,6 +90,7 @@ var specs = {
               url: 'https://s3-ap-northeast-1.amazonaws.com/entm-vod/encoded/takusuta/{id}.png'
             }
           },
+          //'country',
           { id: 'createdAt', type: 'date', format: 'short' }
         ]
       },
@@ -193,7 +197,8 @@ app.get('/config', function(req, res) {
         height: 'Height',
         duration: 'Duration',
         image: 'Image',
-        video: 'Video'
+        video: 'Video',
+        comment: 'Comment'
       },
       ja: {
         company: '会社',
@@ -218,7 +223,8 @@ app.get('/config', function(req, res) {
         height: '高さ',
         duration: '保存期間',
         image: 'イメージ',
-        video: 'ビデオ'
+        video: 'ビデオ',
+        comment: 'コメント'
       }
     },
 
@@ -265,6 +271,48 @@ app.get('/oauth/google/callback',
 app.get('/logout', function(req, res){
   req.logout();
   res.status(200).end();
+});
+
+app.get('/countries', function(req, res) {
+
+  countryJSON = [
+                  { key: 1, text: 'Argentina' },
+                  { key: 2, text: 'Germany' },
+                  { key: 3, text: 'Brazil' },
+                  { key: 4, text: 'Colombia' },
+                  { key: 5, text: 'England' },
+                  { key: 6, text: 'Mexico' },
+                  { key: 7, text: 'Croatia' },
+                  { key: 8, text: 'Australia' },
+                  { key: 9, text: 'France' },
+                  { key: 10, text: 'Uruguay' },
+                  { key: 11, text: 'Poland' },
+                  { key: 12, text: 'Scotland' },
+                  { key: 13, text: 'Ivory Coast' },
+                  { key: 14, text: 'Slovakia' },
+                  { key: 15, text: 'Wales' },
+                  { key: 16, text: 'Ecuador' },
+                  { key: 17, text: 'Belgium' },
+                  { key: 18, text: 'Chile' },
+                  { key: 19, text: 'Spain' },
+                  { key: 20, text: 'Iceland' },
+                  { key: 21, text: 'Austria' },
+                  { key: 22, text: 'Rep Ireland' },
+                  { key: 23, text: 'USA' },
+                  { key: 24, text: 'Netherlands' },
+                  { key: 25, text: 'Costa Rica' },
+                  { key: 26, text: 'Denmark' },
+                  { key: 27, text: 'South Korea' },
+                  { key: 28, text: 'Sweden' },
+                  { key: 29, text: 'Romania' },
+                  { key: 30, text: 'Japan' },
+  ];
+
+  retJSON = countryJSON.filter(function(value) {
+    return value.text.toLowerCase().indexOf(req.query.query.toLowerCase()) != -1;
+  });
+
+  res.json(retJSON);
 });
 
 // pick value for specific keys as array

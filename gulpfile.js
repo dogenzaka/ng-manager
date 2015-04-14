@@ -31,7 +31,8 @@ gulp.task('components-js', function() {
     'bower_components/angular-strap/dist/angular-strap.tpl.js',
     'bower_components/material-date-picker/build/datepicker.js',
     'bower_components/angular-ui-utils/ui-utils.js',
-    'bower_components/angular-cookies/angular-cookies.min.js'
+    'bower_components/angular-cookies/angular-cookies.min.js',
+    'bower_components/ng-tags-input/ng-tags-input.js'
   ])
   .pipe(sourcemaps.init())
   .pipe(concat('components.js'))
@@ -61,6 +62,7 @@ gulp.task('components-css', function() {
     ,'bower_components/material-date-picker/build/styles/main.css'
     ,'bower_components/angular-motion/dist/angular-motion.css'
     ,'bower_components/bootstrap/dist/css/bootstrap.css'
+    ,'bower_components/ng-tags-input/ng-tags-input.min.css'
   ,
   ])
   .pipe(concat('components.css'))
