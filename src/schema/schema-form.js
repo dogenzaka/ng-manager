@@ -131,7 +131,7 @@ angular
       case 'string':
         if (schema.enum) {
           template = $templateCache.get('schema-form/input_radio.html');
-        } else if (schema.format == 'textarea') {
+        } else if (schema.multiline) {
           template = $templateCache.get('schema-form/input_textarea.html');
         } else {
           template = $templateCache.get('schema-form/input.html');

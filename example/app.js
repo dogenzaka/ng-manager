@@ -63,7 +63,7 @@ var specs = {
         gender: { type: 'string', enum: ['male','female']},
         email: { type: 'string', style: 'long' },
         phone: 'string',
-        comment: { type: 'string', format: 'textarea',  maxLength: 100 },
+        comment: { type: 'string', multiline: true,  maxLength: 100 },
         userIcon: { type: 'object', format: 'file', accept: 'image/*', preview: true},
         voice: { type: 'object', format: 'file', accept: '.mp3', preview: false},
         country: { type: 'array', format: 'tag', addFromAutocompleteOnly:true , maxTags: 2, tagUri: '/countries'},
