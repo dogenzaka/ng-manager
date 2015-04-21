@@ -46,7 +46,7 @@ angular
     return $q(function(resolve, reject) {
       $http({
         url: getUrl(path),
-        method: 'PUT',
+        method: 'POST',
         data: data
       })
       .then(resolution(resolve), rejection(reject));
@@ -209,4 +209,3 @@ angular
   $httpProvider.interceptors.push('authHttpInterceptor');
 })
 ;
-
