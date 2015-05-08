@@ -1,6 +1,7 @@
 angular
 .module('ngManager')
 .factory('$schemaForm', function(
+  $errorService,
   $mdDialog,
   $rootScope,
   $sideContent,
@@ -42,6 +43,7 @@ angular
         deferred.resolve(scope.entity);
       }, function(err) {
         deferred.reject(err);
+        $errorService.showError(err);
       });
     };
   };
