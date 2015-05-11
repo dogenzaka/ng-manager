@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- '0.12'
+env:
+  global:
+    secure: j+8rJtms4Xv0RRttNMZR2A4q/7Sh9QhxSAefMjuV9KWGu5q8qTbioA8Kko1FgZetaSbvIZN/SL1tkGAnIAsWB/eGCYIuKoBIkvo407L7Hxc///88Cz1ZXHFLLBU5cCt3E0jAL4LhAfmRakEcmHgOcDzpPnHhuVS3qKHzU1SpwAk=
+install:
+- npm install
+- npm install -g bower
+- bower install
+script:
+- gulp build
+after_success:
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./deploy.sh'
