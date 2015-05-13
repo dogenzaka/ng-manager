@@ -155,10 +155,14 @@ angular
         break;
       case 'array':
         if (schema.items && schema.items.enum) {
-          scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
+          if (scope.entity) {
+            scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
+          }
           template = $templateCache.get('schema-form/input_checkboxes.html');
         } else if (schema.format == 'tag') {
-          scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
+          if (scope.entity) {
+            scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
+          }
           template = $templateCache.get('schema-form/input_tag.html');
         } else {
           scope.entity[scope.schema.path] = scope.entity[scope.schema.path] || [];
