@@ -94,6 +94,14 @@ var specs = {
           { id: 'createdAt', type: 'date', format: 'short' }
         ]
       },
+      search: {
+        schema: {
+          type: 'object',
+          properties: {
+            country: { type: 'array', format: 'tag', addFromAutocompleteOnly:true , maxTags: 1, tagUri: '/countries'},
+          }
+        }
+      },
       download: true,
       upload: true
     }

@@ -10,7 +10,8 @@ angular
   $entityService,
   $errorService,
   $schemaNormalizer,
-  $window) {
+  $window,
+  sharedScopes) {
 
     var kind = $routeParams.kind;
     var limit = 30;
@@ -123,14 +124,20 @@ angular
 
     $scope.search = function(){
       var query = $scope.searchForm;
+
+      var scopeTagCtrl = sharedScopes.getScope('TagCtrl').entity;
+      _.each($scope.searchSchema.properties, function(i,v){
+       if (i.type === 'array' && i.format === 'tag') {
+         query[v] = scopeTagCtrl[v];
+       }
+      });
+
       $entityService.search({
         kind: kind,
         query: query
       }).then(function(data) {
-        if ( data.list.length !== 0 ) {
           $scope.rows = data.list;
           isSearch = true;
-        }
       }, function(err) {
         $errorService.showError(err);
       });
@@ -173,6 +180,5 @@ angular
 
     $scope.list();
 
-})
-;
+});
 
