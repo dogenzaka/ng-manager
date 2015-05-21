@@ -118,7 +118,13 @@ angular
             entity: entity
           });
         }
-        return $apiService.put('/entity/'+kind+'/'+key, entity);
+        var result = $apiService.put('/entity/'+kind+'/'+key, entity);
+        if(!key){
+          result.then(function() {
+            _this.list(opts);
+          });
+        }
+        return result;
       };
 
       return $schemaForm.showSide({
