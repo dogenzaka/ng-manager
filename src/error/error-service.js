@@ -23,7 +23,7 @@ angular
         };
       }],
       templateUrl: 'toasts/error.html',
-      duration: 6000,
+      hideDelay: 30000,
       position: 'top right'
     });
   };
