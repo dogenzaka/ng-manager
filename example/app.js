@@ -69,6 +69,8 @@ var specs = {
         country: { type: 'array', format: 'tag', addFromAutocompleteOnly:true , maxTags: 2, tagUri: '/countries'},
         tag: { type: 'array', format: 'tag', addFromAutocompleteOnly:false , maxTags: 5, tagUri: '/countries'},
         createdAt: { type: 'string', format: 'date' },
+        onlyCreate: { type: 'string', onlyCreate: true },
+        onlyUpdate: { type: 'string', onlyUpdate: true },
       },
       primaryKey: ['userId'],
       required: ['userId','firstName','lastName']
@@ -206,7 +208,9 @@ app.get('/config', function(req, res) {
         duration: 'Duration',
         image: 'Image',
         video: 'Video',
-        comment: 'Comment'
+        comment: 'Comment',
+        onlyCreate: 'onlyCreate',
+        onlyUpdate: 'onlyUpdate'
       },
       ja: {
         company: '会社',
@@ -232,7 +236,9 @@ app.get('/config', function(req, res) {
         duration: '保存期間',
         image: 'イメージ',
         video: 'ビデオ',
-        comment: 'コメント'
+        comment: 'コメント',
+        onlyCreate: '新規のみ表示',
+        onlyUpdate: '更新のみ表示'
       }
     },
 

@@ -1,4 +1,4 @@
-md-input-group
+md-input-group(ng-if="::schema.display!='none'")
   label(for='sf-{{::schema.path}}' ng-bind='::schema.key|translate')
   md-input(id='sf-{{::schema.path}}' type='text' ng-model='entity[schema.path]' ng-change='validate(schema.path)')
   span.error(ng-bind='errors[schema.path]')
