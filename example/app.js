@@ -70,7 +70,7 @@ var specs = {
         tag: { type: 'array', format: 'tag', addFromAutocompleteOnly:false , maxTags: 5, tagUri: '/countries'},
         createdAt: { type: 'string', format: 'date' },
         onlyCreate: { type: 'string', onlyCreate: true },
-        onlyUpdate: { type: 'string', onlyUpdate: true },
+        onlyUpdate: { type: 'string', onlyUpdate: true }
       },
       primaryKey: ['userId'],
       required: ['userId','firstName','lastName']
@@ -118,6 +118,7 @@ var specs = {
         name: { type: 'string', maxLength: 100, minLength: 1 },
         phrase: 'string',
         country: 'string',
+        externalLink: { type: 'string', format: 'anchor', onlyUpdate: true },
         address: {
           type: 'object',
           properties: {
@@ -210,7 +211,8 @@ app.get('/config', function(req, res) {
         video: 'Video',
         comment: 'Comment',
         onlyCreate: 'onlyCreate',
-        onlyUpdate: 'onlyUpdate'
+        onlyUpdate: 'onlyUpdate',
+        externalLink: 'ExternalLink'
       },
       ja: {
         company: '会社',
@@ -238,7 +240,8 @@ app.get('/config', function(req, res) {
         video: 'ビデオ',
         comment: 'コメント',
         onlyCreate: '新規のみ表示',
-        onlyUpdate: '更新のみ表示'
+        onlyUpdate: '更新のみ表示',
+        externalLink: '外部リンク'
       }
     },
 

@@ -43,6 +43,7 @@ var company = function(i) {
       streetAddress: faker.address.streetAddress()
     },
     video: '55/14/55149073c31b4f9ab651a1b02fcdf9bd/55149073c31b4f9ab651a1b02fcdf9bd%401421660751423index',
+    externalLink: 'https://github.com/dogenzaka/ng-manager'
   };
 };
 

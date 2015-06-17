@@ -135,6 +135,8 @@ angular
           template = $templateCache.get('schema-form/input_radio.html');
         } else if (schema.multiline) {
           template = $templateCache.get('schema-form/input_textarea.html');
+        } else if (schema.format == 'anchor') {
+          template = $templateCache.get('schema-form/anchor.html');
         } else {
           template = $templateCache.get('schema-form/input.html');
         }
