@@ -105,12 +105,21 @@ angular
     },
 
     showForm: function(opts) {
-
       var kind = opts.kind;
       var key = opts.key;
       var entity = opts.entity || {};
       var spec = getEntityConfig(kind);
       var _this = this;
+
+      for(var k in spec.schema.properties){
+        if (spec.schema.properties[k].onlyCreate || spec.schema.properties[k].onlyUpdate) {
+          spec.schema.properties[k]["display"] = "none";
+          if ( (!key && spec.schema.properties[k].onlyCreate) || (key && spec.schema.properties[k].onlyUpdate) ) {
+            spec.schema.properties[k]["display"] = "";
+          }
+        }
+      }
+
       var submit = function() {
         if(!key){
           key = _this.getKey({

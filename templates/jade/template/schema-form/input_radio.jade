@@ -1,4 +1,4 @@
-md-input-container(id='sf-{{::schema.path}}')
+md-input-container(id='sf-{{::schema.path}}' ng-if="::schema.display!='none'")
   span {{::schema.key|translate}}
   md-radio-group(ng-model='entity[schema.path]' layout='row' layout-align='start center')
     md-radio-button(ng-repeat='key in schema.enum' value='{{::key}}') {{::key|translate}}

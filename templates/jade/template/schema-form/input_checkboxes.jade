@@ -1,4 +1,4 @@
-md-input-container(id='sf-{{::schema.path}}')
+md-input-container(id='sf-{{::schema.path}}' ng-if="::schema.display!='none'")
   md-checkbox(ng-repeat='key in schema.items.enum'
     ng-true-value="'{{::key}}'"
     ng-model='entity[schema.path][$index]'

@@ -1,4 +1,4 @@
-.md-whiteframe-z1
-  label(for='sf-{{::schema.path}}' ng-bind='::schema.key|translate')
+.md-whiteframe-z1(ng-if="::schema.display!='none'")
+  label(for='sf-{{::schema.path}}' ng-bind='::schema.key|translate' )
   schema-item(ng-repeat='key in schema.keyOrder' schema='schema.items[key]' entity='entity[schema.path]' errors='errors')
   span.error(ng-bind='errors[schema.path]')

@@ -1,4 +1,4 @@
-md-input-group
+md-input-group(ng-if="::schema.display!='none'")
   label(for='sf-{{::schema.path}}' ng-bind='::schema.key|translate' style="margin-bottom: 30px")
   div(ng-controller='TagCtrl')
     tags-input(ng-model='entity[schema.path]' placeholder='{{::schema.path|translate}}' add-from-autocomplete-only='{{::schema.addFromAutocompleteOnly}}' tag-uri='{{::schema.tagUri}}' max-tags="{{::schema.maxTags}}")
