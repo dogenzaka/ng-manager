@@ -67,7 +67,7 @@ var specs = {
         userIcon: { type: 'object', format: 'file', accept: 'image/*', preview: true},
         voice: { type: 'object', format: 'file', accept: '.mp3', preview: false},
         country: { type: 'array', format: 'tag', addFromAutocompleteOnly:true , maxTags: 2, tagUri: '/countries'},
-        tag: { type: 'array', format: 'tag', addFromAutocompleteOnly:false , maxTags: 5, tagUri: '/countries'},
+        tag: { type: 'array', format: 'tag', addFromAutocompleteOnly:false , maxTags: 5, minLength: 1, tagUri: '/countries'},
         createdAt: { type: 'string', format: 'date' },
         onlyCreate: { type: 'string', onlyCreate: true },
         onlyUpdate: { type: 'string', onlyUpdate: true },
