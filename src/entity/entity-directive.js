@@ -1,7 +1,7 @@
 /* global _ */
 angular
 .module('ngManager')
-.directive('entityTable', function($entityService) {
+.directive('entityTable', function($entityService, $errorService) {
 
   return {
     restrict: 'AE',
@@ -10,8 +10,22 @@ angular
       var kind = scope.kind;
 
       scope.add = function() {
-        $entityService.showForm({ kind: kind }, function(data) {
-        });
+        if (scope.schema.initialKey) {
+          scope.key = scope.schema.initialKey;
+          $entityService
+          .get({ kind: kind, key: scope.key })
+          .then(function(data) {
+            $entityService.showForm({
+              kind: kind,
+              key: scope.key,
+              entity: data
+            });
+          }, function(err) {
+            $errorService.showError(err);
+          });
+        } else {
+          $entityService.showForm({ kind: kind }, function(data) {});
+        }
       };
 
       scope.$on('entity.removed', function(e, data) {
@@ -283,4 +297,3 @@ angular
 
 })
 ;
-

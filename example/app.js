@@ -73,7 +73,8 @@ var specs = {
         onlyUpdate: { type: 'string', onlyUpdate: true }
       },
       primaryKey: ['userId'],
-      required: ['userId','firstName','lastName']
+      required: ['userId','firstName','lastName'],
+      initialKey: "initial",
     },
 
     features: {
@@ -413,6 +414,9 @@ app.get('/entity/:kind/:keys', function(req, res) {
   var keys = req.params.keys.split(',');
   var item = find(kind, keys);
   if (item) {
+    res.json(item);
+  } else if (keys[0] == 'initial') {
+    item = {"userId": "user_new"};
     res.json(item);
   } else {
     res.status(404).end();
