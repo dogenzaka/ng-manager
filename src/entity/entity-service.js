@@ -189,11 +189,13 @@ angular
           return reject(new Error('query is null'));
         }
 
+        var offset = opts.offset || 0;
+
         $apiService
         .get('/search/entity/'+kind, {
           query: query,
-          limit: -1,
-          offset: 0
+          limit: 30,
+          offset: offset
         })
         .then(function(data) {
           var config = getEntityConfig(kind);
