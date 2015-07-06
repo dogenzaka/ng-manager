@@ -10,22 +10,23 @@ angular
       var kind = scope.kind;
 
       scope.add = function() {
-        if (scope.schema.initialKey) {
-          scope.key = scope.schema.initialKey;
-          $entityService
-          .get({ kind: kind, key: scope.key })
-          .then(function(data) {
-            $entityService.showForm({
+        Promise.resolve()
+        .then(function(){
+          if (scope.schema.addInitialize) {
+            return $entityService.get({
               kind: kind,
-              key: scope.key,
-              entity: data
-            });
-          }, function(err) {
-            $errorService.showError(err);
+              initialize: true
+            })
+          }
+        })
+        .then(function(data){
+          $entityService.showForm({
+            kind: kind,
+            entity: data
           });
-        } else {
-          $entityService.showForm({ kind: kind }, function(data) {});
-        }
+        }, function(err) {
+          $errorService.showError(err);
+        });
       };
 
       scope.$on('entity.removed', function(e, data) {
