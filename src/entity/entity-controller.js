@@ -19,6 +19,7 @@ angular
     var isLoading;
     var isSearch = false;
     var isFilter = false;
+    var query;
 
     console.info('Entity', kind);
 
@@ -93,21 +94,38 @@ angular
     };
 
     $scope.loadMore = function(){
-      if(isLoading || isSearch || isFilter) return;
+      if(isLoading || isFilter) return;
 
       var offset = loadCount;
+
+      if (offset % limit != 0) {
+        return;
+      }
+
       isLoading = true;
 
-      $entityService.list({
-        kind: kind,
-        limit: limit,
-        offset: offset
-      }).then(function(data) {
+      Promise.resolve()
+      .then(function(){
+        if (isSearch) {
+          return $entityService.search({
+            kind: kind,
+            query: query,
+            limit: limit,
+            offset: offset
+          })
+        }
+        return $entityService.list({
+          kind: kind,
+          limit: limit,
+          offset: offset
+        })
+      })
+      .then(function(data){
         if ( data.list.length !== 0 ) {
           loadCount += data.list.length;
           $scope.rows = $scope.rows.concat(data.list);
+          isLoading = false;
         }
-        isLoading = false;
       }, function(err) {
         $errorService.showError(err);
         isLoading = false;
@@ -123,21 +141,21 @@ angular
     };
 
     $scope.search = function(){
-      var query = $scope.searchForm;
-
+      query = $scope.searchForm;
       var scopeTagCtrl = sharedScopes.getScope('TagCtrl').entity;
       _.each($scope.searchSchema.properties, function(i,v){
        if (i.type === 'array' && i.format === 'tag') {
          query[v] = scopeTagCtrl[v];
        }
       });
-
       $entityService.search({
         kind: kind,
-        query: query
+        query: query,
+        offset: 0
       }).then(function(data) {
-          $scope.rows = data.list;
-          isSearch = true;
+        $scope.rows = data.list;
+        loadCount = data.list.length;
+        isSearch = true;
       }, function(err) {
         $errorService.showError(err);
       });
@@ -181,4 +199,3 @@ angular
     $scope.list();
 
 });
-
