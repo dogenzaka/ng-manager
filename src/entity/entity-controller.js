@@ -142,12 +142,14 @@ angular
 
     $scope.search = function(){
       query = $scope.searchForm;
-      var scopeTagCtrl = sharedScopes.getScope('TagCtrl').entity;
-      _.each($scope.searchSchema.properties, function(i,v){
-       if (i.type === 'array' && i.format === 'tag') {
-         query[v] = scopeTagCtrl[v];
-       }
-      });
+      if (sharedScopes.getScope('TagCtrl')) {
+        var scopeTagCtrl = sharedScopes.getScope('TagCtrl').entity;
+        _.each($scope.searchSchema.properties, function(i,v){
+         if (i.type === 'array' && i.format === 'tag') {
+           query[v] = scopeTagCtrl[v];
+         }
+        });
+      }
       $entityService.search({
         kind: kind,
         query: query,
