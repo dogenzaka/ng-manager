@@ -84,6 +84,10 @@ angular
         }
 
         var key = opts.key;
+        if (opts.initialize) {
+          key = "";
+        }
+
         if (key === undefined) {
           return reject(new Error('key is null'));
         }

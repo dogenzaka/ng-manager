@@ -74,7 +74,7 @@ var specs = {
       },
       primaryKey: ['userId'],
       required: ['userId','firstName','lastName'],
-      initialKey: "initial",
+      addInitialize: true,
     },
 
     features: {
@@ -382,6 +382,11 @@ var remove = function(kind, keys) {
 };
 
 app.get('/entity/:kind', function(req, res) {
+  if (req.path.slice(-1) == "/") {
+    item = {"userId": "user_new"};
+    res.json(item);
+    return;
+  }
 
   var kind = req.params.kind;
   var limit = Number(req.query.limit) || 20;
@@ -414,9 +419,6 @@ app.get('/entity/:kind/:keys', function(req, res) {
   var keys = req.params.keys.split(',');
   var item = find(kind, keys);
   if (item) {
-    res.json(item);
-  } else if (keys[0] == 'initial') {
-    item = {"userId": "user_new"};
     res.json(item);
   } else {
     res.status(404).end();
