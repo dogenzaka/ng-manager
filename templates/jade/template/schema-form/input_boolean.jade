@@ -1,3 +1,3 @@
 md-input-group(ng-if="::schema.display!='none'")
-  md-switch(id='sf-{{::schema.path}}' ng-model='entity[schema.path]' ng-change='validate(schema.path)') {{::schema.key}}
+  md-switch(id='sf-{{::schema.path}}' ng-model='entity[schema.path]' ng-change='validate(schema.path)') {{::schema.key|translate}}
   span.error(ng-bind='errors[schema.path]')
