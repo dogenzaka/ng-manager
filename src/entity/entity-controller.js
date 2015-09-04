@@ -55,6 +55,20 @@ angular
       return $schemaNormalizer(schema);
     };
 
+    var getSearchForm = function(searchForm) {
+      query = searchForm;
+      if (sharedScopes.getScope('TagCtrl')) {
+        var scopeTagCtrl = sharedScopes.getScope('TagCtrl').entity;
+        _.each($scope.searchSchema.properties, function(i,v){
+         if (i.type === 'array' && i.format === 'tag') {
+           query[v] = scopeTagCtrl[v];
+         }
+        });
+      }
+      return query;
+    };
+
+
     $scope.list = function() {
 
       isLoading = true;
@@ -133,7 +147,11 @@ angular
     };
 
     $scope.export = function(){
-      $entityService.export(kind,$scope.rows);
+      var query;
+      if (isSearch) {
+        query = getSearchForm($scope.searchForm);
+      }
+      $entityService.export(kind,$scope.rows, query);
     };
 
     $scope.import = function(){
@@ -141,15 +159,7 @@ angular
     };
 
     $scope.search = function(){
-      query = $scope.searchForm;
-      if (sharedScopes.getScope('TagCtrl')) {
-        var scopeTagCtrl = sharedScopes.getScope('TagCtrl').entity;
-        _.each($scope.searchSchema.properties, function(i,v){
-         if (i.type === 'array' && i.format === 'tag') {
-           query[v] = scopeTagCtrl[v];
-         }
-        });
-      }
+      query = getSearchForm($scope.searchForm);
       $entityService.search({
         kind: kind,
         query: query,

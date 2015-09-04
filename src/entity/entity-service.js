@@ -194,11 +194,12 @@ angular
         }
 
         var offset = opts.offset || 0;
+        var limit = opts.limit || 30;
 
         $apiService
         .get('/search/entity/'+kind, {
           query: query,
-          limit: 30,
+          limit: limit,
           offset: offset
         })
         .then(function(data) {
@@ -280,13 +281,23 @@ angular
 
     },
 
-    export: function(kind){
-
-      this.list({
-        kind: kind,
-        limit: -1 // getAll
+    export: function(kind, r, query){
+      var _this = this;
+      Promise.resolve()
+      .then(function(){
+        if (query) {
+          return _this.search({
+            kind: kind,
+            query: query,
+            limit: -1
+          })
+        }
+        return _this.list({
+          kind: kind,
+          limit: -1
+        })
       })
-      .then(function(data) {
+      .then(function(data){
         var rows = data.list;
         var filename = kind+ "_" + $filter('date')(new Date(), 'yyyyMMddHHmm') + ".json";
         var content = JSON.stringify(rows);
@@ -317,6 +328,8 @@ angular
               console.log("error : " + error.code);
           });
         });
+      }, function(err) {
+        console.log("error : " + err);
       });
     }
   };
